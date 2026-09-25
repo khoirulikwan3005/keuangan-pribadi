@@ -124,6 +124,117 @@ function formatRupiah(value) {
 }
 
 
+/*
+   MEMBACA NOMINAL RUPIAH DENGAN AMAN
+
+   Contoh:
+   50000
+   50.000
+   Rp 50.000
+   Rp50.000
+
+   semuanya menjadi:
+   50000
+
+   Ini penting supaya Number("Rp 50.000")
+   tidak berubah menjadi NaN.
+*/
+
+function parseRupiah(value) {
+
+    if (
+        value === null ||
+        value === undefined ||
+        value === ""
+    ) {
+
+        return 0;
+
+    }
+
+
+    if (
+        typeof value === "number"
+    ) {
+
+        return Number.isFinite(value)
+            ? Math.round(value)
+            : 0;
+
+    }
+
+
+    let text =
+        String(value)
+            .trim();
+
+
+    if (!text) {
+        return 0;
+    }
+
+
+    /*
+       Hapus semua karakter selain angka.
+
+       Jadi:
+       "Rp 50.000" -> "50000"
+       "50.000"    -> "50000"
+       "50000"     -> "50000"
+    */
+
+    text =
+        text.replace(
+           (/[^\d]/g),
+            ""
+        );
+
+
+    if (!text) {
+        return 0;
+    }
+
+
+    return Math.round(
+        Number(text)
+    ) || 0;
+
+}
+
+
+function parseNumber(value) {
+
+    if (
+        value === null ||
+        value === undefined ||
+        value === ""
+    ) {
+
+        return 0;
+
+    }
+
+
+    const number =
+        Number(value);
+
+
+    if (
+        Number.isFinite(number)
+    ) {
+
+        return Math.round(number);
+
+    }
+
+
+    return parseRupiah(
+        value
+    );
+
+}
+
+
 function formatDate(dateString) {
 
     if (!dateString) {
@@ -1034,7 +1145,7 @@ document
 
 
             const amount =
-                Number(
+                parseRupiah(
                     document
                         .getElementById(
                             "transaction-amount"
@@ -2470,9 +2581,106 @@ function renderRecap() {
    LOANS
 ===================================================== */
 
+
+/*
+   HELPER FIELD PINJAMAN
+
+   Kita buat lebih aman.
+
+   Prioritas:
+   1. id langsung
+   2. name
+   3. beberapa nama alternatif
+
+   Ini untuk menghindari masalah apabila HTML
+   menggunakan nama field yang sedikit berbeda.
+*/
+
 function getLoanModalField(id) {
 
-    return document.getElementById(id);
+    const direct =
+        document.getElementById(id);
+
+
+    if (direct) {
+        return direct;
+    }
+
+
+    const byName =
+        document.querySelector(
+            `[name="${id}"]`
+        );
+
+
+    if (byName) {
+        return byName;
+    }
+
+
+    const aliases = {
+
+        "loan-source": [
+            "loan-source",
+            "loan-lender",
+            "loan-name"
+        ],
+
+        "loan-amount": [
+            "loan-amount",
+            "loan-principal",
+            "loan-price"
+        ],
+
+        "loan-tenor": [
+            "loan-tenor",
+            "loan-duration"
+        ],
+
+        "loan-monthly": [
+            "loan-monthly",
+            "loan-installment",
+            "loan-cicilan",
+            "loan-cicilan-bulanan",
+            "monthly-payment"
+        ]
+
+    };
+
+
+    const possibleIds =
+        aliases[id] || [];
+
+
+    for (
+        const possibleId of possibleIds
+    ) {
+
+        const element =
+            document.getElementById(
+                possibleId
+            );
+
+
+        if (element) {
+            return element;
+        }
+
+
+        const nameElement =
+            document.querySelector(
+                `[name="${possibleId}"]`
+            );
+
+
+        if (nameElement) {
+            return nameElement;
+        }
+
+    }
+
+
+    return null;
 
 }
 
@@ -2509,53 +2717,100 @@ function openLoanModal(
         loan?.id || null;
 
 
-    document
-        .getElementById(
+    const title =
+        document.getElementById(
             "loan-modal-title"
-        )
-        .textContent =
-        loan
-            ? "Edit Pinjaman"
-            : "Tambah Pinjaman";
+        );
+
+
+    if (title) {
+
+        title.textContent =
+            loan
+                ? "Edit Pinjaman"
+                : "Tambah Pinjaman";
+
+    }
+
+
+    const sourceInput =
+        getLoanModalField(
+            "loan-source"
+        );
+
+
+    const amountInput =
+        getLoanModalField(
+            "loan-amount"
+        );
+
+
+    const tenorInput =
+        getLoanModalField(
+            "loan-tenor"
+        );
+
+
+    const monthlyInput =
+        getLoanModalField(
+            "loan-monthly"
+        );
 
 
     if (loan) {
 
-        getLoanModalField(
-            "loan-source"
-        ).value =
-            loan.source || "";
+        if (sourceInput) {
+
+            sourceInput.value =
+                loan.source || "";
+
+        }
 
 
-        getLoanModalField(
-            "loan-amount"
-        ).value =
-            loan.amount || "";
+        if (amountInput) {
+
+            amountInput.value =
+                parseRupiah(
+                    loan.amount
+                ) || "";
+
+        }
 
 
-        getLoanModalField(
-            "loan-tenor"
-        ).value =
-            loan.tenor || "";
+        if (tenorInput) {
+
+            tenorInput.value =
+                parseNumber(
+                    loan.tenor
+                ) || "";
+
+        }
 
 
         /*
-           PENTING:
+           SANGAT PENTING:
 
-           Cicilan bulanan menggunakan nilai
-           yang tersimpan di database.
+           Saat EDIT, cicilan bulanan
+           mengambil nilai yang tersimpan.
 
-           JavaScript TIDAK lagi menghitung
-           jumlah pinjaman / tenor.
+           Tidak dihitung dari:
 
-           Ini mencegah nilai cicilan berubah
-           sendiri ketika modal edit dibuka.
+           jumlah pinjaman / tenor
+
+           karena total pembayaran memang
+           ditentukan oleh:
+
+           cicilan bulanan × tenor
         */
 
-        getLoanModalField(
-            "loan-monthly"
-        ).value =
-            loan.monthly || "";
+        if (monthlyInput) {
+
+            monthlyInput.value =
+                parseRupiah(
+                    loan.monthly
+                ) || "";
+
+        }
 
     }
 
@@ -2627,53 +2882,46 @@ function updateLoanCalculation() {
     }
 
 
+    /*
+       Gunakan parseRupiah, BUKAN Number langsung.
+
+       Jadi:
+       50000
+       50.000
+       Rp 50.000
+
+       semuanya menjadi 50000.
+    */
+
     const monthly =
-        Number(
+        parseRupiah(
             monthlyInput.value
-        ) || 0;
+        );
 
 
     const tenor =
-        Number(
+        parseNumber(
             tenorInput.value
-        ) || 0;
+        );
 
 
     /*
-       TOTAL PEMBAYARAN:
+       RUMUS FINAL
 
+       TOTAL PEMBAYARAN =
        CICILAN PER BULAN × TENOR
-
-       Bukan:
-       jumlah pinjaman × tenor
-
-       Bukan:
-       jumlah pinjaman / tenor
-
-       Bukan:
-       jumlah pinjaman saja.
     */
 
     const total =
-        monthly *
-        tenor;
-
-
-    /*
-       Math.round digunakan agar tidak muncul
-       angka pecahan aneh akibat floating point
-       JavaScript.
-    */
-
-    const cleanTotal =
         Math.round(
-            total
+            monthly *
+            tenor
         );
 
 
     totalElement.textContent =
         formatRupiah(
-            cleanTotal
+            total
         );
 
 }
@@ -2682,14 +2930,6 @@ function updateLoanCalculation() {
 /* =====================================================
    LOAN CALCULATION EVENTS
 ===================================================== */
-
-/*
-   Menggunakan input event pada FORM.
-
-   Dengan cara ini perubahan input tetap
-   terbaca walaupun browser atau struktur
-   DOM melakukan perubahan terhadap field.
-*/
 
 const loanForm =
     document.getElementById(
@@ -2708,12 +2948,18 @@ if (loanForm) {
 
 
             if (
-                target.id ===
-                "loan-amount" ||
-                target.id ===
-                "loan-tenor" ||
-                target.id ===
-                "loan-monthly"
+                target ===
+                    getLoanModalField(
+                        "loan-amount"
+                    ) ||
+                target ===
+                    getLoanModalField(
+                        "loan-tenor"
+                    ) ||
+                target ===
+                    getLoanModalField(
+                        "loan-monthly"
+                    )
             ) {
 
                 updateLoanCalculation();
@@ -2733,12 +2979,18 @@ if (loanForm) {
 
 
             if (
-                target.id ===
-                "loan-amount" ||
-                target.id ===
-                "loan-tenor" ||
-                target.id ===
-                "loan-monthly"
+                target ===
+                    getLoanModalField(
+                        "loan-amount"
+                    ) ||
+                target ===
+                    getLoanModalField(
+                        "loan-tenor"
+                    ) ||
+                target ===
+                    getLoanModalField(
+                        "loan-monthly"
+                    )
             ) {
 
                 updateLoanCalculation();
@@ -2754,35 +3006,6 @@ if (loanForm) {
 /* =====================================================
    LOAN DUE DATE
 ===================================================== */
-
-/*
-   Sistem jatuh tempo dibuat berdasarkan:
-
-   tanggal dibuatnya pinjaman
-   +
-   jumlah tenor yang sudah dibayar
-   +
-   1 bulan
-
-   Contoh:
-
-   Pinjaman dibuat:
-   26 September
-
-   Tenor:
-   6 bulan
-
-   Cicilan pertama:
-   26 Oktober
-
-   Setelah bayar 1 tenor:
-   jatuh tempo berikutnya:
-   26 November
-
-   Jadi tidak perlu kolom database
-   tambahan untuk tanggal jatuh tempo.
-*/
-
 
 function getLoanStartDate(loan) {
 
@@ -2810,10 +3033,6 @@ function getLoanStartDate(loan) {
 
     }
 
-
-    /*
-       Fallback jika created_at tidak tersedia.
-    */
 
     if (
         loan?.due_date
@@ -2863,14 +3082,6 @@ function getLoanNextDueDate(loan) {
             loan
         );
 
-
-    /*
-       Jatuh tempo pertama = 1 bulan setelah
-       pinjaman dibuat.
-
-       Jatuh tempo berikutnya bergerak
-       sesuai jumlah tenor yang sudah dibayar.
-    */
 
     const nextDueDate =
         addMonths(
@@ -2939,10 +3150,6 @@ function getLoanDueStatus(loan) {
         );
 
 
-    /*
-       SUDAH LEWAT
-    */
-
     if (days < 0) {
 
         const overdueDays =
@@ -2959,10 +3166,6 @@ function getLoanDueStatus(loan) {
     }
 
 
-    /*
-       HARI INI
-    */
-
     if (days === 0) {
 
         return {
@@ -2975,10 +3178,6 @@ function getLoanDueStatus(loan) {
     }
 
 
-    /*
-       1 - 5 HARI
-    */
-
     if (days <= 5) {
 
         return {
@@ -2990,10 +3189,6 @@ function getLoanDueStatus(loan) {
 
     }
 
-
-    /*
-       MASIH JAUH
-    */
 
     return {
         status: "normal",
@@ -3215,11 +3410,18 @@ document
             ) {
 
                 console.error(
-                    "Input pinjaman tidak ditemukan."
+                    "Input pinjaman tidak ditemukan.",
+                    {
+                        sourceInput,
+                        amountInput,
+                        tenorInput,
+                        monthlyInput
+                    }
                 );
 
                 alert(
-                    "Form pinjaman tidak ditemukan."
+                    "Form pinjaman tidak ditemukan.\n\n" +
+                    "Periksa field jumlah pinjaman, tenor, dan cicilan."
                 );
 
                 return;
@@ -3232,34 +3434,53 @@ document
             ----------------------------------------- */
 
             const source =
-                sourceInput.value.trim();
+                sourceInput.value
+                    .trim();
 
+
+            /*
+               PENTING:
+
+               Jangan gunakan Number() langsung
+               untuk nominal Rupiah.
+
+               parseRupiah menangani:
+               50000
+               50.000
+               Rp 50.000
+            */
 
             const amount =
-                Number(
+                parseRupiah(
                     amountInput.value
                 );
 
 
             const tenor =
-                Number(
+                parseNumber(
                     tenorInput.value
                 );
 
 
             const monthly =
-                Number(
+                parseRupiah(
                     monthlyInput.value
                 );
 
 
             console.log(
-                "Data input:",
+                "Data input setelah parsing:",
                 {
                     source,
                     amount,
                     tenor,
-                    monthly
+                    monthly,
+                    rawAmount:
+                        amountInput.value,
+                    rawTenor:
+                        tenorInput.value,
+                    rawMonthly:
+                        monthlyInput.value
                 }
             );
 
@@ -3336,8 +3557,19 @@ document
                 monthly <= 0
             ) {
 
+                console.error(
+                    "CICILAN TIDAK VALID",
+                    {
+                        raw:
+                            monthlyInput.value,
+                        parsed:
+                            monthly
+                    }
+                );
+
                 alert(
-                    "Cicilan per bulan harus lebih dari 0."
+                    "Cicilan per bulan harus lebih dari 0.\n\n" +
+                    "Contoh isi: 50000 atau 50.000"
                 );
 
                 monthlyInput.focus();
@@ -3359,13 +3591,15 @@ document
 
 
             console.log(
-                "Data perhitungan:",
+                "Data perhitungan FINAL:",
                 {
                     source,
                     amount,
                     tenor,
                     monthly,
-                    totalPayment
+                    totalPayment,
+                    rumus:
+                        `${monthly} × ${tenor} = ${totalPayment}`
                 }
             );
 
@@ -3398,7 +3632,9 @@ document
                     ),
 
                 total_payment:
-                    totalPayment
+                    Math.round(
+                        totalPayment
+                    )
 
             };
 
@@ -3657,9 +3893,9 @@ function getLoanPaidTenor(loan) {
 
     return Math.max(
         0,
-        Number(
+        parseNumber(
             loan.paid_tenor
-        ) || 0
+        )
     );
 
 }
@@ -3668,9 +3904,9 @@ function getLoanPaidTenor(loan) {
 function getLoanRemainingTenor(loan) {
 
     const tenor =
-        Number(
+        parseNumber(
             loan.tenor
-        ) || 0;
+        );
 
 
     const paidTenor =
@@ -3687,36 +3923,36 @@ function getLoanRemainingTenor(loan) {
 }
 
 
+/*
+   TOTAL PEMBAYARAN SELALU:
+
+   CICILAN PER BULAN × TENOR
+
+   Kita sengaja TIDAK lagi menggunakan
+   loan.total_payment sebagai sumber utama.
+
+   Jadi kalau ada data lama yang total_payment
+   tersimpan salah, tampilan aplikasi tetap
+   mengikuti rumus yang benar.
+*/
+
 function getLoanTotalPayment(loan) {
 
-    const savedTotal =
-        Number(
-            loan.total_payment
-        ) || 0;
-
-
-    if (
-        savedTotal > 0
-    ) {
-
-        return Math.round(
-            savedTotal
+    const tenor =
+        parseNumber(
+            loan.tenor
         );
 
-    }
+
+    const monthly =
+        parseRupiah(
+            loan.monthly
+        );
 
 
     return Math.round(
-        (
-            Number(
-                loan.tenor
-            ) || 0
-        ) *
-        (
-            Number(
-                loan.monthly
-            ) || 0
-        )
+        monthly *
+        tenor
     );
 
 }
@@ -3724,15 +3960,21 @@ function getLoanTotalPayment(loan) {
 
 function getLoanPaidAmount(loan) {
 
-    return Math.round(
+    const paidTenor =
         getLoanPaidTenor(
             loan
-        ) *
-        (
-            Number(
-                loan.monthly
-            ) || 0
-        )
+        );
+
+
+    const monthly =
+        parseRupiah(
+            loan.monthly
+        );
+
+
+    return Math.round(
+        paidTenor *
+        monthly
     );
 
 }
@@ -3781,15 +4023,15 @@ function renderLoans() {
         function (loan) {
 
             totalLoan +=
-                Number(
+                parseRupiah(
                     loan.amount
-                ) || 0;
+                );
 
 
             totalMonthly +=
-                Number(
+                parseRupiah(
                     loan.monthly
-                ) || 0;
+                );
 
 
             totalRemaining +=
@@ -3801,34 +4043,73 @@ function renderLoans() {
     );
 
 
-    document
-        .getElementById(
+    const loanTotalElement =
+        document.getElementById(
             "loan-total"
-        )
-        .textContent =
-        formatRupiah(
-            totalLoan
         );
 
 
-    document
-        .getElementById(
+    if (loanTotalElement) {
+
+        loanTotalElement.textContent =
+            formatRupiah(
+                totalLoan
+            );
+
+    }
+
+
+    const loanMonthlyElement =
+        document.getElementById(
             "loan-monthly"
-        )
-        .textContent =
-        formatRupiah(
-            totalMonthly
         );
 
 
-    document
-        .getElementById(
+    /*
+       CATATAN:
+
+       Di beberapa HTML, id "loan-monthly"
+       bisa juga merupakan INPUT.
+
+       Karena itu jangan mengubah .textContent
+       kalau element tersebut adalah input.
+
+       Kode lama menggunakan id yang sama untuk
+       input modal dan summary.
+
+       Kita tetap pertahankan perilaku lama,
+       tetapi hanya jika element bukan input.
+    */
+
+    if (
+        loanMonthlyElement &&
+        loanMonthlyElement.tagName !== "INPUT" &&
+        loanMonthlyElement.tagName !== "SELECT" &&
+        loanMonthlyElement.tagName !== "TEXTAREA"
+    ) {
+
+        loanMonthlyElement.textContent =
+            formatRupiah(
+                totalMonthly
+            );
+
+    }
+
+
+    const loanRemainingElement =
+        document.getElementById(
             "loan-remaining"
-        )
-        .textContent =
-        formatRupiah(
-            totalRemaining
         );
+
+
+    if (loanRemainingElement) {
+
+        loanRemainingElement.textContent =
+            formatRupiah(
+                totalRemaining
+            );
+
+    }
 
 
     if (!loans.length) {
@@ -3854,15 +4135,15 @@ function renderLoans() {
                 function (loan) {
 
                     const tenor =
-                        Number(
+                        parseNumber(
                             loan.tenor
-                        ) || 0;
+                        );
 
 
                     const monthly =
-                        Number(
+                        parseRupiah(
                             loan.monthly
-                        ) || 0;
+                        );
 
 
                     const totalPayment =
@@ -4302,12 +4583,18 @@ function openPaymentModal(
         loanId;
 
 
-    document
-        .getElementById(
+    const paymentLoanName =
+        document.getElementById(
             "payment-loan-name"
-        )
-        .textContent =
-        loan.source;
+        );
+
+
+    if (paymentLoanName) {
+
+        paymentLoanName.textContent =
+            loan.source;
+
+    }
 
 
     const paidTenor =
@@ -4322,11 +4609,15 @@ function openPaymentModal(
         );
 
 
-    document
-        .getElementById(
+    const paymentSummary =
+        document.getElementById(
             "payment-summary"
-        )
-        .innerHTML = `
+        );
+
+
+    if (paymentSummary) {
+
+        paymentSummary.innerHTML = `
 
             <div class="payment-summary-row">
 
@@ -4363,11 +4654,18 @@ function openPaymentModal(
 
         `;
 
+    }
+
 
     const tenorSelect =
         document.getElementById(
             "payment-tenor"
         );
+
+
+    if (!tenorSelect) {
+        return;
+    }
 
 
     tenorSelect.innerHTML = "";
@@ -4392,7 +4690,7 @@ function openPaymentModal(
         option.textContent =
             `${i} tenor • ${formatRupiah(
                 i *
-                Number(
+                parseRupiah(
                     loan.monthly
                 )
             )}`;
@@ -4408,24 +4706,38 @@ function openPaymentModal(
     updatePaymentAmount();
 
 
-    document
-        .getElementById(
+    const paymentModal =
+        document.getElementById(
             "payment-modal"
-        )
-        .classList
-        .remove("hidden");
+        );
+
+
+    if (paymentModal) {
+
+        paymentModal
+            .classList
+            .remove("hidden");
+
+    }
 
 }
 
 
 function closePaymentModal() {
 
-    document
-        .getElementById(
+    const modal =
+        document.getElementById(
             "payment-modal"
-        )
-        .classList
-        .add("hidden");
+        );
+
+
+    if (modal) {
+
+        modal
+            .classList
+            .add("hidden");
+
+    }
 
 
     currentPaymentLoanId =
@@ -4492,18 +4804,16 @@ function updatePaymentAmount() {
 
 
     const tenor =
-        Number(
+        parseNumber(
             paymentTenorElement.value
-        ) || 0;
+        );
 
 
     const amount =
         Math.round(
             tenor *
-            (
-                Number(
-                    loan.monthly
-                ) || 0
+            parseRupiah(
+                loan.monthly
             )
         );
 
@@ -4577,7 +4887,7 @@ document
 
 
             const payTenor =
-                Number(
+                parseNumber(
                     paymentTenorElement.value
                 );
 
@@ -4614,14 +4924,16 @@ document
                 payTenor;
 
 
+            const monthly =
+                parseRupiah(
+                    loan.monthly
+                );
+
+
             const paymentAmount =
                 Math.round(
                     payTenor *
-                    (
-                        Number(
-                            loan.monthly
-                        ) || 0
-                    )
+                    monthly
                 );
 
 
@@ -4634,11 +4946,7 @@ document
             const paidAmount =
                 Math.round(
                     newPaidTenor *
-                    (
-                        Number(
-                            loan.monthly
-                        ) || 0
-                    )
+                    monthly
                 );
 
 
@@ -4691,7 +4999,7 @@ document
 
             if (
                 newPaidTenor >=
-                Number(
+                parseNumber(
                     loan.tenor
                 )
             ) {
@@ -4708,7 +5016,7 @@ document
                     )}.\n\n` +
                     `Sudah dibayar: ${newPaidTenor} tenor\n` +
                     `Sisa tenor: ${
-                        Number(
+                        parseNumber(
                             loan.tenor
                         ) -
                         newPaidTenor
