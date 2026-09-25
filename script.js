@@ -2052,6 +2052,14 @@ function openLoanModal(
             loan.tenor || "";
 
 
+        /*
+           Saat edit, monthly tetap diisi dari
+           data lama terlebih dahulu.
+           Setelah itu updateLoanCalculation()
+           akan menghitung ulang berdasarkan
+           jumlah pinjaman dan tenor.
+        */
+
         getLoanModalField("loan-monthly").value =
             loan.monthly || "";
 
@@ -2083,6 +2091,14 @@ function closeLoanModal() {
 
 function updateLoanCalculation() {
 
+    const amount =
+        Number(
+            getLoanModalField(
+                "loan-amount"
+            )?.value
+        ) || 0;
+
+
     const tenor =
         Number(
             getLoanModalField(
@@ -2091,26 +2107,101 @@ function updateLoanCalculation() {
         ) || 0;
 
 
-    const monthly =
-        Number(
-            getLoanModalField(
-                "loan-monthly"
-            )?.value
-        ) || 0;
+    let monthly = 0;
+
+    let total = 0;
 
 
-    const total =
-        tenor * monthly;
+    /*
+       CICILAN OTOMATIS
+
+       Jumlah pinjaman / tenor
+    */
+
+    if (
+        amount > 0 &&
+        tenor > 0
+    ) {
+
+        monthly =
+            amount / tenor;
+
+        /*
+           Total pembayaran berdasarkan
+           cicilan yang sudah dihitung.
+        */
+
+        total =
+            monthly * tenor;
+
+    } else {
+
+        /*
+           Kalau jumlah atau tenor belum lengkap,
+           total sementara mengikuti jumlah pinjaman.
+           Ini membuat tampilan tetap masuk akal
+           ketika user baru mulai mengetik.
+        */
+
+        total =
+            amount > 0
+                ? amount
+                : 0;
+
+    }
 
 
-    document
-        .getElementById(
+    const monthlyInput =
+        getLoanModalField(
+            "loan-monthly"
+        );
+
+
+    if (monthlyInput) {
+
+        if (
+            amount > 0 &&
+            tenor > 0
+        ) {
+
+            monthlyInput.value =
+                Math.round(monthly);
+
+        } else {
+
+            monthlyInput.value = "";
+
+        }
+
+    }
+
+
+    const totalElement =
+        document.getElementById(
             "loan-calculated-total"
-        )
-        .textContent =
-        formatRupiah(total);
+        );
+
+
+    if (totalElement) {
+
+        totalElement.textContent =
+            formatRupiah(total);
+
+    }
 
 }
+
+
+/* =====================================================
+   LOAN CALCULATION EVENTS
+===================================================== */
+
+document
+    .getElementById("loan-amount")
+    ?.addEventListener(
+        "input",
+        updateLoanCalculation
+    );
 
 
 document
@@ -2229,7 +2320,7 @@ document
 
 
             /* -----------------------------------------
-               AMBIL NILAI
+               AMBIL NILAI DASAR
             ----------------------------------------- */
 
             const source =
@@ -2248,25 +2339,8 @@ document
                 );
 
 
-            const monthly =
-                Number(
-                    monthlyInput.value
-                );
-
-
-            console.log(
-                "Data input:",
-                {
-                    source,
-                    amount,
-                    tenor,
-                    monthly
-                }
-            );
-
-
             /* -----------------------------------------
-               VALIDASI
+               VALIDASI SUMBER
             ----------------------------------------- */
 
             if (!source) {
@@ -2281,6 +2355,10 @@ document
 
             }
 
+
+            /* -----------------------------------------
+               VALIDASI JUMLAH
+            ----------------------------------------- */
 
             if (
                 !Number.isFinite(amount) ||
@@ -2298,6 +2376,10 @@ document
             }
 
 
+            /* -----------------------------------------
+               VALIDASI TENOR
+            ----------------------------------------- */
+
             if (
                 !Number.isFinite(tenor) ||
                 tenor <= 0
@@ -2314,16 +2396,24 @@ document
             }
 
 
+            /* -----------------------------------------
+               HITUNG CICILAN OTOMATIS
+            ----------------------------------------- */
+
+            const monthly =
+                Math.round(
+                    amount / tenor
+                );
+
+
             if (
                 !Number.isFinite(monthly) ||
                 monthly <= 0
             ) {
 
                 alert(
-                    "Cicilan per bulan harus lebih dari 0."
+                    "Cicilan per bulan tidak dapat dihitung."
                 );
-
-                monthlyInput.focus();
 
                 return;
 
@@ -2331,11 +2421,23 @@ document
 
 
             /* -----------------------------------------
-               HITUNG TOTAL
+               HITUNG TOTAL PEMBAYARAN
             ----------------------------------------- */
 
             const totalPayment =
-                tenor * monthly;
+                monthly * tenor;
+
+
+            console.log(
+                "Data perhitungan:",
+                {
+                    source,
+                    amount,
+                    tenor,
+                    monthly,
+                    totalPayment
+                }
+            );
 
 
             /* -----------------------------------------
@@ -2372,60 +2474,98 @@ document
 
 
             /* -----------------------------------------
-               INSERT / UPDATE
+               SIMPAN KE SUPABASE
             ----------------------------------------- */
 
             let result;
 
-
-            if (editingLoanId) {
-
-                console.log(
-                    "MODE: UPDATE"
-                );
-
-                console.log(
-                    "Loan ID:",
+            const wasEditing =
+                Boolean(
                     editingLoanId
                 );
 
 
-                result =
-                    await supabaseClient
-                        .from("loans")
-                        .update(
-                            loanData
-                        )
-                        .eq(
-                            "id",
-                            editingLoanId
-                        )
-                        .eq(
-                            "user_id",
-                            currentUser.id
-                        )
-                        .select();
+            try {
+
+                if (wasEditing) {
+
+                    console.log(
+                        "MODE: UPDATE"
+                    );
+
+                    console.log(
+                        "Loan ID:",
+                        editingLoanId
+                    );
 
 
-            } else {
+                    result =
+                        await supabaseClient
+                            .from("loans")
+                            .update(
+                                loanData
+                            )
+                            .eq(
+                                "id",
+                                editingLoanId
+                            )
+                            .eq(
+                                "user_id",
+                                currentUser.id
+                            )
+                            .select();
 
-                console.log(
-                    "MODE: INSERT"
+                } else {
+
+                    console.log(
+                        "MODE: INSERT"
+                    );
+
+
+                    result =
+                        await supabaseClient
+                            .from("loans")
+                            .insert([
+                                {
+                                    ...loanData,
+
+                                    paid_tenor:
+                                        0
+                                }
+                            ])
+                            .select();
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "===================================="
+                );
+
+                console.error(
+                    "EXCEPTION SAAT SIMPAN PINJAMAN"
+                );
+
+                console.error(
+                    "===================================="
+                );
+
+                console.error(
+                    error
                 );
 
 
-                result =
-                    await supabaseClient
-                        .from("loans")
-                        .insert([
-                            {
-                                ...loanData,
+                alert(
+                    "Gagal menyimpan pinjaman.\n\n" +
+                    "Pesan error:\n" +
+                    (
+                        error?.message ||
+                        "Terjadi kesalahan saat menghubungi server."
+                    )
+                );
 
-                                paid_tenor:
-                                    0
-                            }
-                        ])
-                        .select();
+                return;
 
             }
 
@@ -2434,7 +2574,7 @@ document
                CEK ERROR SUPABASE
             ----------------------------------------- */
 
-            if (result.error) {
+            if (result?.error) {
 
                 console.error(
                     "===================================="
@@ -2495,7 +2635,7 @@ document
 
             console.log(
                 "Data hasil:",
-                result.data
+                result?.data
             );
 
 
@@ -2504,11 +2644,19 @@ document
             await loadLoans();
 
 
-            alert(
-                editingLoanId
-                    ? "Pinjaman berhasil diperbarui."
-                    : "Pinjaman berhasil ditambahkan."
-            );
+            if (wasEditing) {
+
+                alert(
+                    "Pinjaman berhasil diperbarui."
+                );
+
+            } else {
+
+                alert(
+                    "Pinjaman berhasil ditambahkan."
+                );
+
+            }
 
         }
     );
