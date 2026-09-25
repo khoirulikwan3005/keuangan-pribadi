@@ -107,7 +107,7 @@ const quotes = [
 function formatRupiah(value) {
 
     const number =
-        Number(value) || 0;
+        parseRupiah(value);
 
     return new Intl.NumberFormat(
         "id-ID",
@@ -117,27 +117,26 @@ function formatRupiah(value) {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0
         }
-    ).format(
-        Math.round(number)
-    );
+    ).format(number);
 
 }
 
 
 /*
-   MEMBACA NOMINAL RUPIAH DENGAN AMAN
+   PARSER RUPIAH
 
-   Contoh:
+   Bisa membaca:
+
    50000
    50.000
    Rp 50.000
    Rp50.000
+   1.500.000
 
-   semuanya menjadi:
-   50000
+   Semuanya menjadi angka utuh.
 
-   Ini penting supaya Number("Rp 50.000")
-   tidak berubah menjadi NaN.
+   Jangan gunakan Number() langsung
+   untuk input uang.
 */
 
 function parseRupiah(value) {
@@ -175,17 +174,18 @@ function parseRupiah(value) {
 
 
     /*
-       Hapus semua karakter selain angka.
+       Hanya ambil angka.
 
-       Jadi:
-       "Rp 50.000" -> "50000"
-       "50.000"    -> "50000"
-       "50000"     -> "50000"
+       Contoh:
+
+       "Rp 50.000"
+       menjadi
+       "50000"
     */
 
     text =
         text.replace(
-           (/[^\d]/g),
+            /[^\d]/g,
             ""
         );
 
@@ -195,12 +195,25 @@ function parseRupiah(value) {
     }
 
 
-    return Math.round(
-        Number(text)
-    ) || 0;
+    const number =
+        Number(text);
+
+
+    return Number.isFinite(number)
+        ? Math.round(number)
+        : 0;
 
 }
 
+
+/*
+   PARSER ANGKA UTUH
+
+   Digunakan untuk:
+   - tenor
+   - jumlah pembayaran
+   - paid_tenor
+*/
 
 function parseNumber(value) {
 
@@ -215,22 +228,59 @@ function parseNumber(value) {
     }
 
 
-    const number =
-        Number(value);
-
-
     if (
-        Number.isFinite(number)
+        typeof value === "number"
     ) {
 
-        return Math.round(number);
+        return Number.isFinite(value)
+            ? Math.round(value)
+            : 0;
 
     }
 
 
-    return parseRupiah(
-        value
-    );
+    const text =
+        String(value)
+            .trim();
+
+
+    if (!text) {
+        return 0;
+    }
+
+
+    const direct =
+        Number(text);
+
+
+    if (
+        Number.isFinite(direct)
+    ) {
+
+        return Math.round(direct);
+
+    }
+
+
+    const cleaned =
+        text.replace(
+            /[^\d]/g,
+            ""
+        );
+
+
+    if (!cleaned) {
+        return 0;
+    }
+
+
+    const number =
+        Number(cleaned);
+
+
+    return Number.isFinite(number)
+        ? Math.round(number)
+        : 0;
 
 }
 
@@ -241,12 +291,21 @@ function formatDate(dateString) {
         return "-";
     }
 
+
     const date =
         new Date(dateString);
 
-    if (isNaN(date.getTime())) {
+
+    if (
+        isNaN(
+            date.getTime()
+        )
+    ) {
+
         return "-";
+
     }
+
 
     return date.toLocaleDateString(
         "id-ID",
@@ -269,12 +328,14 @@ function normalizeDate(date) {
     const result =
         new Date(date);
 
+
     result.setHours(
         0,
         0,
         0,
         0
     );
+
 
     return result;
 
@@ -286,6 +347,7 @@ function getTodayDate() {
     const today =
         new Date();
 
+
     today.setHours(
         0,
         0,
@@ -293,24 +355,32 @@ function getTodayDate() {
         0
     );
 
+
     return today;
 
 }
 
 
-function addMonths(date, months) {
+function addMonths(
+    date,
+    months
+) {
 
     const result =
         new Date(date);
 
+
     const originalDay =
         result.getDate();
 
+
     result.setDate(1);
+
 
     result.setMonth(
         result.getMonth() + months
     );
+
 
     const lastDay =
         new Date(
@@ -319,12 +389,14 @@ function addMonths(date, months) {
             0
         ).getDate();
 
+
     result.setDate(
         Math.min(
             originalDay,
             lastDay
         )
     );
+
 
     return result;
 
@@ -336,6 +408,7 @@ function formatDateForInput(date) {
     const year =
         date.getFullYear();
 
+
     const month =
         String(
             date.getMonth() + 1
@@ -344,6 +417,7 @@ function formatDateForInput(date) {
             "0"
         );
 
+
     const day =
         String(
             date.getDate()
@@ -351,6 +425,7 @@ function formatDateForInput(date) {
             2,
             "0"
         );
+
 
     return `${year}-${month}-${day}`;
 
@@ -367,14 +442,18 @@ function getDaysDifference(
             targetDate
         );
 
+
     const from =
         normalizeDate(
-            fromDate || getTodayDate()
+            fromDate ||
+            getTodayDate()
         );
+
 
     const difference =
         target.getTime() -
         from.getTime();
+
 
     return Math.ceil(
         difference /
@@ -396,10 +475,14 @@ function getDaysDifference(
 function escapeHTML(value) {
 
     const div =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     div.textContent =
         value ?? "";
+
 
     return div.innerHTML;
 
@@ -436,6 +519,7 @@ function getCategoryIcon(category) {
 
     };
 
+
     return icons[category] || "📌";
 
 }
@@ -446,7 +530,9 @@ function getCategoryIcon(category) {
 ===================================================== */
 
 const loginForm =
-    document.getElementById("login-form");
+    document.getElementById(
+        "login-form"
+    );
 
 
 if (loginForm) {
@@ -457,16 +543,23 @@ if (loginForm) {
 
             event.preventDefault();
 
+
             const email =
                 document
-                    .getElementById("login-email")
+                    .getElementById(
+                        "login-email"
+                    )
                     .value
                     .trim();
 
+
             const password =
                 document
-                    .getElementById("login-password")
+                    .getElementById(
+                        "login-password"
+                    )
                     .value;
+
 
             const errorElement =
                 document.getElementById(
@@ -501,6 +594,7 @@ if (loginForm) {
 
             currentUser =
                 data.user;
+
 
             initializeApp();
 
@@ -540,6 +634,7 @@ if (togglePassword) {
                 passwordInput.type =
                     "text";
 
+
                 togglePassword.textContent =
                     "🙈";
 
@@ -547,6 +642,7 @@ if (togglePassword) {
 
                 passwordInput.type =
                     "password";
+
 
                 togglePassword.textContent =
                     "👁";
@@ -588,13 +684,17 @@ if (logoutButton) {
 
 
             document
-                .getElementById("app")
+                .getElementById(
+                    "app"
+                )
                 .classList
                 .add("hidden");
 
 
             document
-                .getElementById("login-page")
+                .getElementById(
+                    "login-page"
+                )
                 .classList
                 .remove("hidden");
 
@@ -611,21 +711,33 @@ if (logoutButton) {
 async function initializeApp() {
 
     document
-        .getElementById("login-page")
+        .getElementById(
+            "login-page"
+        )
         .classList
         .add("hidden");
 
 
     document
-        .getElementById("app")
+        .getElementById(
+            "app"
+        )
         .classList
         .remove("hidden");
 
 
-    document
-        .getElementById("account-email")
-        .textContent =
-        currentUser?.email || "-";
+    const accountEmail =
+        document.getElementById(
+            "account-email"
+        );
+
+
+    if (accountEmail) {
+
+        accountEmail.textContent =
+            currentUser?.email || "-";
+
+    }
 
 
     await loadTransactions();
@@ -671,7 +783,8 @@ async function checkSession() {
         currentUser =
             data.session.user;
 
-        initializeApp();
+
+        await initializeApp();
 
     }
 
@@ -687,7 +800,8 @@ supabaseClient
         ) {
 
             if (
-                event === "SIGNED_IN"
+                event ===
+                "SIGNED_IN"
             ) {
 
                 currentUser =
@@ -773,9 +887,9 @@ function renderHome() {
         function (transaction) {
 
             const amount =
-                Number(
+                parseRupiah(
                     transaction.nominal
-                ) || 0;
+                );
 
 
             if (
@@ -799,37 +913,56 @@ function renderHome() {
 
 
     const balance =
-        income - expense;
+        income -
+        expense;
 
 
-    document
-        .getElementById(
+    const balanceElement =
+        document.getElementById(
             "balance-amount"
-        )
-        .textContent =
-        formatRupiah(
-            balance
         );
 
 
-    document
-        .getElementById(
+    const incomeElement =
+        document.getElementById(
             "total-income"
-        )
-        .textContent =
-        formatRupiah(
-            income
         );
 
 
-    document
-        .getElementById(
+    const expenseElement =
+        document.getElementById(
             "total-expense"
-        )
-        .textContent =
-        formatRupiah(
-            expense
         );
+
+
+    if (balanceElement) {
+
+        balanceElement.textContent =
+            formatRupiah(
+                balance
+            );
+
+    }
+
+
+    if (incomeElement) {
+
+        incomeElement.textContent =
+            formatRupiah(
+                income
+            );
+
+    }
+
+
+    if (expenseElement) {
+
+        expenseElement.textContent =
+            formatRupiah(
+                expense
+            );
+
+    }
 
 }
 
@@ -841,7 +974,9 @@ function renderHome() {
 function showPage(pageName) {
 
     document
-        .querySelectorAll(".page")
+        .querySelectorAll(
+            ".page"
+        )
         .forEach(
             function (page) {
 
@@ -869,7 +1004,9 @@ function showPage(pageName) {
 
 
     document
-        .querySelectorAll(".nav-item")
+        .querySelectorAll(
+            ".nav-item"
+        )
         .forEach(
             function (item) {
 
@@ -884,7 +1021,8 @@ function showPage(pageName) {
 
 
     if (
-        pageName === "history"
+        pageName ===
+        "history"
     ) {
 
         renderHistory();
@@ -893,7 +1031,8 @@ function showPage(pageName) {
 
 
     if (
-        pageName === "summary"
+        pageName ===
+        "summary"
     ) {
 
         renderSummary();
@@ -902,7 +1041,8 @@ function showPage(pageName) {
 
 
     if (
-        pageName === "recap"
+        pageName ===
+        "recap"
     ) {
 
         renderRecap();
@@ -911,7 +1051,8 @@ function showPage(pageName) {
 
 
     if (
-        pageName === "loans"
+        pageName ===
+        "loans"
     ) {
 
         renderLoans();
@@ -948,38 +1089,59 @@ function openTransactionModal(
         );
 
 
+    if (!modal || !form) {
+        return;
+    }
+
+
     form.reset();
 
 
     editingTransactionId =
-        transaction?.id || null;
+        transaction?.id ||
+        null;
 
 
     currentTransactionType =
         type;
 
 
-    document
-        .getElementById(
+    const title =
+        document.getElementById(
             "transaction-modal-title"
-        )
-        .textContent =
-        transaction
-            ? "Edit Transaksi"
-            : "Tambah Transaksi";
+        );
 
 
-    document
-        .getElementById(
+    if (title) {
+
+        title.textContent =
+            transaction
+                ? "Edit Transaksi"
+                : "Tambah Transaksi";
+
+    }
+
+
+    const typeInput =
+        document.getElementById(
             "transaction-type"
-        )
-        .value =
-        transaction?.jenis || type;
+        );
+
+
+    if (typeInput) {
+
+        typeInput.value =
+            transaction?.jenis ||
+            type;
+
+    }
 
 
     updateCategoryOptions(
-        transaction?.jenis || type,
-        transaction?.kategori || ""
+        transaction?.jenis ||
+        type,
+        transaction?.kategori ||
+        ""
     );
 
 
@@ -1006,7 +1168,8 @@ function openTransactionModal(
                 "transaction-description"
             )
             .value =
-            transaction.keterangan || "";
+            transaction.keterangan ||
+            "";
 
     } else {
 
@@ -1035,15 +1198,23 @@ function openTransactionModal(
 
 function closeTransactionModal() {
 
-    document
-        .getElementById(
+    const modal =
+        document.getElementById(
             "transaction-modal"
-        )
-        .classList
-        .add("hidden");
+        );
 
 
-    editingTransactionId = null;
+    if (modal) {
+
+        modal
+            .classList
+            .add("hidden");
+
+    }
+
+
+    editingTransactionId =
+        null;
 
 }
 
@@ -1059,8 +1230,14 @@ function updateCategoryOptions(
         );
 
 
+    if (!select) {
+        return;
+    }
+
+
     const categories =
-        type === "Pemasukan"
+        type ===
+        "Pemasukan"
             ? incomeCategories
             : expenseCategories;
 
@@ -1079,6 +1256,7 @@ function updateCategoryOptions(
 
             option.value =
                 category;
+
 
             option.textContent =
                 category;
@@ -1180,7 +1358,6 @@ document
 
 
             if (
-                !amount ||
                 amount <= 0
             ) {
 
@@ -1202,7 +1379,9 @@ document
                     type,
 
                 nominal:
-                    amount,
+                    Math.round(
+                        amount
+                    ),
 
                 kategori:
                     category,
@@ -1262,9 +1441,11 @@ document
                     error
                 );
 
+
                 alert(
                     "Gagal menyimpan transaksi."
                 );
+
 
                 return;
 
@@ -1307,6 +1488,11 @@ function openDetailModal(id) {
         document.getElementById(
             "transaction-detail"
         );
+
+
+    if (!detail) {
+        return;
+    }
 
 
     const isIncome =
@@ -1407,7 +1593,7 @@ function openDetailModal(id) {
         .getElementById(
             "detail-modal"
         )
-        .classList
+        ?.classList
         .remove("hidden");
 
 }
@@ -1419,7 +1605,7 @@ function closeDetailModal() {
         .getElementById(
             "detail-modal"
         )
-        .classList
+        ?.classList
         .add("hidden");
 
 }
@@ -1491,9 +1677,11 @@ async function deleteTransaction(id) {
             error
         );
 
+
         alert(
             "Gagal menghapus transaksi."
         );
+
 
         return;
 
@@ -1557,7 +1745,8 @@ function renderHistory() {
             .getElementById(
                 "history-month"
             )
-            ?.value || "";
+            ?.value ||
+        "";
 
 
     const category =
@@ -1565,7 +1754,8 @@ function renderHistory() {
             .getElementById(
                 "history-category"
             )
-            ?.value || "";
+            ?.value ||
+        "";
 
 
     const search =
@@ -1575,7 +1765,8 @@ function renderHistory() {
             )
             ?.value
             .trim()
-            .toLowerCase() || "";
+            .toLowerCase() ||
+        "";
 
 
     let filtered =
@@ -1665,9 +1856,11 @@ function renderHistory() {
     if (!filtered.length) {
 
         list.innerHTML = `
+
             <div class="empty-state">
                 Belum ada transaksi.
             </div>
+
         `;
 
         return;
@@ -1812,9 +2005,11 @@ function updateHistoryCategories() {
 
 
     select.innerHTML = `
+
         <option value="">
             Semua kategori
         </option>
+
     `;
 
 
@@ -1829,6 +2024,7 @@ function updateHistoryCategories() {
 
             option.value =
                 category;
+
 
             option.textContent =
                 category;
@@ -1864,6 +2060,7 @@ function renderSummary() {
 
     const month =
         currentSummaryDate.getMonth();
+
 
     const year =
         currentSummaryDate.getFullYear();
@@ -1903,9 +2100,9 @@ function renderSummary() {
         ) {
 
             const amount =
-                Number(
+                parseRupiah(
                     transaction.nominal
-                ) || 0;
+                );
 
 
             if (
@@ -1929,60 +2126,103 @@ function renderSummary() {
 
 
     const balance =
-        income - expense;
+        income -
+        expense;
 
 
-    document
-        .getElementById(
+    const currentMonth =
+        document.getElementById(
             "current-month"
-        )
-        .textContent =
-        currentSummaryDate
-            .toLocaleDateString(
-                "id-ID",
-                {
-                    month: "long",
-                    year: "numeric"
-                }
+        );
+
+
+    const summaryIncome =
+        document.getElementById(
+            "summary-income"
+        );
+
+
+    const summaryExpense =
+        document.getElementById(
+            "summary-expense"
+        );
+
+
+    const summaryBalance =
+        document.getElementById(
+            "summary-balance"
+        );
+
+
+    const summaryCount =
+        document.getElementById(
+            "summary-count"
+        );
+
+
+    const percentageElement =
+        document.getElementById(
+            "expense-percentage"
+        );
+
+
+    const progressElement =
+        document.getElementById(
+            "expense-progress"
+        );
+
+
+    if (currentMonth) {
+
+        currentMonth.textContent =
+            currentSummaryDate
+                .toLocaleDateString(
+                    "id-ID",
+                    {
+                        month: "long",
+                        year: "numeric"
+                    }
+                );
+
+    }
+
+
+    if (summaryIncome) {
+
+        summaryIncome.textContent =
+            formatRupiah(
+                income
             );
 
-
-    document
-        .getElementById(
-            "summary-income"
-        )
-        .textContent =
-        formatRupiah(
-            income
-        );
+    }
 
 
-    document
-        .getElementById(
-            "summary-expense"
-        )
-        .textContent =
-        formatRupiah(
-            expense
-        );
+    if (summaryExpense) {
+
+        summaryExpense.textContent =
+            formatRupiah(
+                expense
+            );
+
+    }
 
 
-    document
-        .getElementById(
-            "summary-balance"
-        )
-        .textContent =
-        formatRupiah(
-            balance
-        );
+    if (summaryBalance) {
+
+        summaryBalance.textContent =
+            formatRupiah(
+                balance
+            );
+
+    }
 
 
-    document
-        .getElementById(
-            "summary-count"
-        )
-        .textContent =
-        monthTransactions.length;
+    if (summaryCount) {
+
+        summaryCount.textContent =
+            monthTransactions.length;
+
+    }
 
 
     const percentage =
@@ -1996,24 +2236,23 @@ function renderSummary() {
             : 0;
 
 
-    document
-        .getElementById(
-            "expense-percentage"
-        )
-        .textContent =
-        `${percentage}%`;
+    if (percentageElement) {
+
+        percentageElement.textContent =
+            `${percentage}%`;
+
+    }
 
 
-    document
-        .getElementById(
-            "expense-progress"
-        )
-        .style
-        .width =
-        `${Math.min(
-            percentage,
-            100
-        )}%`;
+    if (progressElement) {
+
+        progressElement.style.width =
+            `${Math.min(
+                percentage,
+                100
+            )}%`;
+
+    }
 
 
     renderMonthlyChart(
@@ -2040,8 +2279,14 @@ function renderMonthlyChart(
         );
 
 
-    if (!canvas) {
+    if (
+        !canvas ||
+        typeof Chart ===
+        "undefined"
+    ) {
+
         return;
+
     }
 
 
@@ -2144,6 +2389,11 @@ function renderCategorySummary(
         );
 
 
+    if (!container) {
+        return;
+    }
+
+
     const expenses =
         monthTransactions.filter(
             function (
@@ -2160,9 +2410,11 @@ function renderCategorySummary(
     if (!expenses.length) {
 
         container.innerHTML = `
+
             <div class="empty-state">
                 Belum ada pengeluaran bulan ini.
             </div>
+
         `;
 
         return;
@@ -2188,10 +2440,8 @@ function renderCategorySummary(
                     categoryTotals[category] ||
                     0
                 ) +
-                (
-                    Number(
-                        transaction.nominal
-                    ) || 0
+                parseRupiah(
+                    transaction.nominal
                 );
 
         }
@@ -2205,7 +2455,8 @@ function renderCategorySummary(
         .sort(
             function (a, b) {
 
-                return b[1] - a[1];
+                return b[1] -
+                    a[1];
 
             }
         );
@@ -2274,8 +2525,10 @@ document
         function () {
 
             currentSummaryDate.setMonth(
-                currentSummaryDate.getMonth() - 1
+                currentSummaryDate.getMonth() -
+                1
             );
+
 
             renderSummary();
 
@@ -2292,8 +2545,10 @@ document
         function () {
 
             currentSummaryDate.setMonth(
-                currentSummaryDate.getMonth() + 1
+                currentSummaryDate.getMonth() +
+                1
             );
+
 
             renderSummary();
 
@@ -2318,9 +2573,9 @@ function renderRecap() {
         ) {
 
             const amount =
-                Number(
+                parseRupiah(
                     transaction.nominal
-                ) || 0;
+                );
 
 
             if (
@@ -2341,55 +2596,86 @@ function renderRecap() {
 
 
     const balance =
-        income - expense;
+        income -
+        expense;
 
 
-    document
-        .getElementById(
+    const recapIncome =
+        document.getElementById(
             "recap-income"
-        )
-        .textContent =
-        formatRupiah(
-            income
         );
 
 
-    document
-        .getElementById(
+    const recapExpense =
+        document.getElementById(
             "recap-expense"
-        )
-        .textContent =
-        formatRupiah(
-            expense
         );
 
 
-    document
-        .getElementById(
+    const recapBalance =
+        document.getElementById(
             "recap-balance"
-        )
-        .textContent =
-        formatRupiah(
-            balance
         );
 
 
-    document
-        .getElementById(
+    const recapCount =
+        document.getElementById(
             "recap-count"
-        )
-        .textContent =
-        `${transactions.length} transaksi`;
-
-
-    document
-        .getElementById(
-            "recap-table-total"
-        )
-        .textContent =
-        formatRupiah(
-            balance
         );
+
+
+    const recapTotal =
+        document.getElementById(
+            "recap-table-total"
+        );
+
+
+    if (recapIncome) {
+
+        recapIncome.textContent =
+            formatRupiah(
+                income
+            );
+
+    }
+
+
+    if (recapExpense) {
+
+        recapExpense.textContent =
+            formatRupiah(
+                expense
+            );
+
+    }
+
+
+    if (recapBalance) {
+
+        recapBalance.textContent =
+            formatRupiah(
+                balance
+            );
+
+    }
+
+
+    if (recapCount) {
+
+        recapCount.textContent =
+            `${transactions.length} transaksi`;
+
+    }
+
+
+    if (recapTotal) {
+
+        recapTotal.textContent =
+            formatRupiah(
+                balance
+            );
+
+    }
 
 
     const tbody =
@@ -2402,6 +2688,11 @@ function renderRecap() {
         document.getElementById(
             "recap-empty"
         );
+
+
+    if (!tbody || !empty) {
+        return;
+    }
 
 
     if (!transactions.length) {
@@ -2440,6 +2731,7 @@ function renderRecap() {
 
     let runningBalance = 0;
 
+
     const runningBalances =
         new Map();
 
@@ -2450,9 +2742,9 @@ function renderRecap() {
         ) {
 
             const amount =
-                Number(
+                parseRupiah(
                     transaction.nominal
-                ) || 0;
+                );
 
 
             if (
@@ -2509,9 +2801,9 @@ function renderRecap() {
 
 
                     const amount =
-                        Number(
+                        parseRupiah(
                             transaction.nominal
-                        ) || 0;
+                        );
 
 
                     return `
@@ -2583,39 +2875,25 @@ function renderRecap() {
 
 
 /*
-   HELPER FIELD PINJAMAN
+   PENTING:
 
-   Kita buat lebih aman.
+   Field pinjaman sekarang dicari DENGAN PRIORITAS
+   DI DALAM #loan-form.
 
-   Prioritas:
-   1. id langsung
-   2. name
-   3. beberapa nama alternatif
+   Ini mencegah bentrok ID seperti:
 
-   Ini untuk menghindari masalah apabila HTML
-   menggunakan nama field yang sedikit berbeda.
+   #loan-monthly
+
+   yang mungkin juga dipakai oleh elemen
+   ringkasan di luar modal.
 */
 
 function getLoanModalField(id) {
 
-    const direct =
-        document.getElementById(id);
-
-
-    if (direct) {
-        return direct;
-    }
-
-
-    const byName =
-        document.querySelector(
-            `[name="${id}"]`
+    const form =
+        document.getElementById(
+            "loan-form"
         );
-
-
-    if (byName) {
-        return byName;
-    }
 
 
     const aliases = {
@@ -2649,8 +2927,139 @@ function getLoanModalField(id) {
 
 
     const possibleIds =
-        aliases[id] || [];
+        aliases[id] || [
+            id
+        ];
 
+
+    /*
+       PRIORITAS 1:
+       cari di dalam loan-form
+    */
+
+    if (form) {
+
+        for (
+            const possibleId of possibleIds
+        ) {
+
+            const element =
+                form.querySelector(
+                    `#${possibleId}`
+                );
+
+
+            if (element) {
+
+                return element;
+
+            }
+
+
+            const nameElement =
+                form.querySelector(
+                    `[name="${possibleId}"]`
+                );
+
+
+            if (nameElement) {
+
+                return nameElement;
+
+            }
+
+        }
+
+
+        /*
+           Fallback:
+           cari input yang sesuai berdasarkan
+           tipe dan urutan.
+        */
+
+        if (
+            id ===
+            "loan-monthly"
+        ) {
+
+            const moneyInputs =
+                form.querySelectorAll(
+                    'input[type="number"], input[type="text"]'
+                );
+
+
+            /*
+               Jangan langsung mengambil sembarang
+               input. Coba berdasarkan placeholder.
+            */
+
+            for (
+                const input of moneyInputs
+            ) {
+
+                const placeholder =
+                    (
+                        input.placeholder ||
+                        ""
+                    )
+                    .toLowerCase();
+
+
+                const name =
+                    (
+                        input.name ||
+                        ""
+                    )
+                    .toLowerCase();
+
+
+                const inputId =
+                    (
+                        input.id ||
+                        ""
+                    )
+                    .toLowerCase();
+
+
+                if (
+                    placeholder.includes(
+                        "cicilan"
+                    ) ||
+                    placeholder.includes(
+                        "per bulan"
+                    ) ||
+                    name.includes(
+                        "monthly"
+                    ) ||
+                    name.includes(
+                        "installment"
+                    ) ||
+                    inputId.includes(
+                        "monthly"
+                    ) ||
+                    inputId.includes(
+                        "cicilan"
+                    )
+                ) {
+
+                    return input;
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    /*
+       PRIORITAS 2:
+       fallback global.
+
+       Tetap tidak boleh mengambil
+       elemen ringkasan kalau ada form.
+    */
 
     for (
         const possibleId of possibleIds
@@ -2663,7 +3072,9 @@ function getLoanModalField(id) {
 
 
         if (element) {
+
             return element;
+
         }
 
 
@@ -2674,7 +3085,9 @@ function getLoanModalField(id) {
 
 
         if (nameElement) {
+
             return nameElement;
+
         }
 
     }
@@ -2705,8 +3118,17 @@ function openLoanModal(
         );
 
 
-    if (!modal || !form) {
+    if (
+        !modal ||
+        !form
+    ) {
+
+        console.error(
+            "loan-modal atau loan-form tidak ditemukan."
+        );
+
         return;
+
     }
 
 
@@ -2714,7 +3136,8 @@ function openLoanModal(
 
 
     editingLoanId =
-        loan?.id || null;
+        loan?.id ||
+        null;
 
 
     const title =
@@ -2757,12 +3180,24 @@ function openLoanModal(
         );
 
 
+    console.log(
+        "FIELD PINJAMAN:",
+        {
+            sourceInput,
+            amountInput,
+            tenorInput,
+            monthlyInput
+        }
+    );
+
+
     if (loan) {
 
         if (sourceInput) {
 
             sourceInput.value =
-                loan.source || "";
+                loan.source ||
+                "";
 
         }
 
@@ -2772,7 +3207,8 @@ function openLoanModal(
             amountInput.value =
                 parseRupiah(
                     loan.amount
-                ) || "";
+                ) ||
+                "";
 
         }
 
@@ -2782,25 +3218,18 @@ function openLoanModal(
             tenorInput.value =
                 parseNumber(
                     loan.tenor
-                ) || "";
+                ) ||
+                "";
 
         }
 
 
         /*
-           SANGAT PENTING:
+           CICILAN BULANAN TIDAK DIHITUNG
+           DARI JUMLAH PINJAMAN.
 
-           Saat EDIT, cicilan bulanan
-           mengambil nilai yang tersimpan.
-
-           Tidak dihitung dari:
-
-           jumlah pinjaman / tenor
-
-           karena total pembayaran memang
-           ditentukan oleh:
-
-           cicilan bulanan × tenor
+           Nilai cicilan mengambil
+           data yang tersimpan.
         */
 
         if (monthlyInput) {
@@ -2808,7 +3237,8 @@ function openLoanModal(
             monthlyInput.value =
                 parseRupiah(
                     loan.monthly
-                ) || "";
+                ) ||
+                "";
 
         }
 
@@ -2824,6 +3254,10 @@ function openLoanModal(
 
 }
 
+
+/* =====================================================
+   CLOSE LOAN MODAL
+===================================================== */
 
 function closeLoanModal() {
 
@@ -2842,7 +3276,8 @@ function closeLoanModal() {
     }
 
 
-    editingLoanId = null;
+    editingLoanId =
+        null;
 
 }
 
@@ -2882,17 +3317,6 @@ function updateLoanCalculation() {
     }
 
 
-    /*
-       Gunakan parseRupiah, BUKAN Number langsung.
-
-       Jadi:
-       50000
-       50.000
-       Rp 50.000
-
-       semuanya menjadi 50000.
-    */
-
     const monthly =
         parseRupiah(
             monthlyInput.value
@@ -2906,10 +3330,9 @@ function updateLoanCalculation() {
 
 
     /*
-       RUMUS FINAL
+       RUMUS:
 
-       TOTAL PEMBAYARAN =
-       CICILAN PER BULAN × TENOR
+       CICILAN BULANAN × TENOR
     */
 
     const total =
@@ -2941,30 +3364,9 @@ if (loanForm) {
 
     loanForm.addEventListener(
         "input",
-        function (event) {
+        function () {
 
-            const target =
-                event.target;
-
-
-            if (
-                target ===
-                    getLoanModalField(
-                        "loan-amount"
-                    ) ||
-                target ===
-                    getLoanModalField(
-                        "loan-tenor"
-                    ) ||
-                target ===
-                    getLoanModalField(
-                        "loan-monthly"
-                    )
-            ) {
-
-                updateLoanCalculation();
-
-            }
+            updateLoanCalculation();
 
         }
     );
@@ -2972,30 +3374,9 @@ if (loanForm) {
 
     loanForm.addEventListener(
         "change",
-        function (event) {
+        function () {
 
-            const target =
-                event.target;
-
-
-            if (
-                target ===
-                    getLoanModalField(
-                        "loan-amount"
-                    ) ||
-                target ===
-                    getLoanModalField(
-                        "loan-tenor"
-                    ) ||
-                target ===
-                    getLoanModalField(
-                        "loan-monthly"
-                    )
-            ) {
-
-                updateLoanCalculation();
-
-            }
+            updateLoanCalculation();
 
         }
     );
@@ -3008,6 +3389,13 @@ if (loanForm) {
 ===================================================== */
 
 function getLoanStartDate(loan) {
+
+    /*
+       created_at menjadi tanggal awal.
+
+       Kalau tidak ada, gunakan due_date
+       sebagai fallback.
+    */
 
     if (
         loan?.created_at
@@ -3064,10 +3452,27 @@ function getLoanStartDate(loan) {
 }
 
 
-function getLoanNextDueDate(loan) {
+function getLoanNextDueDate(
+    loan
+) {
 
     if (!loan) {
         return null;
+    }
+
+
+    const remainingTenor =
+        getLoanRemainingTenor(
+            loan
+        );
+
+
+    if (
+        remainingTenor <= 0
+    ) {
+
+        return null;
+
     }
 
 
@@ -3083,19 +3488,28 @@ function getLoanNextDueDate(loan) {
         );
 
 
-    const nextDueDate =
-        addMonths(
-            startDate,
-            paidTenor + 1
-        );
+    /*
+       Contoh:
 
+       Mulai 26 September
+       Belum bayar
+       => jatuh tempo 26 Oktober
 
-    return nextDueDate;
+       Sudah bayar 1 tenor
+       => jatuh tempo 26 November
+    */
+
+    return addMonths(
+        startDate,
+        paidTenor + 1
+    );
 
 }
 
 
-function getLoanDueStatus(loan) {
+function getLoanDueStatus(
+    loan
+) {
 
     if (!loan) {
 
@@ -3121,7 +3535,8 @@ function getLoanDueStatus(loan) {
         return {
             status: "paid",
             days: 0,
-            text: "Pinjaman sudah lunas."
+            text:
+                "Pinjaman sudah lunas."
         };
 
     }
@@ -3157,10 +3572,15 @@ function getLoanDueStatus(loan) {
 
 
         return {
-            status: "overdue",
+
+            status:
+                "overdue",
+
             days,
+
             text:
                 `Terlambat ${overdueDays} hari.`
+
         };
 
     }
@@ -3169,32 +3589,54 @@ function getLoanDueStatus(loan) {
     if (days === 0) {
 
         return {
-            status: "today",
+
+            status:
+                "today",
+
             days,
+
             text:
                 "Jatuh tempo hari ini."
+
         };
 
     }
 
 
-    if (days <= 5) {
+    /*
+       WARNING:
+       1 sampai 5 hari
+    */
+
+    if (
+        days <= 5
+    ) {
 
         return {
-            status: "warning",
+
+            status:
+                "warning",
+
             days,
+
             text:
                 `Jatuh tempo ${days} hari lagi.`
+
         };
 
     }
 
 
     return {
-        status: "normal",
+
+        status:
+            "normal",
+
         days,
+
         text:
             `Jatuh tempo ${days} hari lagi.`
+
     };
 
 }
@@ -3204,7 +3646,9 @@ function getLoanDueStatus(loan) {
    LOAN DUE DATE HTML
 ===================================================== */
 
-function getLoanDueDateHTML(loan) {
+function getLoanDueDateHTML(
+    loan
+) {
 
     const remainingTenor =
         getLoanRemainingTenor(
@@ -3248,23 +3692,38 @@ function getLoanDueDateHTML(loan) {
 
 
     if (!dueDate) {
-
         return "";
-
     }
 
 
-    const statusClass =
+    let statusClass = "";
+
+
+    if (
         dueStatus.status ===
-            "warning"
-            ? "loan-due-warning"
-            : dueStatus.status ===
-                "today"
-                ? "loan-due-today"
-                : dueStatus.status ===
-                    "overdue"
-                    ? "loan-due-overdue"
-                    : "";
+        "warning"
+    ) {
+
+        statusClass =
+            "loan-due-warning";
+
+    } else if (
+        dueStatus.status ===
+        "today"
+    ) {
+
+        statusClass =
+            "loan-due-today";
+
+    } else if (
+        dueStatus.status ===
+        "overdue"
+    ) {
+
+        statusClass =
+            "loan-due-overdue";
+
+    }
 
 
     const warningHTML =
@@ -3280,9 +3739,12 @@ function getLoanDueDateHTML(loan) {
 
                 <div class="loan-due-alert ${statusClass}">
 
-                    ${dueStatus.status === "overdue"
-                        ? "⚠"
-                        : "!"}
+                    ${
+                        dueStatus.status ===
+                        "overdue"
+                            ? "⚠"
+                            : "!"
+                    }
 
                     ${escapeHTML(
                         dueStatus.text
@@ -3336,28 +3798,7 @@ document
             event.preventDefault();
 
 
-            console.log(
-                "===================================="
-            );
-
-            console.log(
-                "MULAI MENYIMPAN PINJAMAN"
-            );
-
-            console.log(
-                "===================================="
-            );
-
-
-            /* -----------------------------------------
-               CEK USER
-            ----------------------------------------- */
-
             if (!currentUser) {
-
-                console.error(
-                    "currentUser tidak ditemukan."
-                );
 
                 alert(
                     "Sesi login tidak ditemukan.\n\nSilakan login kembali."
@@ -3368,15 +3809,12 @@ document
             }
 
 
-            console.log(
-                "User ID:",
-                currentUser.id
-            );
+            /*
+               AMBIL FIELD DARI DALAM FORM.
 
-
-            /* -----------------------------------------
-               AMBIL INPUT
-            ----------------------------------------- */
+               Ini bagian yang paling penting
+               untuk menghindari konflik ID.
+            */
 
             const sourceInput =
                 getLoanModalField(
@@ -3410,7 +3848,7 @@ document
             ) {
 
                 console.error(
-                    "Input pinjaman tidak ditemukan.",
+                    "FIELD PINJAMAN TIDAK LENGKAP",
                     {
                         sourceInput,
                         amountInput,
@@ -3419,75 +3857,89 @@ document
                     }
                 );
 
+
                 alert(
-                    "Form pinjaman tidak ditemukan.\n\n" +
-                    "Periksa field jumlah pinjaman, tenor, dan cicilan."
+                    "Field pinjaman tidak ditemukan.\n\n" +
+                    "Pastikan input sumber, jumlah pinjaman, tenor, dan cicilan tersedia."
                 );
+
 
                 return;
 
             }
 
 
-            /* -----------------------------------------
-               AMBIL NILAI
-            ----------------------------------------- */
+            /*
+               AMBIL NILAI RAW
+            */
 
-            const source =
-                sourceInput.value
-                    .trim();
+            const rawSource =
+                sourceInput.value;
+
+
+            const rawAmount =
+                amountInput.value;
+
+
+            const rawTenor =
+                tenorInput.value;
+
+
+            const rawMonthly =
+                monthlyInput.value;
 
 
             /*
-               PENTING:
-
-               Jangan gunakan Number() langsung
-               untuk nominal Rupiah.
-
-               parseRupiah menangani:
-               50000
-               50.000
-               Rp 50.000
+               PARSING
             */
+
+            const source =
+                String(
+                    rawSource ||
+                    ""
+                )
+                .trim();
+
 
             const amount =
                 parseRupiah(
-                    amountInput.value
+                    rawAmount
                 );
 
 
             const tenor =
                 parseNumber(
-                    tenorInput.value
+                    rawTenor
                 );
 
 
             const monthly =
                 parseRupiah(
-                    monthlyInput.value
+                    rawMonthly
                 );
 
 
             console.log(
-                "Data input setelah parsing:",
-                {
-                    source,
-                    amount,
-                    tenor,
-                    monthly,
-                    rawAmount:
-                        amountInput.value,
-                    rawTenor:
-                        tenorInput.value,
-                    rawMonthly:
-                        monthlyInput.value
-                }
+                "========== DATA PINJAMAN =========="
             );
 
 
-            /* -----------------------------------------
+            console.log({
+                source,
+                amount,
+                tenor,
+                monthly,
+
+                rawSource,
+                rawAmount,
+                rawTenor,
+                rawMonthly
+            });
+
+
+            /*
                VALIDASI SUMBER
-            ----------------------------------------- */
+            */
 
             if (!source) {
 
@@ -3495,21 +3947,20 @@ document
                     "Sumber pinjaman wajib diisi."
                 );
 
+
                 sourceInput.focus();
+
 
                 return;
 
             }
 
 
-            /* -----------------------------------------
-               VALIDASI JUMLAH
-            ----------------------------------------- */
+            /*
+               VALIDASI JUMLAH PINJAMAN
+            */
 
             if (
-                !Number.isFinite(
-                    amount
-                ) ||
                 amount <= 0
             ) {
 
@@ -3517,21 +3968,20 @@ document
                     "Jumlah pinjaman harus lebih dari 0."
                 );
 
+
                 amountInput.focus();
+
 
                 return;
 
             }
 
 
-            /* -----------------------------------------
+            /*
                VALIDASI TENOR
-            ----------------------------------------- */
+            */
 
             if (
-                !Number.isFinite(
-                    tenor
-                ) ||
                 tenor <= 0
             ) {
 
@@ -3539,49 +3989,62 @@ document
                     "Tenor harus lebih dari 0."
                 );
 
+
                 tenorInput.focus();
+
 
                 return;
 
             }
 
 
-            /* -----------------------------------------
-               VALIDASI CICILAN
-            ----------------------------------------- */
+            /*
+               VALIDASI CICILAN BULANAN
+
+               SEKARANG monthly dibaca dari
+               input yang benar di dalam loan-form.
+
+               Contoh valid:
+
+               50000
+               50.000
+               Rp 50.000
+            */
 
             if (
-                !Number.isFinite(
-                    monthly
-                ) ||
                 monthly <= 0
             ) {
 
                 console.error(
-                    "CICILAN TIDAK VALID",
+                    "CICILAN TERBACA 0",
                     {
-                        raw:
-                            monthlyInput.value,
-                        parsed:
-                            monthly
+                        rawMonthly,
+                        parsedMonthly:
+                            monthly,
+                        monthlyInput
                     }
                 );
+
 
                 alert(
                     "Cicilan per bulan harus lebih dari 0.\n\n" +
                     "Contoh isi: 50000 atau 50.000"
                 );
 
+
                 monthlyInput.focus();
+
 
                 return;
 
             }
 
 
-            /* -----------------------------------------
+            /*
                TOTAL PEMBAYARAN
-            ----------------------------------------- */
+
+               CICILAN × TENOR
+            */
 
             const totalPayment =
                 Math.round(
@@ -3591,22 +4054,23 @@ document
 
 
             console.log(
-                "Data perhitungan FINAL:",
-                {
-                    source,
-                    amount,
-                    tenor,
-                    monthly,
-                    totalPayment,
-                    rumus:
-                        `${monthly} × ${tenor} = ${totalPayment}`
-                }
+                "========== HASIL PERHITUNGAN =========="
             );
 
 
-            /* -----------------------------------------
-               DATA PINJAMAN
-            ----------------------------------------- */
+            console.log({
+                monthly,
+                tenor,
+                totalPayment,
+
+                rumus:
+                    `${monthly} × ${tenor} = ${totalPayment}`
+            });
+
+
+            /*
+               DATA KE SUPABASE
+            */
 
             const loanData = {
 
@@ -3639,16 +4103,6 @@ document
             };
 
 
-            console.log(
-                "Data yang akan dikirim:",
-                loanData
-            );
-
-
-            /* -----------------------------------------
-               INSERT / UPDATE
-            ----------------------------------------- */
-
             let result;
 
             const wasEditing =
@@ -3660,16 +4114,6 @@ document
             try {
 
                 if (wasEditing) {
-
-                    console.log(
-                        "MODE: UPDATE"
-                    );
-
-                    console.log(
-                        "Loan ID:",
-                        editingLoanId
-                    );
-
 
                     result =
                         await supabaseClient
@@ -3689,11 +4133,6 @@ document
 
                 } else {
 
-                    console.log(
-                        "MODE: INSERT"
-                    );
-
-
                     result =
                         await supabaseClient
                             .from("loans")
@@ -3712,76 +4151,31 @@ document
             } catch (error) {
 
                 console.error(
-                    "===================================="
-                );
-
-                console.error(
-                    "EXCEPTION SAAT SIMPAN PINJAMAN"
-                );
-
-                console.error(
-                    "===================================="
-                );
-
-                console.error(
+                    "Exception saat menyimpan pinjaman:",
                     error
                 );
 
 
                 alert(
                     "Gagal menyimpan pinjaman.\n\n" +
-                    "Pesan error:\n" +
                     (
                         error?.message ||
                         "Terjadi kesalahan saat menghubungi server."
                     )
                 );
 
+
                 return;
 
             }
 
 
-            /* -----------------------------------------
-               CEK ERROR SUPABASE
-            ----------------------------------------- */
-
-            if (result?.error) {
+            if (
+                result?.error
+            ) {
 
                 console.error(
-                    "===================================="
-                );
-
-                console.error(
-                    "SUPABASE LOANS ERROR"
-                );
-
-                console.error(
-                    "===================================="
-                );
-
-                console.error(
-                    "Message:",
-                    result.error.message
-                );
-
-                console.error(
-                    "Details:",
-                    result.error.details
-                );
-
-                console.error(
-                    "Hint:",
-                    result.error.hint
-                );
-
-                console.error(
-                    "Code:",
-                    result.error.code
-                );
-
-                console.error(
-                    "Full error:",
+                    "Supabase loans error:",
                     result.error
                 );
 
@@ -3792,26 +4186,14 @@ document
                     result.error.message
                 );
 
+
                 return;
 
             }
 
 
-            /* -----------------------------------------
-               BERHASIL
-            ----------------------------------------- */
-
-            console.log(
-                "Pinjaman berhasil disimpan."
-            );
-
-            console.log(
-                "Data hasil:",
-                result?.data
-            );
-
-
             closeLoanModal();
+
 
             await loadLoans();
 
@@ -3871,6 +4253,7 @@ async function loadLoans() {
             error
         );
 
+
         return;
 
     }
@@ -3889,23 +4272,27 @@ async function loadLoans() {
    LOAN CALC HELPERS
 ===================================================== */
 
-function getLoanPaidTenor(loan) {
+function getLoanPaidTenor(
+    loan
+) {
 
     return Math.max(
         0,
         parseNumber(
-            loan.paid_tenor
+            loan?.paid_tenor
         )
     );
 
 }
 
 
-function getLoanRemainingTenor(loan) {
+function getLoanRemainingTenor(
+    loan
+) {
 
     const tenor =
         parseNumber(
-            loan.tenor
+            loan?.tenor
         );
 
 
@@ -3917,7 +4304,8 @@ function getLoanRemainingTenor(loan) {
 
     return Math.max(
         0,
-        tenor - paidTenor
+        tenor -
+        paidTenor
     );
 
 }
@@ -3928,25 +4316,28 @@ function getLoanRemainingTenor(loan) {
 
    CICILAN PER BULAN × TENOR
 
-   Kita sengaja TIDAK lagi menggunakan
-   loan.total_payment sebagai sumber utama.
+   BUKAN:
 
-   Jadi kalau ada data lama yang total_payment
-   tersimpan salah, tampilan aplikasi tetap
-   mengikuti rumus yang benar.
+   amount
+
+   dan BUKAN:
+
+   total_payment lama dari database.
 */
 
-function getLoanTotalPayment(loan) {
+function getLoanTotalPayment(
+    loan
+) {
 
     const tenor =
         parseNumber(
-            loan.tenor
+            loan?.tenor
         );
 
 
     const monthly =
         parseRupiah(
-            loan.monthly
+            loan?.monthly
         );
 
 
@@ -3958,7 +4349,9 @@ function getLoanTotalPayment(loan) {
 }
 
 
-function getLoanPaidAmount(loan) {
+function getLoanPaidAmount(
+    loan
+) {
 
     const paidTenor =
         getLoanPaidTenor(
@@ -3968,7 +4361,7 @@ function getLoanPaidAmount(loan) {
 
     const monthly =
         parseRupiah(
-            loan.monthly
+            loan?.monthly
         );
 
 
@@ -3980,10 +4373,13 @@ function getLoanPaidAmount(loan) {
 }
 
 
-function getLoanRemainingAmount(loan) {
+function getLoanRemainingAmount(
+    loan
+) {
 
     return Math.max(
         0,
+
         getLoanTotalPayment(
             loan
         ) -
@@ -4059,33 +4455,35 @@ function renderLoans() {
     }
 
 
+    /*
+       PENTING:
+
+       Jangan menggunakan getElementById("loan-monthly")
+       di sini untuk summary.
+
+       ID tersebut bisa merupakan INPUT
+       cicilan di modal.
+
+       Kita hanya mengubah elemen summary
+       kalau memang BUKAN input.
+    */
+
     const loanMonthlyElement =
         document.getElementById(
             "loan-monthly"
         );
 
 
-    /*
-       CATATAN:
-
-       Di beberapa HTML, id "loan-monthly"
-       bisa juga merupakan INPUT.
-
-       Karena itu jangan mengubah .textContent
-       kalau element tersebut adalah input.
-
-       Kode lama menggunakan id yang sama untuk
-       input modal dan summary.
-
-       Kita tetap pertahankan perilaku lama,
-       tetapi hanya jika element bukan input.
-    */
-
     if (
         loanMonthlyElement &&
-        loanMonthlyElement.tagName !== "INPUT" &&
-        loanMonthlyElement.tagName !== "SELECT" &&
-        loanMonthlyElement.tagName !== "TEXTAREA"
+        !(
+            loanMonthlyElement.tagName ===
+            "INPUT" ||
+            loanMonthlyElement.tagName ===
+            "SELECT" ||
+            loanMonthlyElement.tagName ===
+            "TEXTAREA"
+        )
     ) {
 
         loanMonthlyElement.textContent =
@@ -4115,6 +4513,7 @@ function renderLoans() {
     if (!loans.length) {
 
         container.innerHTML = `
+
             <div class="content-card">
 
                 <div class="empty-state">
@@ -4122,6 +4521,7 @@ function renderLoans() {
                 </div>
 
             </div>
+
         `;
 
         return;
@@ -4145,6 +4545,10 @@ function renderLoans() {
                             loan.monthly
                         );
 
+
+                    /*
+                       Total SELALU dihitung ulang.
+                    */
 
                     const totalPayment =
                         getLoanTotalPayment(
@@ -4184,7 +4588,8 @@ function renderLoans() {
                                     (
                                         paidAmount /
                                         totalPayment
-                                    ) * 100
+                                    ) *
+                                    100
                                 )
                             )
                             : 0;
@@ -4417,18 +4822,24 @@ function renderLoans() {
 
                             ${
                                 isPaidOff
+
                                     ? `
+
                                         <div class="loan-paid-banner">
                                             ✓ Pinjaman sudah lunas
                                         </div>
+
                                     `
+
                                     : `
+
                                         <button
                                             class="loan-payment-btn"
                                             onclick="openPaymentModal('${loan.id}')"
                                         >
                                             Bayar Pinjaman
                                         </button>
+
                                     `
                             }
 
@@ -4513,9 +4924,11 @@ async function deleteLoan(id) {
             error
         );
 
+
         alert(
             "Gagal menghapus pinjaman."
         );
+
 
         return;
 
@@ -4573,6 +4986,7 @@ function openPaymentModal(
         alert(
             "Pinjaman ini sudah lunas."
         );
+
 
         return;
 
@@ -4671,6 +5085,12 @@ function openPaymentModal(
     tenorSelect.innerHTML = "";
 
 
+    const monthly =
+        parseRupiah(
+            loan.monthly
+        );
+
+
     for (
         let i = 1;
         i <= remainingTenor;
@@ -4690,9 +5110,7 @@ function openPaymentModal(
         option.textContent =
             `${i} tenor • ${formatRupiah(
                 i *
-                parseRupiah(
-                    loan.monthly
-                )
+                monthly
             )}`;
 
 
@@ -4809,12 +5227,16 @@ function updatePaymentAmount() {
         );
 
 
+    const monthly =
+        parseRupiah(
+            loan.monthly
+        );
+
+
     const amount =
         Math.round(
             tenor *
-            parseRupiah(
-                loan.monthly
-            )
+            monthly
         );
 
 
@@ -4886,6 +5308,11 @@ document
                 );
 
 
+            if (!paymentTenorElement) {
+                return;
+            }
+
+
             const payTenor =
                 parseNumber(
                     paymentTenorElement.value
@@ -4913,6 +5340,7 @@ document
                 alert(
                     "Jumlah tenor pembayaran tidak valid."
                 );
+
 
                 return;
 
@@ -4983,9 +5411,11 @@ document
                     error
                 );
 
+
                 alert(
                     "Gagal menyimpan pembayaran."
                 );
+
 
                 return;
 
@@ -4993,6 +5423,7 @@ document
 
 
             closePaymentModal();
+
 
             await loadLoans();
 
@@ -5014,13 +5445,16 @@ document
                     `Pembayaran berhasil sebesar ${formatRupiah(
                         paymentAmount
                     )}.\n\n` +
+
                     `Sudah dibayar: ${newPaidTenor} tenor\n` +
+
                     `Sisa tenor: ${
                         parseNumber(
                             loan.tenor
                         ) -
                         newPaidTenor
                     } tenor\n` +
+
                     `Sisa pembayaran: ${formatRupiah(
                         remainingPayment
                     )}`
