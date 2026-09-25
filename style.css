@@ -1,0 +1,970 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fb;
+    color: #1f2937;
+}
+
+
+/* ========================================
+   LOGIN
+======================================== */
+
+.login-container {
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 20px;
+}
+
+
+.login-box {
+    width: 100%;
+
+    max-width: 400px;
+
+    background-color: white;
+
+    padding: 30px;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+
+.login-box h1 {
+    font-size: 28px;
+
+    margin-bottom: 8px;
+}
+
+
+.login-box > p {
+    color: #6b7280;
+
+    margin-bottom: 25px;
+}
+
+
+.login-box label {
+    display: block;
+
+    margin-top: 15px;
+
+    margin-bottom: 7px;
+
+    font-weight: bold;
+}
+
+
+.login-box input {
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+
+.login-box input:focus {
+    border-color: #2563eb;
+}
+
+
+.btn-login {
+    width: 100%;
+
+    margin-top: 22px;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background-color: #2563eb;
+
+    color: white;
+
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+
+.btn-login:hover {
+    background-color: #1d4ed8;
+}
+
+
+.pesan-login {
+    margin-top: 15px;
+
+    color: #dc2626;
+
+    font-size: 14px;
+}
+
+
+/* ========================================
+   APLIKASI
+======================================== */
+
+#halamanAplikasi {
+    display: none;
+}
+
+
+.container {
+    width: 90%;
+
+    max-width: 900px;
+
+    margin: 40px auto;
+}
+
+
+/* ========================================
+   HEADER
+======================================== */
+
+.header {
+    position: relative;
+
+    margin-bottom: 25px;
+}
+
+
+.header h1 {
+    font-size: 32px;
+
+    margin-bottom: 8px;
+}
+
+
+.header p {
+    color: #6b7280;
+}
+
+
+/* ========================================
+   LOGOUT
+======================================== */
+
+.btn-logout {
+    position: absolute;
+
+    top: 0;
+
+    right: 0;
+
+    background-color: #dc2626;
+
+    color: white;
+
+    padding: 10px 16px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+}
+
+
+.btn-logout:hover {
+    background-color: #b91c1c;
+}
+
+
+/* ========================================
+   SALDO
+======================================== */
+
+.saldo {
+    background-color: #2563eb;
+
+    color: white;
+
+    padding: 28px;
+
+    border-radius: 16px;
+
+    margin-bottom: 20px;
+}
+
+
+.saldo p {
+    margin-bottom: 10px;
+
+    opacity: 0.9;
+}
+
+
+.saldo h2 {
+    font-size: 34px;
+}
+
+
+/* ========================================
+   DASHBOARD BULANAN
+======================================== */
+
+.dashboard-bulanan {
+    background-color: white;
+
+    padding: 25px;
+
+    border-radius: 16px;
+
+    margin-bottom: 20px;
+
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+
+.dashboard-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 20px;
+}
+
+
+.dashboard-header h2 {
+    font-size: 21px;
+}
+
+
+.navigasi-bulan {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+.navigasi-bulan span {
+    min-width: 130px;
+
+    text-align: center;
+
+    font-weight: bold;
+
+    font-size: 15px;
+}
+
+
+.btn-bulan {
+    width: 32px;
+
+    height: 32px;
+
+    border-radius: 8px;
+
+    background-color: #eff6ff;
+
+    color: #2563eb;
+
+    font-size: 20px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+}
+
+
+.btn-bulan:hover {
+    background-color: #dbeafe;
+}
+
+
+/* ========================================
+   RINGKASAN BULANAN
+======================================== */
+
+.ringkasan-bulanan {
+    display: flex;
+
+    gap: 15px;
+}
+
+
+.card-bulanan {
+    flex: 1;
+
+    padding: 18px;
+
+    border-radius: 12px;
+
+    background-color: #f8fafc;
+}
+
+
+.card-bulanan p {
+    color: #6b7280;
+
+    font-size: 14px;
+
+    margin-bottom: 8px;
+}
+
+
+.card-bulanan h3 {
+    font-size: 20px;
+}
+
+
+.pemasukan-bulanan {
+    border-left: 4px solid #16a34a;
+}
+
+
+.pemasukan-bulanan h3 {
+    color: #16a34a;
+}
+
+
+.pengeluaran-bulanan {
+    border-left: 4px solid #dc2626;
+}
+
+
+.pengeluaran-bulanan h3 {
+    color: #dc2626;
+}
+
+
+.saldo-bulanan {
+    border-left: 4px solid #2563eb;
+}
+
+
+.saldo-bulanan h3 {
+    color: #2563eb;
+}
+
+
+/* ========================================
+   RINGKASAN TOTAL
+======================================== */
+
+.ringkasan {
+    display: flex;
+
+    gap: 20px;
+
+    margin-bottom: 25px;
+}
+
+
+.card {
+    background-color: white;
+
+    padding: 22px;
+
+    border-radius: 15px;
+
+    flex: 1;
+
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+
+.card p {
+    color: #6b7280;
+
+    margin-bottom: 10px;
+}
+
+
+.card h3 {
+    font-size: 23px;
+}
+
+
+/* ========================================
+   TOMBOL TAMBAH
+======================================== */
+
+button {
+    border: none;
+
+    cursor: pointer;
+
+    font-size: 15px;
+}
+
+
+.btn-tambah {
+    background-color: #2563eb;
+
+    color: white;
+
+    padding: 14px 22px;
+
+    border-radius: 10px;
+}
+
+
+.btn-tambah:hover {
+    background-color: #1d4ed8;
+}
+
+
+/* ========================================
+   FORM TRANSAKSI
+======================================== */
+
+.form-transaksi {
+    display: none;
+
+    background-color: white;
+
+    padding: 25px;
+
+    border-radius: 16px;
+
+    margin-top: 20px;
+
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+
+.form-transaksi h2 {
+    margin-bottom: 20px;
+}
+
+
+.form-transaksi label {
+    display: block;
+
+    margin-top: 15px;
+
+    margin-bottom: 7px;
+
+    font-weight: bold;
+}
+
+
+.form-transaksi input,
+.form-transaksi select {
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    background-color: white;
+
+    outline: none;
+}
+
+
+.form-transaksi input:focus,
+.form-transaksi select:focus {
+    border-color: #2563eb;
+}
+
+
+/* ========================================
+   NOMINAL
+======================================== */
+
+#nominal {
+    appearance: textfield;
+
+    -moz-appearance: textfield;
+}
+
+
+#nominal::-webkit-inner-spin-button,
+#nominal::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+
+    margin: 0;
+}
+
+
+/* ========================================
+   BUTTON FORM
+======================================== */
+
+.form-buttons {
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+
+.btn-simpan {
+    background-color: #2563eb;
+
+    color: white;
+
+    padding: 12px 20px;
+
+    border-radius: 8px;
+}
+
+
+.btn-simpan:hover {
+    background-color: #1d4ed8;
+}
+
+
+.btn-batal {
+    background-color: #6b7280;
+
+    color: white;
+
+    padding: 12px 20px;
+
+    border-radius: 8px;
+}
+
+
+.btn-batal:hover {
+    background-color: #4b5563;
+}
+
+
+/* ========================================
+   RIWAYAT
+======================================== */
+
+.riwayat {
+    margin-top: 30px;
+
+    background-color: white;
+
+    padding: 25px;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+
+.riwayat-header {
+    margin-bottom: 20px;
+}
+
+
+.riwayat-header h2 {
+    font-size: 22px;
+}
+
+
+/* ========================================
+   FILTER
+======================================== */
+
+.filter-box {
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 12px;
+
+    padding: 15px;
+
+    margin-bottom: 20px;
+
+    background-color: #f8fafc;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+}
+
+
+.filter-item {
+    flex: 1;
+}
+
+
+.filter-item label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    color: #374151;
+}
+
+
+.filter-item select {
+    width: 100%;
+
+    padding: 10px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    background-color: white;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+
+.filter-item select:focus {
+    border-color: #2563eb;
+}
+
+
+.filter-buttons {
+    display: flex;
+
+    gap: 7px;
+}
+
+
+.btn-filter {
+    background-color: #2563eb;
+
+    color: white;
+
+    padding: 10px 15px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+}
+
+
+.btn-filter:hover {
+    background-color: #1d4ed8;
+}
+
+
+.btn-reset {
+    background-color: #6b7280;
+
+    color: white;
+
+    padding: 10px 15px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+}
+
+
+.btn-reset:hover {
+    background-color: #4b5563;
+}
+
+
+/* ========================================
+   BELUM ADA DATA
+======================================== */
+
+.belum-ada {
+    color: #6b7280;
+
+    text-align: center;
+
+    padding: 20px;
+}
+
+
+/* ========================================
+   ITEM TRANSAKSI
+======================================== */
+
+.transaksi {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 16px 0;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    gap: 15px;
+}
+
+
+.transaksi:last-child {
+    border-bottom: none;
+}
+
+
+.transaksi-info {
+    flex: 1;
+}
+
+
+.transaksi-info h4 {
+    margin-bottom: 5px;
+
+    font-size: 16px;
+}
+
+
+.transaksi-info p {
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+
+/* ========================================
+   BAGIAN KANAN TRANSAKSI
+======================================== */
+
+.transaksi-kanan {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    gap: 8px;
+}
+
+
+.transaksi-nominal {
+    font-weight: bold;
+
+    font-size: 15px;
+
+    white-space: nowrap;
+}
+
+
+.pemasukan-text {
+    color: #16a34a;
+}
+
+
+.pengeluaran-text {
+    color: #dc2626;
+}
+
+
+/* ========================================
+   TOMBOL EDIT & HAPUS
+======================================== */
+
+.transaksi-buttons {
+    display: flex;
+
+    gap: 6px;
+}
+
+
+.btn-edit,
+.btn-hapus {
+    color: white;
+
+    padding: 6px 11px;
+
+    border-radius: 6px;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    border: none;
+}
+
+
+.btn-edit {
+    background-color: #2563eb;
+}
+
+
+.btn-edit:hover {
+    background-color: #1d4ed8;
+}
+
+
+.btn-hapus {
+    background-color: #dc2626;
+}
+
+
+.btn-hapus:hover {
+    background-color: #b91c1c;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 700px) {
+
+    .container {
+        width: 92%;
+
+        margin: 25px auto;
+    }
+
+
+    .header h1 {
+        font-size: 26px;
+    }
+
+
+    .btn-logout {
+        position: static;
+
+        margin-top: 15px;
+    }
+
+
+    .saldo {
+        padding: 23px;
+    }
+
+
+    .saldo h2 {
+        font-size: 28px;
+    }
+
+
+    /* DASHBOARD */
+
+    .dashboard-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+
+    .navigasi-bulan {
+        width: 100%;
+
+        justify-content: space-between;
+    }
+
+
+    .navigasi-bulan span {
+        flex: 1;
+    }
+
+
+    .ringkasan-bulanan {
+        flex-direction: column;
+
+        gap: 10px;
+    }
+
+
+    /* RINGKASAN */
+
+    .ringkasan {
+        flex-direction: column;
+
+        gap: 12px;
+    }
+
+
+    /* FORM */
+
+    .form-buttons {
+        flex-direction: column;
+    }
+
+
+    .form-buttons button {
+        width: 100%;
+    }
+
+
+    /* FILTER */
+
+    .filter-box {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 12px;
+    }
+
+
+    .filter-buttons {
+        width: 100%;
+    }
+
+
+    .filter-buttons button {
+        flex: 1;
+    }
+
+
+    /* TRANSAKSI */
+
+    .transaksi {
+        align-items: flex-start;
+
+        gap: 10px;
+    }
+
+
+    .transaksi-kanan {
+        align-items: flex-end;
+    }
+
+
+    .transaksi-nominal {
+        font-size: 14px;
+    }
+
+
+    .btn-edit,
+    .btn-hapus {
+        padding: 6px 9px;
+
+        font-size: 11px;
+    }
+
+}
