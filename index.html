@@ -6,9 +6,10 @@
 
     <title>Keuangan Pribadi</title>
 
+    <link rel="stylesheet" href="style.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
         rel="stylesheet"
@@ -19,29 +20,27 @@
 
 <body>
 
-<!-- =========================
+<!-- =====================================================
      LOGIN
-========================= -->
+===================================================== -->
 
-<div id="login-page" class="login-page">
+<section id="login-page" class="login-page">
 
-    <div class="login-card">
+    <div class="login-container">
 
-        <div class="login-icon">
-            💰
+        <div class="login-logo">
+            <div class="logo-icon">Rp</div>
+            <h1>Keuangan Pribadi</h1>
         </div>
 
-        <h1>Keuangan Pribadi</h1>
-
-        <p>
+        <p class="login-subtitle">
             Kelola keuanganmu dengan lebih rapi.
         </p>
 
-        <form id="login-form">
+        <form id="login-form" class="login-form">
 
-            <div class="input-group">
-
-                <label>Email</label>
+            <div class="form-group">
+                <label for="login-email">Email</label>
 
                 <input
                     type="email"
@@ -49,13 +48,11 @@
                     placeholder="Masukkan email"
                     required
                 >
-
             </div>
 
+            <div class="form-group">
 
-            <div class="input-group">
-
-                <label>Password</label>
+                <label for="login-password">Password</label>
 
                 <div class="password-wrapper">
 
@@ -78,43 +75,54 @@
 
             </div>
 
+            <p id="login-message" class="message"></p>
 
             <button
                 type="submit"
-                class="primary-button"
+                class="primary-button login-button"
             >
                 Masuk
             </button>
-
-            <p
-                id="login-message"
-                class="message"
-            ></p>
 
         </form>
 
     </div>
 
-</div>
+</section>
 
 
-<!-- =========================
+<!-- =====================================================
      APP
-========================= -->
+===================================================== -->
 
 <div id="app" class="app hidden">
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="top-header">
+
+        <div>
+            <span class="header-small">Keuangan Pribadi</span>
+            <h2 id="page-title">Beranda</h2>
+        </div>
+
+        <div class="header-avatar">
+            <span>👤</span>
+        </div>
+
+    </header>
+
+
+    <!-- ================= PAGES ================= -->
 
     <main class="main-content">
 
 
-        <!-- =========================
-             BERANDA
-        ========================= -->
+        <!-- =================================================
+             HOME
+        ================================================== -->
 
-        <section
-            id="page-home"
-            class="page active"
-        >
+        <section id="page-home" class="page active">
 
             <!-- SALDO -->
 
@@ -131,64 +139,49 @@
                     Rp 0
                 </div>
 
-                <div class="balance-info">
-
-                    <span id="balance-status">
-                        Keuangan kamu
-                    </span>
-
+                <div
+                    id="balance-status"
+                    class="balance-status"
+                >
+                    Belum ada transaksi
                 </div>
 
             </div>
 
 
-            <!-- TOTAL KESELURUHAN -->
+            <!-- TOTAL -->
 
-            <div class="summary-grid">
+            <div class="total-grid">
 
-                <div class="summary-card income-card">
+                <div class="total-card income-card">
 
-                    <div class="summary-top">
-
-                        <span class="summary-icon">
-                            ↗
-                        </span>
-
-                        <span class="summary-title">
-                            Total Pemasukan
-                        </span>
-
+                    <div class="total-icon">
+                        ↗
                     </div>
 
-                    <div
-                        id="total-income"
-                        class="summary-value"
-                    >
-                        Rp 0
+                    <div>
+                        <span>Total Pemasukan</span>
+
+                        <strong id="total-income">
+                            Rp 0
+                        </strong>
                     </div>
 
                 </div>
 
 
-                <div class="summary-card expense-card">
+                <div class="total-card expense-card">
 
-                    <div class="summary-top">
-
-                        <span class="summary-icon">
-                            ↘
-                        </span>
-
-                        <span class="summary-title">
-                            Total Pengeluaran
-                        </span>
-
+                    <div class="total-icon">
+                        ↘
                     </div>
 
-                    <div
-                        id="total-expense"
-                        class="summary-value"
-                    >
-                        Rp 0
+                    <div>
+                        <span>Total Pengeluaran</span>
+
+                        <strong id="total-expense">
+                            Rp 0
+                        </strong>
                     </div>
 
                 </div>
@@ -196,18 +189,85 @@
             </div>
 
 
-            <!-- STATISTIK BULAN INI -->
+            <!-- STATISTIK BULAN -->
 
-            <div class="home-section-heading">
+            <div class="section-heading">
 
                 <div>
+                    <h3>Statistik</h3>
+                    <span id="current-month-label">
+                        Bulan ini
+                    </span>
+                </div>
 
-                    <span>
-                        Statistik
+            </div>
+
+
+            <div class="monthly-stats">
+
+                <div class="stat-card">
+
+                    <span class="stat-icon income">
+                        ↗
                     </span>
 
-                    <strong id="current-month-label">
-                        Bulan ini
+                    <span class="stat-label">
+                        Pemasukan
+                    </span>
+
+                    <strong id="month-income">
+                        Rp 0
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <span class="stat-icon expense">
+                        ↘
+                    </span>
+
+                    <span class="stat-label">
+                        Pengeluaran
+                    </span>
+
+                    <strong id="month-expense">
+                        Rp 0
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <span class="stat-icon balance">
+                        =
+                    </span>
+
+                    <span class="stat-label">
+                        Sisa Bulan Ini
+                    </span>
+
+                    <strong id="month-balance">
+                        Rp 0
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <span class="stat-icon count">
+                        #
+                    </span>
+
+                    <span class="stat-label">
+                        Transaksi
+                    </span>
+
+                    <strong id="month-count">
+                        0 transaksi
                     </strong>
 
                 </div>
@@ -215,160 +275,58 @@
             </div>
 
 
-            <div class="monthly-stats-grid">
+            <!-- PROGRESS -->
 
-                <div class="monthly-stat-card">
+            <div class="progress-card">
 
-                    <div class="monthly-stat-icon income">
-                        ↗
-                    </div>
-
-                    <div class="monthly-stat-content">
-
-                        <span>
-                            Pemasukan
-                        </span>
-
-                        <strong id="month-income">
-                            Rp 0
-                        </strong>
-
-                    </div>
-
-                </div>
-
-
-                <div class="monthly-stat-card">
-
-                    <div class="monthly-stat-icon expense">
-                        ↘
-                    </div>
-
-                    <div class="monthly-stat-content">
-
-                        <span>
-                            Pengeluaran
-                        </span>
-
-                        <strong id="month-expense">
-                            Rp 0
-                        </strong>
-
-                    </div>
-
-                </div>
-
-
-                <div class="monthly-stat-card">
-
-                    <div class="monthly-stat-icon balance">
-                        =
-                    </div>
-
-                    <div class="monthly-stat-content">
-
-                        <span>
-                            Sisa Bulan Ini
-                        </span>
-
-                        <strong id="month-balance">
-                            Rp 0
-                        </strong>
-
-                    </div>
-
-                </div>
-
-
-                <div class="monthly-stat-card">
-
-                    <div class="monthly-stat-icon transaction">
-                        #
-                    </div>
-
-                    <div class="monthly-stat-content">
-
-                        <span>
-                            Transaksi
-                        </span>
-
-                        <strong id="month-count">
-                            0 transaksi
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- PERSENTASE PENGELUARAN -->
-
-            <div class="spending-card">
-
-                <div class="spending-header">
+                <div class="progress-header">
 
                     <div>
-
-                        <span>
+                        <strong>
                             Pengeluaran Bulan Ini
-                        </span>
-
-                        <strong id="spending-percentage">
-                            0%
                         </strong>
 
+                        <span id="expense-percentage">
+                            0%
+                        </span>
                     </div>
 
-                    <span id="spending-description">
-                        Belum ada pengeluaran
-                    </span>
-
                 </div>
-
 
                 <div class="progress-bar">
 
                     <div
-                        id="spending-progress"
+                        id="expense-progress"
                         class="progress-fill"
                     ></div>
 
                 </div>
 
+                <p id="expense-progress-text">
+                    Belum ada pengeluaran
+                </p>
+
             </div>
 
 
-            <!-- TOMBOL TRANSAKSI -->
+            <!-- BUTTON TRANSAKSI -->
 
             <div class="transaction-buttons">
 
                 <button
-                    class="transaction-button income-button"
+                    class="transaction-button income"
                     onclick="openTransactionModal('Pemasukan')"
                 >
-
-                    <span>
-                        ＋
-                    </span>
-
+                    <span>＋</span>
                     Pemasukan
-
                 </button>
 
-
                 <button
-                    class="transaction-button expense-button"
+                    class="transaction-button expense"
                     onclick="openTransactionModal('Pengeluaran')"
                 >
-
-                    <span>
-                        ＋
-                    </span>
-
+                    <span>＋</span>
                     Pengeluaran
-
                 </button>
 
             </div>
@@ -376,52 +334,42 @@
 
             <!-- QUOTE -->
 
-            <div class="quote-box">
+            <div class="quote-card">
 
-                <div class="quote-icon">
+                <div class="quote-mark">
                     “
                 </div>
 
                 <p id="quote-text">
-                    Mengatur uang hari ini adalah investasi untuk ketenangan besok.
+                    Keuangan yang rapi membuat keputusan hidup terasa lebih ringan.
                 </p>
 
             </div>
 
 
-            <!-- MENU UTAMA -->
+            <!-- MENU -->
 
-            <div class="home-section-heading menu-heading">
+            <div class="section-heading">
 
                 <div>
-
-                    <span>
-                        Menu
-                    </span>
-
-                    <strong>
-                        Kelola Keuangan
-                    </strong>
-
+                    <h3>Menu Kelola Keuangan</h3>
                 </div>
 
             </div>
 
 
-            <div class="home-menu-grid">
-
-                <!-- RIWAYAT -->
+            <div class="menu-list">
 
                 <button
-                    class="home-menu-card"
+                    class="menu-card"
                     onclick="showPage('history')"
                 >
 
-                    <div class="home-menu-icon history">
+                    <div class="menu-icon blue">
                         ☷
                     </div>
 
-                    <div class="home-menu-content">
+                    <div class="menu-content">
 
                         <strong>
                             Riwayat Transaksi
@@ -433,25 +381,23 @@
 
                     </div>
 
-                    <span class="home-menu-arrow">
+                    <span class="menu-arrow">
                         ›
                     </span>
 
                 </button>
 
 
-                <!-- RINGKASAN -->
-
                 <button
-                    class="home-menu-card"
+                    class="menu-card"
                     onclick="showPage('summary')"
                 >
 
-                    <div class="home-menu-icon summary">
+                    <div class="menu-icon green">
                         ▥
                     </div>
 
-                    <div class="home-menu-content">
+                    <div class="menu-content">
 
                         <strong>
                             Ringkasan Bulanan
@@ -463,25 +409,23 @@
 
                     </div>
 
-                    <span class="home-menu-arrow">
+                    <span class="menu-arrow">
                         ›
                     </span>
 
                 </button>
 
 
-                <!-- PINJAMAN -->
-
                 <button
-                    class="home-menu-card"
+                    class="menu-card"
                     onclick="showPage('loans')"
                 >
 
-                    <div class="home-menu-icon loan">
+                    <div class="menu-icon orange">
                         💳
                     </div>
 
-                    <div class="home-menu-content">
+                    <div class="menu-content">
 
                         <strong>
                             Pinjaman
@@ -493,7 +437,7 @@
 
                     </div>
 
-                    <span class="home-menu-arrow">
+                    <span class="menu-arrow">
                         ›
                     </span>
 
@@ -504,28 +448,19 @@
         </section>
 
 
-        <!-- =========================
-             RINGKASAN
-        ========================= -->
+        <!-- =================================================
+             SUMMARY
+        ================================================== -->
 
-        <section
-            id="page-summary"
-            class="page"
-        >
+        <section id="page-summary" class="page">
 
-            <div class="page-header">
+            <div class="page-intro">
 
-                <div>
+                <h2>Ringkasan</h2>
 
-                    <h1>
-                        Ringkasan
-                    </h1>
-
-                    <p>
-                        Gambaran keuangan berdasarkan periode.
-                    </p>
-
-                </div>
+                <p>
+                    Gambaran keuangan berdasarkan periode.
+                </p>
 
             </div>
 
@@ -547,101 +482,66 @@
             </div>
 
 
-            <div class="summary-detail-grid">
+            <div class="summary-grid">
 
-                <div class="detail-summary income-detail">
-
-                    <span>
-                        Pemasukan
-                    </span>
-
+                <div class="summary-card income">
+                    <span>Pemasukan</span>
                     <strong id="summary-income">
                         Rp 0
                     </strong>
-
                 </div>
 
-
-                <div class="detail-summary expense-detail">
-
-                    <span>
-                        Pengeluaran
-                    </span>
-
+                <div class="summary-card expense">
+                    <span>Pengeluaran</span>
                     <strong id="summary-expense">
                         Rp 0
                     </strong>
-
                 </div>
 
-
-                <div class="detail-summary balance-detail">
-
-                    <span>
-                        Selisih
-                    </span>
-
+                <div class="summary-card balance">
+                    <span>Selisih</span>
                     <strong id="summary-balance">
                         Rp 0
                     </strong>
-
                 </div>
 
-
-                <div class="detail-summary transaction-detail">
-
-                    <span>
-                        Transaksi
-                    </span>
-
+                <div class="summary-card count">
+                    <span>Transaksi</span>
                     <strong id="summary-count">
                         0
                     </strong>
-
                 </div>
 
             </div>
 
 
-            <!-- GRAFIK -->
-
             <div class="content-card">
 
-                <div class="card-heading">
-
-                    <h2>
+                <div class="content-card-header">
+                    <h3>
                         Pemasukan & Pengeluaran
-                    </h2>
-
+                    </h3>
                 </div>
 
                 <div class="chart-container">
-
                     <canvas id="monthly-chart"></canvas>
-
                 </div>
 
             </div>
 
 
-            <!-- KATEGORI -->
-
             <div class="content-card">
 
-                <div class="card-heading">
-
-                    <h2>
+                <div class="content-card-header">
+                    <h3>
                         Pengeluaran Berdasarkan Kategori
-                    </h2>
-
+                    </h3>
                 </div>
 
                 <div id="category-summary">
-
                     <div class="empty-state">
                         Belum ada data.
                     </div>
-
                 </div>
 
             </div>
@@ -649,33 +549,22 @@
         </section>
 
 
-        <!-- =========================
-             RIWAYAT
-        ========================= -->
+        <!-- =================================================
+             HISTORY
+        ================================================== -->
 
-        <section
-            id="page-history"
-            class="page"
-        >
+        <section id="page-history" class="page">
 
-            <div class="page-header">
+            <div class="page-intro">
 
-                <div>
+                <h2>Riwayat Transaksi</h2>
 
-                    <h1>
-                        Riwayat Transaksi
-                    </h1>
-
-                    <p>
-                        Semua transaksi keuanganmu.
-                    </p>
-
-                </div>
+                <p>
+                    Semua transaksi keuanganmu.
+                </p>
 
             </div>
 
-
-            <!-- FILTER JENIS -->
 
             <div class="filter-tabs">
 
@@ -703,49 +592,47 @@
             </div>
 
 
-            <!-- FILTER -->
-
             <div class="filter-card">
 
-                <div class="filter-row">
+                <div class="filter-group">
 
-                    <div class="filter-group">
+                    <label for="filter-month">
+                        Periode
+                    </label>
 
-                        <label>
-                            Periode
-                        </label>
-
-                        <input
-                            type="month"
-                            id="filter-month"
-                        >
-
-                    </div>
-
-
-                    <div class="filter-group">
-
-                        <label>
-                            Kategori
-                        </label>
-
-                        <select id="filter-category">
-
-                            <option value="Semua">
-                                Semua Kategori
-                            </option>
-
-                        </select>
-
-                    </div>
+                    <input
+                        type="month"
+                        id="filter-month"
+                    >
 
                 </div>
 
 
-                <div class="search-wrapper">
+                <div class="filter-group">
+
+                    <label for="filter-category">
+                        Kategori
+                    </label>
+
+                    <select id="filter-category">
+
+                        <option value="Semua">
+                            Semua Kategori
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group search-group">
+
+                    <label for="search-transaction">
+                        Cari
+                    </label>
 
                     <input
-                        type="text"
+                        type="search"
                         id="search-transaction"
                         placeholder="Cari transaksi..."
                     >
@@ -769,41 +656,32 @@
         </section>
 
 
-        <!-- =========================
-             PINJAMAN
-        ========================= -->
+        <!-- =================================================
+             LOANS
+        ================================================== -->
 
-        <section
-            id="page-loans"
-            class="page"
-        >
+        <section id="page-loans" class="page">
 
-            <div class="page-header">
+            <div class="page-intro">
 
-                <div>
+                <h2>Pinjaman</h2>
 
-                    <h1>
-                        Pinjaman
-                    </h1>
-
-                    <p>
-                        Kelola pinjaman dan pembayaranmu.
-                    </p>
-
-                </div>
+                <p>
+                    Kelola pinjaman dan pembayaranmu.
+                </p>
 
             </div>
 
 
-            <div class="loan-coming-card">
+            <div class="loan-placeholder">
 
-                <div class="loan-coming-icon">
+                <div class="loan-icon">
                     💳
                 </div>
 
-                <h2>
+                <h3>
                     Fitur Pinjaman
-                </h2>
+                </h3>
 
                 <p>
                     Halaman pinjaman sedang disiapkan.
@@ -816,39 +694,30 @@
         </section>
 
 
-        <!-- =========================
-             AKUN
-        ========================= -->
+        <!-- =================================================
+             ACCOUNT
+        ================================================== -->
 
-        <section
-            id="page-account"
-            class="page"
-        >
+        <section id="page-account" class="page">
 
-            <div class="page-header">
+            <div class="page-intro">
 
-                <div>
+                <h2>Akun</h2>
 
-                    <h1>
-                        Akun
-                    </h1>
-
-                    <p>
-                        Pengaturan akun dan aplikasi.
-                    </p>
-
-                </div>
+                <p>
+                    Pengaturan akun dan aplikasi.
+                </p>
 
             </div>
 
 
-            <div class="profile-card">
+            <div class="account-card">
 
-                <div class="profile-avatar">
+                <div class="account-avatar">
                     👤
                 </div>
 
-                <div>
+                <div class="account-info">
 
                     <strong id="account-email">
                         -
@@ -863,21 +732,33 @@
             </div>
 
 
-            <div class="content-card app-info">
+            <div class="content-card">
 
-                <h2>
-                    Keuangan Pribadi
-                </h2>
+                <div class="app-info">
 
-                <p>
-                    Aplikasi pencatatan dan pengelolaan
-                    keuangan pribadi.
-                </p>
+                    <div class="app-info-icon">
+                        Rp
+                    </div>
 
-                <small>
-                    Data tersimpan secara online dan dapat
-                    diakses dari perangkat yang berbeda.
-                </small>
+                    <div>
+
+                        <h3>
+                            Keuangan Pribadi
+                        </h3>
+
+                        <p>
+                            Aplikasi pencatatan dan pengelolaan
+                            keuangan pribadi.
+                        </p>
+
+                        <small>
+                            Data tersimpan secara online dan dapat
+                            diakses dari perangkat yang berbeda.
+                        </small>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -894,9 +775,9 @@
     </main>
 
 
-    <!-- =========================
-         BOTTOM NAVIGATION
-    ========================= -->
+    <!-- =================================================
+         BOTTOM NAV
+    ================================================== -->
 
     <nav class="bottom-nav">
 
@@ -904,63 +785,32 @@
             class="nav-item active"
             data-page="home"
         >
-
-            <span>
-                ⌂
-            </span>
-
-            <small>
-                Beranda
-            </small>
-
+            <span>⌂</span>
+            <small>Beranda</small>
         </button>
-
 
         <button
             class="nav-item"
             data-page="summary"
         >
-
-            <span>
-                ▥
-            </span>
-
-            <small>
-                Ringkasan
-            </small>
-
+            <span>▥</span>
+            <small>Ringkasan</small>
         </button>
-
 
         <button
             class="nav-item"
             data-page="history"
         >
-
-            <span>
-                ☷
-            </span>
-
-            <small>
-                Riwayat
-            </small>
-
+            <span>☷</span>
+            <small>Riwayat</small>
         </button>
-
 
         <button
             class="nav-item"
             data-page="account"
         >
-
-            <span>
-                ♙
-            </span>
-
-            <small>
-                Akun
-            </small>
-
+            <span>♙</span>
+            <small>Akun</small>
         </button>
 
     </nav>
@@ -968,22 +818,18 @@
 </div>
 
 
-<!-- =========================
-     MODAL TRANSAKSI
-========================= -->
+<!-- =====================================================
+     TRANSACTION MODAL
+===================================================== -->
 
 <div
     id="transaction-modal"
     class="modal hidden"
 >
 
-    <div
-        class="modal-overlay"
-        onclick="closeTransactionModal()"
-    ></div>
+    <div class="modal-overlay" onclick="closeTransactionModal()"></div>
 
-
-    <div class="modal-content">
+    <div class="modal-box">
 
         <div class="modal-header">
 
@@ -999,9 +845,8 @@
 
             </div>
 
-
             <button
-                class="close-modal"
+                class="modal-close"
                 onclick="closeTransactionModal()"
             >
                 ×
@@ -1014,25 +859,20 @@
 
             <input
                 type="hidden"
-                id="transaction-id"
-            >
-
-            <input
-                type="hidden"
                 id="transaction-type"
             >
 
 
-            <div class="input-group">
+            <div class="form-group">
 
-                <label>
+                <label for="transaction-amount">
                     Nominal
                 </label>
 
                 <input
                     type="number"
                     id="transaction-amount"
-                    placeholder="0"
+                    placeholder="Contoh: 50000"
                     min="1"
                     required
                 >
@@ -1040,9 +880,9 @@
             </div>
 
 
-            <div class="input-group">
+            <div class="form-group">
 
-                <label>
+                <label for="transaction-category">
                     Kategori
                 </label>
 
@@ -1060,9 +900,9 @@
             </div>
 
 
-            <div class="input-group">
+            <div class="form-group">
 
-                <label>
+                <label for="transaction-date">
                     Tanggal
                 </label>
 
@@ -1075,19 +915,25 @@
             </div>
 
 
-            <div class="input-group">
+            <div class="form-group">
 
-                <label>
+                <label for="transaction-note">
                     Keterangan
                 </label>
 
                 <textarea
                     id="transaction-note"
-                    placeholder="Tambahkan keterangan..."
                     rows="3"
+                    placeholder="Contoh: Makan siang"
                 ></textarea>
 
             </div>
+
+
+            <p
+                id="transaction-message"
+                class="message"
+            ></p>
 
 
             <button
@@ -1097,12 +943,6 @@
                 Simpan Transaksi
             </button>
 
-
-            <p
-                id="transaction-message"
-                class="message"
-            ></p>
-
         </form>
 
     </div>
@@ -1110,9 +950,9 @@
 </div>
 
 
-<!-- =========================
-     MODAL DETAIL
-========================= -->
+<!-- =====================================================
+     DETAIL MODAL
+===================================================== -->
 
 <div
     id="detail-modal"
@@ -1124,8 +964,7 @@
         onclick="closeDetailModal()"
     ></div>
 
-
-    <div class="modal-content">
+    <div class="modal-box">
 
         <div class="modal-header">
 
@@ -1141,9 +980,8 @@
 
             </div>
 
-
             <button
-                class="close-modal"
+                class="modal-close"
                 onclick="closeDetailModal()"
             >
                 ×
