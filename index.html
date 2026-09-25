@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="id">
 
@@ -8,10 +7,8 @@
 
     <title>Kepri - Keuangan Pribadi</title>
 
-    <!-- CSS UTAMA -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- GOOGLE FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -23,28 +20,17 @@
 
 <body>
 
-    <!-- =====================================================
-         LOGIN
-    ====================================================== -->
-
+    <!-- LOGIN -->
     <section id="login-page" class="login-page">
-
         <div class="login-container">
 
             <div class="login-logo">
-
-                <div class="logo-mark">
-                    K
-                </div>
-
+                <div class="logo-mark">K</div>
                 <h1>Kepri</h1>
-
                 <p>Keuangan Pribadi</p>
-
             </div>
 
             <div class="login-card">
-
                 <h2>Selamat datang</h2>
 
                 <p class="login-subtitle">
@@ -54,34 +40,23 @@
                 <form id="login-form">
 
                     <div class="form-group">
-
-                        <label for="login-email">
-                            Email
-                        </label>
-
+                        <label for="login-email">Email</label>
                         <input
                             type="email"
                             id="login-email"
                             placeholder="Masukkan email"
-                            autocomplete="email"
                             required
                         >
-
                     </div>
 
                     <div class="form-group">
-
-                        <label for="login-password">
-                            Password
-                        </label>
+                        <label for="login-password">Password</label>
 
                         <div class="password-wrapper">
-
                             <input
                                 type="password"
                                 id="login-password"
                                 placeholder="Masukkan password"
-                                autocomplete="current-password"
                                 required
                             >
 
@@ -89,29 +64,19 @@
                                 type="button"
                                 class="toggle-password"
                                 id="toggle-password"
-                                aria-label="Tampilkan password"
                             >
                                 👁
                             </button>
-
                         </div>
-
                     </div>
 
-                    <button
-                        type="submit"
-                        class="primary-btn"
-                    >
+                    <button type="submit" class="primary-btn">
                         Masuk
                     </button>
 
-                    <div
-                        id="login-error"
-                        class="error-message"
-                    ></div>
+                    <div id="login-error" class="error-message"></div>
 
                 </form>
-
             </div>
 
             <div class="login-footer">
@@ -119,20 +84,13 @@
             </div>
 
         </div>
-
     </section>
 
 
-    <!-- =====================================================
-         APP
-    ====================================================== -->
-
+    <!-- APP -->
     <main id="app" class="app hidden">
 
-        <!-- =====================================================
-             HEADER
-        ====================================================== -->
-
+        <!-- HEADER -->
         <header class="top-header">
 
             <div class="brand">
@@ -140,10 +98,8 @@
             </div>
 
             <button
-                type="button"
                 class="header-user"
                 onclick="showPage('account')"
-                aria-label="Buka akun"
             >
                 👤
             </button>
@@ -151,38 +107,29 @@
         </header>
 
 
-        <!-- =====================================================
-             HOME
-        ====================================================== -->
-
-        <section
-            id="page-home"
-            class="page active"
-        >
+        <!-- HOME -->
+        <section id="page-home" class="page active">
 
             <div class="page-container">
 
                 <div class="page-header">
-
                     <div>
-
                         <span class="page-kicker">
                             DASHBOARD
                         </span>
 
-                        <h1>Keuangan Saya</h1>
+                        <h1>
+                            Keuangan Saya
+                        </h1>
 
                         <p>
                             Pantau kondisi keuangan kamu hari ini.
                         </p>
-
                     </div>
-
                 </div>
 
 
                 <!-- BALANCE -->
-
                 <div class="balance-card">
 
                     <div class="balance-decoration one"></div>
@@ -207,7 +154,6 @@
 
 
                 <!-- INCOME EXPENSE -->
-
                 <div class="income-expense-grid">
 
                     <div class="money-card income-card">
@@ -261,11 +207,9 @@
 
 
                 <!-- TRANSACTION BUTTONS -->
-
                 <div class="transaction-buttons">
 
                     <button
-                        type="button"
                         class="transaction-btn income"
                         onclick="openTransactionModal('Pemasukan')"
                     >
@@ -290,7 +234,6 @@
 
 
                     <button
-                        type="button"
                         class="transaction-btn expense"
                         onclick="openTransactionModal('Pengeluaran')"
                     >
@@ -317,7 +260,6 @@
 
 
                 <!-- QUOTE -->
-
                 <div class="quote-card">
 
                     <div class="quote-icon">
@@ -332,20 +274,16 @@
 
 
                 <!-- MENU -->
-
                 <div class="section-title">
-
                     <h2>
                         Menu Keuangan
                     </h2>
-
                 </div>
 
 
                 <div class="menu-list">
 
                     <button
-                        type="button"
                         class="menu-card"
                         onclick="showPage('history')"
                     >
@@ -374,7 +312,6 @@
 
 
                     <button
-                        type="button"
                         class="menu-card"
                         onclick="showPage('summary')"
                     >
@@ -403,7 +340,6 @@
 
 
                     <button
-                        type="button"
                         class="menu-card"
                         onclick="showPage('recap')"
                     >
@@ -432,7 +368,6 @@
 
 
                     <button
-                        type="button"
                         class="menu-card"
                         onclick="showPage('loans')"
                     >
@@ -466,14 +401,8 @@
         </section>
 
 
-        <!-- =====================================================
-             SUMMARY
-        ====================================================== -->
-
-        <section
-            id="page-summary"
-            class="page"
-        >
+        <!-- SUMMARY -->
+        <section id="page-summary" class="page">
 
             <div class="page-container">
 
@@ -485,7 +414,9 @@
                             ANALISIS
                         </span>
 
-                        <h1>Ringkasan</h1>
+                        <h1>
+                            Ringkasan
+                        </h1>
 
                         <p>
                             Ringkasan keuangan berdasarkan bulan.
@@ -499,7 +430,6 @@
                 <div class="period-selector">
 
                     <button
-                        type="button"
                         id="prev-month"
                         class="period-btn"
                     >
@@ -511,7 +441,6 @@
                     </div>
 
                     <button
-                        type="button"
                         id="next-month"
                         class="period-btn"
                     >
@@ -590,7 +519,6 @@
 
 
                 <!-- EXPENSE PERCENTAGE -->
-
                 <div class="content-card">
 
                     <div class="card-header">
@@ -626,7 +554,6 @@
 
 
                 <!-- CHART -->
-
                 <div class="content-card">
 
                     <div class="card-header">
@@ -646,16 +573,13 @@
                     </div>
 
                     <div class="chart-container">
-
                         <canvas id="monthly-chart"></canvas>
-
                     </div>
 
                 </div>
 
 
                 <!-- CATEGORY -->
-
                 <div class="content-card">
 
                     <div class="card-header">
@@ -683,14 +607,8 @@
         </section>
 
 
-        <!-- =====================================================
-             HISTORY
-        ====================================================== -->
-
-        <section
-            id="page-history"
-            class="page"
-        >
+        <!-- HISTORY -->
+        <section id="page-history" class="page">
 
             <div class="page-container">
 
@@ -702,7 +620,9 @@
                             TRANSAKSI
                         </span>
 
-                        <h1>Riwayat</h1>
+                        <h1>
+                            Riwayat
+                        </h1>
 
                         <p>
                             Semua transaksi keuangan kamu.
@@ -713,12 +633,9 @@
                 </div>
 
 
-                <!-- FILTER TYPE -->
-
                 <div class="filter-tabs">
 
                     <button
-                        type="button"
                         class="filter-tab active"
                         data-type="Semua"
                         onclick="setHistoryType('Semua')"
@@ -727,7 +644,6 @@
                     </button>
 
                     <button
-                        type="button"
                         class="filter-tab"
                         data-type="Pemasukan"
                         onclick="setHistoryType('Pemasukan')"
@@ -736,7 +652,6 @@
                     </button>
 
                     <button
-                        type="button"
                         class="filter-tab"
                         data-type="Pengeluaran"
                         onclick="setHistoryType('Pengeluaran')"
@@ -746,8 +661,6 @@
 
                 </div>
 
-
-                <!-- FILTER -->
 
                 <div class="filter-card">
 
@@ -813,14 +726,8 @@
         </section>
 
 
-        <!-- =====================================================
-             RECAP
-        ====================================================== -->
-
-        <section
-            id="page-recap"
-            class="page"
-        >
+        <!-- RECAP -->
+        <section id="page-recap" class="page">
 
             <div class="page-container">
 
@@ -832,7 +739,9 @@
                             REKAP
                         </span>
 
-                        <h1>Rekap Keuangan</h1>
+                        <h1>
+                            Rekap Keuangan
+                        </h1>
 
                         <p>
                             Rekap seluruh transaksi.
@@ -948,7 +857,9 @@
 
                             </thead>
 
+
                             <tbody id="recap-table-body"></tbody>
+
 
                             <tfoot>
 
@@ -992,14 +903,8 @@
         </section>
 
 
-        <!-- =====================================================
-             LOANS
-        ====================================================== -->
-
-        <section
-            id="page-loans"
-            class="page"
-        >
+        <!-- LOANS -->
+        <section id="page-loans" class="page">
 
             <div class="page-container">
 
@@ -1011,7 +916,9 @@
                             KEWAJIBAN
                         </span>
 
-                        <h1>Pinjaman</h1>
+                        <h1>
+                            Pinjaman
+                        </h1>
 
                         <p>
                             Kelola pinjaman dan pembayaran kamu.
@@ -1021,7 +928,6 @@
 
 
                     <button
-                        type="button"
                         class="add-loan-btn"
                         onclick="openLoanModal()"
                     >
@@ -1031,6 +937,7 @@
                 </div>
 
 
+                <!-- LOAN OVERVIEW -->
                 <div class="loan-overview">
 
                     <div class="loan-overview-main">
@@ -1078,6 +985,7 @@
                 </div>
 
 
+                <!-- LOAN LIST -->
                 <div id="loan-list-container"></div>
 
             </div>
@@ -1085,14 +993,8 @@
         </section>
 
 
-        <!-- =====================================================
-             ACCOUNT
-        ====================================================== -->
-
-        <section
-            id="page-account"
-            class="page"
-        >
+        <!-- ACCOUNT -->
+        <section id="page-account" class="page">
 
             <div class="page-container">
 
@@ -1104,7 +1006,9 @@
                             AKUN
                         </span>
 
-                        <h1>Akun</h1>
+                        <h1>
+                            Akun
+                        </h1>
 
                         <p>
                             Informasi akun Kepri.
@@ -1156,7 +1060,6 @@
 
 
                 <button
-                    type="button"
                     id="logout-btn"
                     class="logout-btn"
                 >
@@ -1168,14 +1071,10 @@
         </section>
 
 
-        <!-- =====================================================
-             BOTTOM NAVIGATION
-        ====================================================== -->
-
+        <!-- BOTTOM NAV -->
         <nav class="bottom-nav">
 
             <button
-                type="button"
                 class="nav-item active"
                 data-page="home"
                 onclick="showPage('home')"
@@ -1193,7 +1092,6 @@
 
 
             <button
-                type="button"
                 class="nav-item"
                 data-page="summary"
                 onclick="showPage('summary')"
@@ -1211,7 +1109,6 @@
 
 
             <button
-                type="button"
                 class="nav-item"
                 data-page="history"
                 onclick="showPage('history')"
@@ -1229,7 +1126,6 @@
 
 
             <button
-                type="button"
                 class="nav-item"
                 data-page="account"
                 onclick="showPage('account')"
@@ -1250,10 +1146,7 @@
     </main>
 
 
-    <!-- =====================================================
-         TRANSACTION MODAL
-    ====================================================== -->
-
+    <!-- TRANSACTION MODAL -->
     <div
         id="transaction-modal"
         class="modal hidden"
@@ -1287,10 +1180,8 @@
 
 
                 <button
-                    type="button"
                     class="modal-close"
                     onclick="closeTransactionModal()"
-                    aria-label="Tutup"
                 >
                     ×
                 </button>
@@ -1396,10 +1287,7 @@
     </div>
 
 
-    <!-- =====================================================
-         DETAIL MODAL
-    ====================================================== -->
-
+    <!-- DETAIL MODAL -->
     <div
         id="detail-modal"
         class="modal hidden"
@@ -1433,10 +1321,8 @@
 
 
                 <button
-                    type="button"
                     class="modal-close"
                     onclick="closeDetailModal()"
-                    aria-label="Tutup"
                 >
                     ×
                 </button>
@@ -1451,10 +1337,7 @@
     </div>
 
 
-    <!-- =====================================================
-         LOAN MODAL
-    ====================================================== -->
-
+    <!-- LOAN MODAL -->
     <div
         id="loan-modal"
         class="modal hidden"
@@ -1488,10 +1371,8 @@
 
 
                 <button
-                    type="button"
                     class="modal-close"
                     onclick="closeLoanModal()"
-                    aria-label="Tutup"
                 >
                     ×
                 </button>
@@ -1499,8 +1380,10 @@
             </div>
 
 
+            <!-- FORM PINJAMAN -->
             <form id="loan-form">
 
+                <!-- SUMBER PINJAMAN -->
                 <div class="form-group">
 
                     <label for="loan-source">
@@ -1517,6 +1400,7 @@
                 </div>
 
 
+                <!-- JUMLAH PINJAMAN -->
                 <div class="form-group">
 
                     <label for="loan-amount">
@@ -1534,6 +1418,7 @@
                 </div>
 
 
+                <!-- TENOR -->
                 <div class="form-group">
 
                     <label for="loan-tenor">
@@ -1559,6 +1444,7 @@
                 </div>
 
 
+                <!-- CICILAN BULANAN -->
                 <div class="form-group">
 
                     <label for="loan-monthly">
@@ -1588,6 +1474,39 @@
                 </div>
 
 
+                <!-- TANGGAL PEMINJAMAN -->
+                <div class="form-group">
+
+                    <label for="loan-start-date">
+                        Tanggal Peminjaman
+                    </label>
+
+                    <input
+                        type="date"
+                        id="loan-start-date"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- TANGGAL JATUH TEMPO -->
+                <div class="form-group">
+
+                    <label for="loan-due-date">
+                        Tanggal Jatuh Tempo
+                    </label>
+
+                    <input
+                        type="date"
+                        id="loan-due-date"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- HASIL PERHITUNGAN -->
                 <div class="loan-calculation">
 
                     <span>
@@ -1615,10 +1534,7 @@
     </div>
 
 
-    <!-- =====================================================
-         PAYMENT MODAL
-    ====================================================== -->
-
+    <!-- PAYMENT MODAL -->
     <div
         id="payment-modal"
         class="modal hidden"
@@ -1652,10 +1568,8 @@
 
 
                 <button
-                    type="button"
                     class="modal-close"
                     onclick="closePaymentModal()"
-                    aria-label="Tutup"
                 >
                     ×
                 </button>
@@ -1716,22 +1630,13 @@
     </div>
 
 
-    <!-- =====================================================
-         JAVASCRIPT LIBRARIES
-    ====================================================== -->
-
+    <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
-    <!-- =====================================================
-         APPLICATION SCRIPT
-    ====================================================== -->
 
     <script src="script.js"></script>
 
 </body>
 
 </html>
-```

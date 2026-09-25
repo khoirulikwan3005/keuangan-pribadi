@@ -3,6 +3,7 @@
    Custom Financial App
 ===================================================== */
 
+
 /* =====================================================
    SUPABASE
 ===================================================== */
@@ -18,6 +19,7 @@ const supabaseClient =
         SUPABASE_URL,
         SUPABASE_KEY
     );
+
 
 /* =====================================================
    GLOBAL
@@ -42,6 +44,7 @@ let currentSummaryDate = new Date();
 let currentHistoryType = "Semua";
 
 let monthlyChart = null;
+
 
 /* =====================================================
    CATEGORY
@@ -72,6 +75,7 @@ const expenseCategories = [
     "Lainnya"
 ];
 
+
 /* =====================================================
    QUOTES
 ===================================================== */
@@ -85,6 +89,7 @@ const quotes = [
     "Disiplin kecil dalam keuangan bisa membuat perbedaan besar.",
     "Uang yang terencana lebih berguna daripada uang yang hanya tersisa."
 ];
+
 
 /* =====================================================
    FORMAT RUPIAH
@@ -103,6 +108,7 @@ function formatRupiah(value) {
         }
     ).format(number);
 }
+
 
 /* =====================================================
    PARSER RUPIAH
@@ -142,6 +148,7 @@ function parseRupiah(value) {
         : 0;
 }
 
+
 /* =====================================================
    PARSER ANGKA
 ===================================================== */
@@ -173,18 +180,21 @@ function parseNumber(value) {
         return Math.round(direct);
     }
 
-    const cleaned = text.replace(/[^\d]/g, "");
+    const cleaned =
+        text.replace(/[^\d]/g, "");
 
     if (!cleaned) {
         return 0;
     }
 
-    const number = Number(cleaned);
+    const number =
+        Number(cleaned);
 
     return Number.isFinite(number)
         ? Math.round(number)
         : 0;
 }
+
 
 /* =====================================================
    FORMAT DATE
@@ -211,6 +221,7 @@ function formatDate(dateString) {
     );
 }
 
+
 /* =====================================================
    FORMAT TIME
 ===================================================== */
@@ -220,7 +231,8 @@ function formatTime(timeString) {
         return "-";
     }
 
-    const parts = String(timeString).split(":");
+    const parts =
+        String(timeString).split(":");
 
     if (parts.length < 2) {
         return timeString;
@@ -229,12 +241,14 @@ function formatTime(timeString) {
     return `${parts[0]}:${parts[1]}`;
 }
 
+
 /* =====================================================
    DATE HELPERS
 ===================================================== */
 
 function normalizeDate(date) {
-    const result = new Date(date);
+    const result =
+        new Date(date);
 
     result.setHours(
         0,
@@ -246,8 +260,10 @@ function normalizeDate(date) {
     return result;
 }
 
+
 function getTodayDate() {
-    const today = new Date();
+    const today =
+        new Date();
 
     today.setHours(
         0,
@@ -259,10 +275,13 @@ function getTodayDate() {
     return today;
 }
 
-function addMonths(date, months) {
-    const result = new Date(date);
 
-    const originalDay = result.getDate();
+function addMonths(date, months) {
+    const result =
+        new Date(date);
+
+    const originalDay =
+        result.getDate();
 
     result.setDate(1);
 
@@ -287,186 +306,24 @@ function addMonths(date, months) {
     return result;
 }
 
+
 function formatDateForInput(date) {
-    const year = date.getFullYear();
+    const year =
+        date.getFullYear();
 
-    const month = String(
-        date.getMonth() + 1
-    ).padStart(2, "0");
+    const month =
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0");
 
-    const day = String(
-        date.getDate()
-    ).padStart(2, "0");
+    const day =
+        String(
+            date.getDate()
+        ).padStart(2, "0");
 
     return `${year}-${month}-${day}`;
 }
 
-/* =====================================================
-   GET CURRENT TIME
-===================================================== */
-
-function getCurrentTimeForInput() {
-    const now = new Date();
-
-    const hours = String(
-        now.getHours()
-    ).padStart(2, "0");
-
-    const minutes = String(
-        now.getMinutes()
-    ).padStart(2, "0");
-
-    return `${hours}:${minutes}`;
-}
-
-/* =====================================================
-   LOAN START DATETIME
-===================================================== */
-
-function getLoanStartDateTime(loan) {
-    if (!loan) {
-        return null;
-    }
-
-    if (loan.loan_date) {
-        const datePart = String(
-            loan.loan_date
-        ).substring(0, 10);
-
-        const timePart = loan.loan_time
-            ? String(loan.loan_time).substring(0, 5)
-            : "00:00";
-
-        const localDate = new Date(
-            `${datePart}T${timePart}`
-        );
-
-        if (!isNaN(localDate.getTime())) {
-            return localDate;
-        }
-    }
-
-    if (loan.created_at) {
-        const created = new Date(
-            loan.created_at
-        );
-
-        if (!isNaN(created.getTime())) {
-            return created;
-        }
-    }
-
-    if (loan.due_date) {
-        const due = new Date(
-            loan.due_date
-        );
-
-        if (!isNaN(due.getTime())) {
-            return due;
-        }
-    }
-
-    return getTodayDate();
-}
-
-/* =====================================================
-   LOAN START DATE
-===================================================== */
-
-function getLoanStartDate(loan) {
-    const startDateTime =
-        getLoanStartDateTime(loan);
-
-    if (!startDateTime) {
-        return getTodayDate();
-    }
-
-    return normalizeDate(
-        startDateTime
-    );
-}
-
-/* =====================================================
-   LOAN START TIME
-===================================================== */
-
-function getLoanStartTime(loan) {
-    if (loan?.loan_time) {
-        return String(
-            loan.loan_time
-        ).substring(0, 5);
-    }
-
-    if (loan?.created_at) {
-        const created = new Date(
-            loan.created_at
-        );
-
-        if (!isNaN(created.getTime())) {
-            return `${String(
-                created.getHours()
-            ).padStart(2, "0")}:${String(
-                created.getMinutes()
-            ).padStart(2, "0")}`;
-        }
-    }
-
-    return "00:00";
-}
-
-/* =====================================================
-   LOAN DATE FOR INPUT
-===================================================== */
-
-function getLoanStartDateForInput(loan) {
-    if (loan?.loan_date) {
-        return String(
-            loan.loan_date
-        ).substring(0, 10);
-    }
-
-    const start =
-        getLoanStartDateTime(loan);
-
-    if (!start) {
-        return formatDateForInput(
-            getTodayDate()
-        );
-    }
-
-    return formatDateForInput(start);
-}
-
-/* =====================================================
-   DAYS DIFFERENCE
-===================================================== */
-
-function getDaysDifference(
-    targetDate,
-    fromDate = null
-) {
-    const target =
-        normalizeDate(targetDate);
-
-    const from =
-        normalizeDate(
-            fromDate || getTodayDate()
-        );
-
-    const difference =
-        target.getTime() -
-        from.getTime();
-
-    return Math.ceil(
-        difference /
-        (
-            1000 *
-            60 *
-            60 *
-            24
-        )
-    );
-}
 
 /* =====================================================
    ESCAPE HTML
@@ -481,6 +338,7 @@ function escapeHTML(value) {
 
     return div.innerHTML;
 }
+
 
 /* =====================================================
    CATEGORY ICON
@@ -511,6 +369,7 @@ function getCategoryIcon(category) {
 
     return icons[category] || "📌";
 }
+
 
 /* =====================================================
    LOGIN
@@ -565,12 +424,14 @@ if (loginForm) {
                 return;
             }
 
-            currentUser = data.user;
+            currentUser =
+                data.user;
 
             await initializeApp();
         }
     );
 }
+
 
 /* =====================================================
    PASSWORD TOGGLE
@@ -610,6 +471,7 @@ if (togglePassword) {
     );
 }
 
+
 /* =====================================================
    LOGOUT
 ===================================================== */
@@ -646,6 +508,7 @@ if (logoutButton) {
     );
 }
 
+
 /* =====================================================
    INITIALIZE
 ===================================================== */
@@ -680,6 +543,7 @@ async function initializeApp() {
     showPage("home");
 }
 
+
 /* =====================================================
    SESSION
 ===================================================== */
@@ -710,6 +574,7 @@ async function checkSession() {
     }
 }
 
+
 supabaseClient
     .auth
     .onAuthStateChange(
@@ -726,6 +591,7 @@ supabaseClient
             }
         }
     );
+
 
 /* =====================================================
    LOAD TRANSACTIONS
@@ -776,6 +642,7 @@ async function loadTransactions() {
 
     renderRecap();
 }
+
 
 /* =====================================================
    HOME
@@ -841,6 +708,7 @@ function renderHome() {
     }
 }
 
+
 /* =====================================================
    NAVIGATION
 ===================================================== */
@@ -900,6 +768,7 @@ function showPage(pageName) {
         behavior: "smooth"
     });
 }
+
 
 /* =====================================================
    TRANSACTION MODAL
@@ -989,6 +858,7 @@ function openTransactionModal(
         .remove("hidden");
 }
 
+
 function closeTransactionModal() {
     const modal =
         document.getElementById(
@@ -1003,6 +873,7 @@ function closeTransactionModal() {
 
     editingTransactionId = null;
 }
+
 
 function updateCategoryOptions(
     type,
@@ -1052,6 +923,7 @@ function updateCategoryOptions(
     );
 }
 
+
 document
     .getElementById(
         "transaction-type"
@@ -1067,6 +939,7 @@ document
             );
         }
     );
+
 
 document
     .getElementById(
@@ -1200,6 +1073,7 @@ document
         }
     );
 
+
 /* =====================================================
    DETAIL TRANSACTION
 ===================================================== */
@@ -1307,6 +1181,7 @@ function openDetailModal(id) {
         .remove("hidden");
 }
 
+
 function closeDetailModal() {
     document
         .getElementById(
@@ -1315,6 +1190,7 @@ function closeDetailModal() {
         ?.classList
         .add("hidden");
 }
+
 
 function editTransaction(id) {
     const transaction =
@@ -1336,6 +1212,7 @@ function editTransaction(id) {
         transaction
     );
 }
+
 
 async function deleteTransaction(id) {
     const confirmed =
@@ -1377,6 +1254,7 @@ async function deleteTransaction(id) {
     await loadTransactions();
 }
 
+
 /* =====================================================
    HISTORY
 ===================================================== */
@@ -1401,6 +1279,7 @@ function setHistoryType(type) {
 
     renderHistory();
 }
+
 
 function renderHistory() {
     const list =
@@ -1552,6 +1431,7 @@ function renderHistory() {
             .join("");
 }
 
+
 document
     .getElementById(
         "history-month"
@@ -1560,6 +1440,7 @@ document
         "change",
         renderHistory
     );
+
 
 document
     .getElementById(
@@ -1570,6 +1451,7 @@ document
         renderHistory
     );
 
+
 document
     .getElementById(
         "history-search"
@@ -1578,6 +1460,7 @@ document
         "input",
         renderHistory
     );
+
 
 function updateHistoryCategories() {
     const select =
@@ -1641,6 +1524,7 @@ function updateHistoryCategories() {
             currentValue;
     }
 }
+
 
 /* =====================================================
    SUMMARY
@@ -1797,6 +1681,7 @@ function renderSummary() {
     );
 }
 
+
 /* =====================================================
    MONTHLY CHART
 ===================================================== */
@@ -1883,6 +1768,7 @@ function renderMonthlyChart(
             }
         );
 }
+
 
 /* =====================================================
    CATEGORY SUMMARY
@@ -1986,6 +1872,7 @@ function renderCategorySummary(
             .join("");
 }
 
+
 document
     .getElementById(
         "prev-month"
@@ -2001,6 +1888,7 @@ document
         }
     );
 
+
 document
     .getElementById(
         "next-month"
@@ -2015,6 +1903,7 @@ document
             renderSummary();
         }
     );
+
 
 /* =====================================================
    RECAP
@@ -2241,6 +2130,7 @@ function renderRecap() {
             .join("");
 }
 
+
 /* =====================================================
    LOAN MODAL FIELD
 ===================================================== */
@@ -2277,16 +2167,16 @@ function getLoanModalField(id) {
             "monthly-payment"
         ],
 
-        "loan-date": [
-            "loan-date",
+        "loan-start-date": [
             "loan-start-date",
+            "loan-date",
             "loan-tanggal"
         ],
 
-        "loan-time": [
-            "loan-time",
-            "loan-start-time",
-            "loan-waktu"
+        "loan-due-date": [
+            "loan-due-date",
+            "loan-due",
+            "loan-jatuh-tempo"
         ]
     };
 
@@ -2382,6 +2272,392 @@ function getLoanModalField(id) {
     return null;
 }
 
+
+/* =====================================================
+   LOAN START DATE
+===================================================== */
+
+function getLoanStartDate(loan) {
+    if (!loan) {
+        return getTodayDate();
+    }
+
+    if (loan.loan_date) {
+        const date =
+            new Date(
+                String(
+                    loan.loan_date
+                ).substring(0, 10)
+            );
+
+        if (!isNaN(date.getTime())) {
+            return normalizeDate(date);
+        }
+    }
+
+    if (loan.created_at) {
+        const created =
+            new Date(
+                loan.created_at
+            );
+
+        if (!isNaN(created.getTime())) {
+            return normalizeDate(
+                created
+            );
+        }
+    }
+
+    return getTodayDate();
+}
+
+
+/* =====================================================
+   LOAN START DATE FOR INPUT
+===================================================== */
+
+function getLoanStartDateForInput(loan) {
+    if (loan?.loan_date) {
+        return String(
+            loan.loan_date
+        ).substring(0, 10);
+    }
+
+    if (loan?.created_at) {
+        const created =
+            new Date(
+                loan.created_at
+            );
+
+        if (!isNaN(created.getTime())) {
+            return formatDateForInput(
+                created
+            );
+        }
+    }
+
+    return formatDateForInput(
+        getTodayDate()
+    );
+}
+
+
+/* =====================================================
+   LOAN DUE DATE FOR INPUT
+===================================================== */
+
+function getLoanDueDateForInput(loan) {
+    if (loan?.due_date) {
+        return String(
+            loan.due_date
+        ).substring(0, 10);
+    }
+
+    const startDate =
+        getLoanStartDate(
+            loan
+        );
+
+    const tenor =
+        parseNumber(
+            loan?.tenor
+        );
+
+    if (
+        tenor > 0 &&
+        startDate
+    ) {
+        return formatDateForInput(
+            addMonths(
+                startDate,
+                tenor
+            )
+        );
+    }
+
+    return formatDateForInput(
+        getTodayDate()
+    );
+}
+
+
+/* =====================================================
+   DAYS DIFFERENCE
+===================================================== */
+
+function getDaysDifference(
+    targetDate,
+    fromDate = null
+) {
+    const target =
+        normalizeDate(targetDate);
+
+    const from =
+        normalizeDate(
+            fromDate || getTodayDate()
+        );
+
+    const difference =
+        target.getTime() -
+        from.getTime();
+
+    return Math.ceil(
+        difference /
+        (
+            1000 *
+            60 *
+            60 *
+            24
+        )
+    );
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function getLoanFinalDueDate(loan) {
+    if (!loan) {
+        return null;
+    }
+
+    if (loan.due_date) {
+        const date =
+            new Date(
+                String(
+                    loan.due_date
+                ).substring(0, 10)
+            );
+
+        if (!isNaN(date.getTime())) {
+            return normalizeDate(
+                date
+            );
+        }
+    }
+
+    const startDate =
+        getLoanStartDate(
+            loan
+        );
+
+    const tenor =
+        parseNumber(
+            loan.tenor
+        );
+
+    if (
+        tenor > 0 &&
+        startDate
+    ) {
+        return normalizeDate(
+            addMonths(
+                startDate,
+                tenor
+            )
+        );
+    }
+
+    return null;
+}
+
+
+/* =====================================================
+   LOAN DUE STATUS
+===================================================== */
+
+function getLoanDueStatus(loan) {
+    if (!loan) {
+        return {
+            status: "normal",
+            days: 0,
+            text: ""
+        };
+    }
+
+    const remainingTenor =
+        getLoanRemainingTenor(
+            loan
+        );
+
+    if (remainingTenor <= 0) {
+        return {
+            status: "paid",
+            days: 0,
+            text: "Pinjaman sudah lunas."
+        };
+    }
+
+    const dueDate =
+        getLoanFinalDueDate(
+            loan
+        );
+
+    if (!dueDate) {
+        return {
+            status: "normal",
+            days: 0,
+            text: ""
+        };
+    }
+
+    const days =
+        getDaysDifference(
+            dueDate
+        );
+
+    if (days < 0) {
+        const overdueDays =
+            Math.abs(days);
+
+        return {
+            status: "overdue",
+            days,
+            text:
+                `Terlambat ${overdueDays} hari.`
+        };
+    }
+
+    if (days === 0) {
+        return {
+            status: "today",
+            days,
+            text:
+                "Jatuh tempo hari ini."
+        };
+    }
+
+    if (days <= 5) {
+        return {
+            status: "warning",
+            days,
+            text:
+                `Jatuh tempo ${days} hari lagi.`
+        };
+    }
+
+    return {
+        status: "normal",
+        days,
+        text:
+            `Jatuh tempo ${days} hari lagi.`
+    };
+}
+
+
+/* =====================================================
+   LOAN DUE DATE HTML
+===================================================== */
+
+function getLoanDueDateHTML(loan) {
+    const remainingTenor =
+        getLoanRemainingTenor(
+            loan
+        );
+
+    const dueDate =
+        getLoanFinalDueDate(
+            loan
+        );
+
+    if (!dueDate) {
+        return "";
+    }
+
+    if (remainingTenor <= 0) {
+        return `
+            <div class="loan-due-date">
+                <div>
+                    <span>
+                        Tanggal Jatuh Tempo
+                    </span>
+
+                    <strong>
+                        ${formatDate(
+                            dueDate
+                        )}
+                    </strong>
+                </div>
+
+                <div class="loan-due-paid">
+                    Pinjaman Lunas
+                </div>
+            </div>
+        `;
+    }
+
+    const dueStatus =
+        getLoanDueStatus(
+            loan
+        );
+
+    let statusClass = "";
+
+    if (
+        dueStatus.status ===
+        "warning"
+    ) {
+        statusClass =
+            "loan-due-warning";
+    } else if (
+        dueStatus.status ===
+        "today"
+    ) {
+        statusClass =
+            "loan-due-today";
+    } else if (
+        dueStatus.status ===
+        "overdue"
+    ) {
+        statusClass =
+            "loan-due-overdue";
+    }
+
+    const warningHTML =
+        (
+            dueStatus.status === "warning" ||
+            dueStatus.status === "today" ||
+            dueStatus.status === "overdue"
+        )
+            ? `
+                <div class="loan-due-alert ${statusClass}">
+                    ${
+                        dueStatus.status ===
+                        "overdue"
+                            ? "⚠"
+                            : "!"
+                    }
+
+                    ${escapeHTML(
+                        dueStatus.text
+                    )}
+                </div>
+            `
+            : "";
+
+    return `
+        <div class="loan-due-date">
+
+            <div>
+                <span>
+                    Tanggal Jatuh Tempo
+                </span>
+
+                <strong>
+                    ${formatDate(
+                        dueDate
+                    )}
+                </strong>
+            </div>
+
+            ${warningHTML}
+
+        </div>
+    `;
+}
+
+
 /* =====================================================
    OPEN LOAN MODAL
 ===================================================== */
@@ -2444,14 +2720,14 @@ function openLoanModal(
             "loan-monthly"
         );
 
-    const loanDateInput =
+    const startDateInput =
         getLoanModalField(
-            "loan-date"
+            "loan-start-date"
         );
 
-    const loanTimeInput =
+    const dueDateInput =
         getLoanModalField(
-            "loan-time"
+            "loan-due-date"
         );
 
     if (loan) {
@@ -2481,30 +2757,33 @@ function openLoanModal(
                 ) || "";
         }
 
-        if (loanDateInput) {
-            loanDateInput.value =
+        if (startDateInput) {
+            startDateInput.value =
                 getLoanStartDateForInput(
                     loan
                 );
         }
 
-        if (loanTimeInput) {
-            loanTimeInput.value =
-                getLoanStartTime(
+        if (dueDateInput) {
+            dueDateInput.value =
+                getLoanDueDateForInput(
                     loan
                 );
         }
     } else {
-        if (loanDateInput) {
-            loanDateInput.value =
-                formatDateForInput(
-                    getTodayDate()
-                );
+        const today =
+            formatDateForInput(
+                getTodayDate()
+            );
+
+        if (startDateInput) {
+            startDateInput.value =
+                today;
         }
 
-        if (loanTimeInput) {
-            loanTimeInput.value =
-                getCurrentTimeForInput();
+        if (dueDateInput) {
+            dueDateInput.value =
+                "";
         }
     }
 
@@ -2514,6 +2793,7 @@ function openLoanModal(
         .classList
         .remove("hidden");
 }
+
 
 /* =====================================================
    CLOSE LOAN MODAL
@@ -2533,6 +2813,7 @@ function closeLoanModal() {
 
     editingLoanId = null;
 }
+
 
 /* =====================================================
    LOAN CALCULATION
@@ -2581,6 +2862,7 @@ function updateLoanCalculation() {
         formatRupiah(total);
 }
 
+
 /* =====================================================
    LOAN CALCULATION EVENTS
 ===================================================== */
@@ -2606,218 +2888,6 @@ if (loanForm) {
     );
 }
 
-/* =====================================================
-   LOAN DUE DATE
-===================================================== */
-
-function getLoanNextDueDate(loan) {
-    if (!loan) {
-        return null;
-    }
-
-    const remainingTenor =
-        getLoanRemainingTenor(
-            loan
-        );
-
-    if (remainingTenor <= 0) {
-        return null;
-    }
-
-    const paidTenor =
-        getLoanPaidTenor(
-            loan
-        );
-
-    const startDate =
-        getLoanStartDate(
-            loan
-        );
-
-    return addMonths(
-        startDate,
-        paidTenor + 1
-    );
-}
-
-function getLoanDueStatus(loan) {
-    if (!loan) {
-        return {
-            status: "normal",
-            days: 0,
-            text: ""
-        };
-    }
-
-    const remainingTenor =
-        getLoanRemainingTenor(
-            loan
-        );
-
-    if (remainingTenor <= 0) {
-        return {
-            status: "paid",
-            days: 0,
-            text: "Pinjaman sudah lunas."
-        };
-    }
-
-    const dueDate =
-        getLoanNextDueDate(
-            loan
-        );
-
-    if (!dueDate) {
-        return {
-            status: "normal",
-            days: 0,
-            text: ""
-        };
-    }
-
-    const days =
-        getDaysDifference(
-            dueDate
-        );
-
-    if (days < 0) {
-        const overdueDays =
-            Math.abs(days);
-
-        return {
-            status: "overdue",
-            days,
-            text:
-                `Terlambat ${overdueDays} hari.`
-        };
-    }
-
-    if (days === 0) {
-        return {
-            status: "today",
-            days,
-            text:
-                "Jatuh tempo hari ini."
-        };
-    }
-
-    if (days <= 5) {
-        return {
-            status: "warning",
-            days,
-            text:
-                `Jatuh tempo ${days} hari lagi.`
-        };
-    }
-
-    return {
-        status: "normal",
-        days,
-        text:
-            `Jatuh tempo ${days} hari lagi.`
-    };
-}
-
-/* =====================================================
-   LOAN DUE DATE HTML
-===================================================== */
-
-function getLoanDueDateHTML(loan) {
-    const remainingTenor =
-        getLoanRemainingTenor(
-            loan
-        );
-
-    if (remainingTenor <= 0) {
-        return `
-            <div class="loan-due-date">
-                <span>
-                    Status Jatuh Tempo
-                </span>
-
-                <strong>
-                    Pinjaman Lunas
-                </strong>
-            </div>
-        `;
-    }
-
-    const dueDate =
-        getLoanNextDueDate(
-            loan
-        );
-
-    const dueStatus =
-        getLoanDueStatus(
-            loan
-        );
-
-    if (!dueDate) {
-        return "";
-    }
-
-    let statusClass = "";
-
-    if (
-        dueStatus.status ===
-        "warning"
-    ) {
-        statusClass =
-            "loan-due-warning";
-    } else if (
-        dueStatus.status ===
-        "today"
-    ) {
-        statusClass =
-            "loan-due-today";
-    } else if (
-        dueStatus.status ===
-        "overdue"
-    ) {
-        statusClass =
-            "loan-due-overdue";
-    }
-
-    const warningHTML =
-        (
-            dueStatus.status === "warning" ||
-            dueStatus.status === "today" ||
-            dueStatus.status === "overdue"
-        )
-            ? `
-                <div class="loan-due-alert ${statusClass}">
-                    ${
-                        dueStatus.status ===
-                        "overdue"
-                            ? "⚠"
-                            : "!"
-                    }
-
-                    ${escapeHTML(
-                        dueStatus.text
-                    )}
-                </div>
-            `
-            : "";
-
-    return `
-        <div class="loan-due-date">
-            <div>
-                <span>
-                    Jatuh tempo berikutnya
-                </span>
-
-                <strong>
-                    ${formatDate(
-                        dueDate
-                    )}
-                </strong>
-            </div>
-
-            ${warningHTML}
-        </div>
-    `;
-}
 
 /* =====================================================
    SAVE LOAN
@@ -2860,21 +2930,23 @@ document
                     "loan-monthly"
                 );
 
-            const loanDateInput =
+            const startDateInput =
                 getLoanModalField(
-                    "loan-date"
+                    "loan-start-date"
                 );
 
-            const loanTimeInput =
+            const dueDateInput =
                 getLoanModalField(
-                    "loan-time"
+                    "loan-due-date"
                 );
 
             if (
                 !sourceInput ||
                 !amountInput ||
                 !tenorInput ||
-                !monthlyInput
+                !monthlyInput ||
+                !startDateInput ||
+                !dueDateInput
             ) {
                 console.error(
                     "FIELD PINJAMAN TIDAK LENGKAP",
@@ -2883,8 +2955,8 @@ document
                         amountInput,
                         tenorInput,
                         monthlyInput,
-                        loanDateInput,
-                        loanTimeInput
+                        startDateInput,
+                        dueDateInput
                     }
                 );
 
@@ -2917,12 +2989,12 @@ document
 
             const loanDate =
                 String(
-                    loanDateInput?.value || ""
+                    startDateInput.value || ""
                 ).trim();
 
-            const loanTime =
+            const dueDate =
                 String(
-                    loanTimeInput?.value || ""
+                    dueDateInput.value || ""
                 ).trim();
 
             if (!source) {
@@ -2940,17 +3012,17 @@ document
                     "Tanggal peminjaman wajib diisi."
                 );
 
-                loanDateInput?.focus();
+                startDateInput.focus();
 
                 return;
             }
 
-            if (!loanTime) {
+            if (!dueDate) {
                 alert(
-                    "Waktu peminjaman wajib diisi."
+                    "Tanggal jatuh tempo wajib diisi."
                 );
 
-                loanTimeInput?.focus();
+                dueDateInput.focus();
 
                 return;
             }
@@ -2985,19 +3057,53 @@ document
                 return;
             }
 
-            const testStartDate =
+            const startDateObject =
                 new Date(
-                    `${loanDate}T${loanTime}`
+                    `${loanDate}T00:00:00`
+                );
+
+            const dueDateObject =
+                new Date(
+                    `${dueDate}T00:00:00`
                 );
 
             if (
                 isNaN(
-                    testStartDate.getTime()
+                    startDateObject.getTime()
                 )
             ) {
                 alert(
-                    "Tanggal atau waktu peminjaman tidak valid."
+                    "Tanggal peminjaman tidak valid."
                 );
+
+                startDateInput.focus();
+
+                return;
+            }
+
+            if (
+                isNaN(
+                    dueDateObject.getTime()
+                )
+            ) {
+                alert(
+                    "Tanggal jatuh tempo tidak valid."
+                );
+
+                dueDateInput.focus();
+
+                return;
+            }
+
+            if (
+                dueDateObject <
+                startDateObject
+            ) {
+                alert(
+                    "Tanggal jatuh tempo tidak boleh sebelum tanggal peminjaman."
+                );
+
+                dueDateInput.focus();
 
                 return;
             }
@@ -3006,6 +3112,16 @@ document
                 Math.round(
                     monthly * tenor
                 );
+
+            /*
+             * loan_date
+             * = tanggal peminjaman
+             *
+             * due_date
+             * = tanggal jatuh tempo
+             *
+             * Tidak lagi menggunakan loan_time.
+             */
 
             const loanData = {
                 user_id:
@@ -3017,8 +3133,8 @@ document
                 loan_date:
                     loanDate,
 
-                loan_time:
-                    loanTime,
+                due_date:
+                    dueDate,
 
                 amount:
                     Math.round(amount),
@@ -3112,6 +3228,7 @@ document
         }
     );
 
+
 /* =====================================================
    LOAD LOANS
 ===================================================== */
@@ -3154,6 +3271,7 @@ async function loadLoans() {
     renderLoans();
 }
 
+
 /* =====================================================
    LOAN CALC HELPERS
 ===================================================== */
@@ -3166,6 +3284,7 @@ function getLoanPaidTenor(loan) {
         )
     );
 }
+
 
 function getLoanRemainingTenor(loan) {
     const tenor =
@@ -3183,6 +3302,7 @@ function getLoanRemainingTenor(loan) {
         tenor - paidTenor
     );
 }
+
 
 /* =====================================================
    TOTAL PAYMENT
@@ -3204,6 +3324,7 @@ function getLoanTotalPayment(loan) {
     );
 }
 
+
 /* =====================================================
    PAID AMOUNT
 ===================================================== */
@@ -3224,6 +3345,7 @@ function getLoanPaidAmount(loan) {
     );
 }
 
+
 /* =====================================================
    REMAINING AMOUNT
 ===================================================== */
@@ -3240,6 +3362,7 @@ function getLoanRemainingAmount(loan) {
         )
     );
 }
+
 
 /* =====================================================
    RENDER LOANS
@@ -3391,18 +3514,18 @@ function renderLoans() {
                         remainingTenor <= 0 ||
                         remainingAmount <= 0;
 
-                    const dueDateHTML =
-                        getLoanDueDateHTML(
-                            loan
-                        );
-
                     const startDate =
                         getLoanStartDateForInput(
                             loan
                         );
 
-                    const startTime =
-                        getLoanStartTime(
+                    const dueDate =
+                        getLoanFinalDueDate(
+                            loan
+                        );
+
+                    const dueDateHTML =
+                        getLoanDueDateHTML(
                             loan
                         );
 
@@ -3452,6 +3575,7 @@ function renderLoans() {
                                 </div>
 
                             </div>
+
 
                             <div class="loan-details">
 
@@ -3523,27 +3647,30 @@ function renderLoans() {
 
                             </div>
 
+
+                            <!-- TANGGAL PEMINJAMAN -->
+
                             <div class="loan-due-date">
 
                                 <div>
                                     <span>
-                                        Waktu Peminjaman
+                                        Tanggal Peminjaman
                                     </span>
 
                                     <strong>
                                         ${formatDate(
                                             startDate
                                         )}
-                                        •
-                                        ${formatTime(
-                                            startTime
-                                        )}
                                     </strong>
                                 </div>
 
                             </div>
 
+
+                            <!-- TANGGAL JATUH TEMPO -->
+
                             ${dueDateHTML}
+
 
                             <div class="loan-progress">
 
@@ -3553,6 +3680,7 @@ function renderLoans() {
                                 ></div>
 
                             </div>
+
 
                             <div class="loan-payment-status">
 
@@ -3581,6 +3709,7 @@ function renderLoans() {
                                 </div>
 
                             </div>
+
 
                             <div class="loan-remaining">
 
@@ -3614,6 +3743,7 @@ function renderLoans() {
 
                             </div>
 
+
                             ${
                                 isPaidOff
                                     ? `
@@ -3638,6 +3768,7 @@ function renderLoans() {
             .join("");
 }
 
+
 /* =====================================================
    EDIT LOAN
 ===================================================== */
@@ -3657,6 +3788,7 @@ function editLoan(id) {
 
     openLoanModal(loan);
 }
+
 
 /* =====================================================
    DELETE LOAN
@@ -3699,6 +3831,7 @@ async function deleteLoan(id) {
 
     await loadLoans();
 }
+
 
 /* =====================================================
    PAYMENT MODAL
@@ -3852,6 +3985,7 @@ function openPaymentModal(
     }
 }
 
+
 function closePaymentModal() {
     const modal =
         document.getElementById(
@@ -3867,6 +4001,7 @@ function closePaymentModal() {
     currentPaymentLoanId =
         null;
 }
+
 
 /* =====================================================
    PAYMENT CALCULATION
@@ -3927,6 +4062,7 @@ function updatePaymentAmount() {
         formatRupiah(amount);
 }
 
+
 document
     .getElementById(
         "payment-tenor"
@@ -3935,6 +4071,7 @@ document
         "change",
         updatePaymentAmount
     );
+
 
 /* =====================================================
    SAVE PAYMENT
@@ -4044,14 +4181,6 @@ document
                     paidAmount
                 );
 
-            /*
-             * Simpan pembayaran ke loan_payments
-             * jika tabel tersebut tersedia.
-             *
-             * Kegagalan insert tidak langsung
-             * menghentikan update paid_tenor.
-             */
-
             const paymentData = {
                 loan_id:
                     loan.id,
@@ -4084,11 +4213,6 @@ document
                     paymentResult.error
                 );
             }
-
-            /*
-             * Tetap update paid_tenor
-             * pada tabel loans.
-             */
 
             const {
                 error
@@ -4157,6 +4281,7 @@ document
         }
     );
 
+
 /* =====================================================
    QUOTE
 ===================================================== */
@@ -4180,6 +4305,7 @@ function updateQuote() {
             quote;
     }
 }
+
 
 /* =====================================================
    START
