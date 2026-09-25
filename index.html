@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 
@@ -7,8 +8,10 @@
 
     <title>Kepri - Keuangan Pribadi</title>
 
+    <!-- CSS UTAMA -->
     <link rel="stylesheet" href="style.css">
 
+    <!-- GOOGLE FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -40,7 +43,6 @@
 
             </div>
 
-
             <div class="login-card">
 
                 <h2>Selamat datang</h2>
@@ -48,7 +50,6 @@
                 <p class="login-subtitle">
                     Kelola pemasukan, pengeluaran, dan pinjaman kamu dengan lebih teratur.
                 </p>
-
 
                 <form id="login-form">
 
@@ -62,11 +63,11 @@
                             type="email"
                             id="login-email"
                             placeholder="Masukkan email"
+                            autocomplete="email"
                             required
                         >
 
                     </div>
-
 
                     <div class="form-group">
 
@@ -80,6 +81,7 @@
                                 type="password"
                                 id="login-password"
                                 placeholder="Masukkan password"
+                                autocomplete="current-password"
                                 required
                             >
 
@@ -87,6 +89,7 @@
                                 type="button"
                                 class="toggle-password"
                                 id="toggle-password"
+                                aria-label="Tampilkan password"
                             >
                                 👁
                             </button>
@@ -95,14 +98,12 @@
 
                     </div>
 
-
                     <button
                         type="submit"
                         class="primary-btn"
                     >
                         Masuk
                     </button>
-
 
                     <div
                         id="login-error"
@@ -112,7 +113,6 @@
                 </form>
 
             </div>
-
 
             <div class="login-footer">
                 Kepri • Keuangan Pribadi
@@ -129,7 +129,6 @@
 
     <main id="app" class="app hidden">
 
-
         <!-- =====================================================
              HEADER
         ====================================================== -->
@@ -141,8 +140,10 @@
             </div>
 
             <button
+                type="button"
                 class="header-user"
                 onclick="showPage('account')"
+                aria-label="Buka akun"
             >
                 👤
             </button>
@@ -259,11 +260,12 @@
                 </div>
 
 
-                <!-- TRANSACTION BUTTON -->
+                <!-- TRANSACTION BUTTONS -->
 
                 <div class="transaction-buttons">
 
                     <button
+                        type="button"
                         class="transaction-btn income"
                         onclick="openTransactionModal('Pemasukan')"
                     >
@@ -288,6 +290,7 @@
 
 
                     <button
+                        type="button"
                         class="transaction-btn expense"
                         onclick="openTransactionModal('Pengeluaran')"
                     >
@@ -342,6 +345,7 @@
                 <div class="menu-list">
 
                     <button
+                        type="button"
                         class="menu-card"
                         onclick="showPage('history')"
                     >
@@ -370,6 +374,7 @@
 
 
                     <button
+                        type="button"
                         class="menu-card"
                         onclick="showPage('summary')"
                     >
@@ -398,6 +403,7 @@
 
 
                     <button
+                        type="button"
                         class="menu-card"
                         onclick="showPage('recap')"
                     >
@@ -426,6 +432,7 @@
 
 
                     <button
+                        type="button"
                         class="menu-card"
                         onclick="showPage('loans')"
                     >
@@ -492,6 +499,7 @@
                 <div class="period-selector">
 
                     <button
+                        type="button"
                         id="prev-month"
                         class="period-btn"
                     >
@@ -503,6 +511,7 @@
                     </div>
 
                     <button
+                        type="button"
                         id="next-month"
                         class="period-btn"
                     >
@@ -580,6 +589,8 @@
                 </div>
 
 
+                <!-- EXPENSE PERCENTAGE -->
+
                 <div class="content-card">
 
                     <div class="card-header">
@@ -614,6 +625,8 @@
                 </div>
 
 
+                <!-- CHART -->
+
                 <div class="content-card">
 
                     <div class="card-header">
@@ -640,6 +653,8 @@
 
                 </div>
 
+
+                <!-- CATEGORY -->
 
                 <div class="content-card">
 
@@ -698,9 +713,12 @@
                 </div>
 
 
+                <!-- FILTER TYPE -->
+
                 <div class="filter-tabs">
 
                     <button
+                        type="button"
                         class="filter-tab active"
                         data-type="Semua"
                         onclick="setHistoryType('Semua')"
@@ -709,6 +727,7 @@
                     </button>
 
                     <button
+                        type="button"
                         class="filter-tab"
                         data-type="Pemasukan"
                         onclick="setHistoryType('Pemasukan')"
@@ -717,6 +736,7 @@
                     </button>
 
                     <button
+                        type="button"
                         class="filter-tab"
                         data-type="Pengeluaran"
                         onclick="setHistoryType('Pengeluaran')"
@@ -726,6 +746,8 @@
 
                 </div>
 
+
+                <!-- FILTER -->
 
                 <div class="filter-card">
 
@@ -999,6 +1021,7 @@
 
 
                     <button
+                        type="button"
                         class="add-loan-btn"
                         onclick="openLoanModal()"
                     >
@@ -1133,6 +1156,7 @@
 
 
                 <button
+                    type="button"
                     id="logout-btn"
                     class="logout-btn"
                 >
@@ -1145,12 +1169,13 @@
 
 
         <!-- =====================================================
-             BOTTOM NAV
+             BOTTOM NAVIGATION
         ====================================================== -->
 
         <nav class="bottom-nav">
 
             <button
+                type="button"
                 class="nav-item active"
                 data-page="home"
                 onclick="showPage('home')"
@@ -1168,6 +1193,7 @@
 
 
             <button
+                type="button"
                 class="nav-item"
                 data-page="summary"
                 onclick="showPage('summary')"
@@ -1185,6 +1211,7 @@
 
 
             <button
+                type="button"
                 class="nav-item"
                 data-page="history"
                 onclick="showPage('history')"
@@ -1202,6 +1229,7 @@
 
 
             <button
+                type="button"
                 class="nav-item"
                 data-page="account"
                 onclick="showPage('account')"
@@ -1259,8 +1287,10 @@
 
 
                 <button
+                    type="button"
                     class="modal-close"
                     onclick="closeTransactionModal()"
+                    aria-label="Tutup"
                 >
                     ×
                 </button>
@@ -1403,8 +1433,10 @@
 
 
                 <button
+                    type="button"
                     class="modal-close"
                     onclick="closeDetailModal()"
+                    aria-label="Tutup"
                 >
                     ×
                 </button>
@@ -1456,8 +1488,10 @@
 
 
                 <button
+                    type="button"
                     class="modal-close"
                     onclick="closeLoanModal()"
+                    aria-label="Tutup"
                 >
                     ×
                 </button>
@@ -1618,8 +1652,10 @@
 
 
                 <button
+                    type="button"
                     class="modal-close"
                     onclick="closePaymentModal()"
+                    aria-label="Tutup"
                 >
                     ×
                 </button>
@@ -1681,15 +1717,21 @@
 
 
     <!-- =====================================================
-         SCRIPTS
+         JAVASCRIPT LIBRARIES
     ====================================================== -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+
+    <!-- =====================================================
+         APPLICATION SCRIPT
+    ====================================================== -->
+
     <script src="script.js"></script>
 
 </body>
 
 </html>
+```
