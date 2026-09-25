@@ -1,7 +1,3 @@
-/* =========================
-   RESET
-========================= */
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -18,9 +14,6 @@
 
     --red: #dc2626;
     --red-light: #fef2f2;
-
-    --orange: #f59e0b;
-    --orange-light: #fffbeb;
 
     --text: #111827;
     --text-secondary: #6b7280;
@@ -47,14 +40,10 @@ body {
             transparent 30%
         ),
         #f5f7fb;
+
     color: var(--text);
     min-height: 100vh;
 }
-
-
-/* =========================
-   GENERAL
-========================= */
 
 button,
 input,
@@ -73,9 +62,7 @@ button {
 }
 
 
-/* =========================
-   LOGIN
-========================= */
+/* LOGIN */
 
 .login-page {
     min-height: 100vh;
@@ -105,7 +92,8 @@ button {
 
     border-radius: 24px;
 
-    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.1);
+    box-shadow:
+        0 20px 60px rgba(15, 23, 42, 0.1);
 }
 
 .login-icon {
@@ -136,9 +124,7 @@ button {
 }
 
 
-/* =========================
-   INPUT
-========================= */
+/* INPUT */
 
 .input-group {
     margin-bottom: 18px;
@@ -195,9 +181,7 @@ button {
 }
 
 
-/* =========================
-   PASSWORD
-========================= */
+/* PASSWORD */
 
 .password-wrapper {
     position: relative;
@@ -221,9 +205,7 @@ button {
 }
 
 
-/* =========================
-   BUTTON
-========================= */
+/* BUTTON */
 
 .primary-button {
     width: 100%;
@@ -250,9 +232,7 @@ button {
 }
 
 
-/* =========================
-   MESSAGE
-========================= */
+/* MESSAGE */
 
 .message {
     margin-top: 12px;
@@ -263,9 +243,7 @@ button {
 }
 
 
-/* =========================
-   APP
-========================= */
+/* APP */
 
 .app {
     min-height: 100vh;
@@ -281,9 +259,7 @@ button {
 }
 
 
-/* =========================
-   PAGE
-========================= */
+/* PAGE */
 
 .page {
     display: none;
@@ -294,9 +270,7 @@ button {
 }
 
 
-/* =========================
-   BALANCE CARD
-========================= */
+/* BALANCE */
 
 .balance-card {
     position: relative;
@@ -371,9 +345,7 @@ button {
 }
 
 
-/* =========================
-   SUMMARY CARDS
-========================= */
+/* SUMMARY */
 
 .summary-grid {
     display: grid;
@@ -444,9 +416,7 @@ button {
 }
 
 
-/* =========================
-   TRANSACTION BUTTONS
-========================= */
+/* TRANSACTION BUTTONS */
 
 .transaction-buttons {
     display: grid;
@@ -482,13 +452,11 @@ button {
 
 .income-button {
     background: var(--green-light);
-
     color: var(--green);
 }
 
 .expense-button {
     background: var(--red-light);
-
     color: var(--red);
 }
 
@@ -501,9 +469,7 @@ button {
 }
 
 
-/* =========================
-   QUOTE
-========================= */
+/* QUOTE */
 
 .quote-box {
     display: flex;
@@ -543,12 +509,12 @@ button {
     line-height: 1.6;
 
     font-style: italic;
+
+    transition: opacity 0.25s;
 }
 
 
-/* =========================
-   SECTION LINK CARD
-========================= */
+/* MONTH CARD */
 
 .section-link-card {
     width: 100%;
@@ -612,9 +578,7 @@ button {
 }
 
 
-/* =========================
-   SECTION HEADER
-========================= */
+/* SECTION HEADER */
 
 .section-header {
     display: flex;
@@ -639,9 +603,7 @@ button {
 }
 
 
-/* =========================
-   TRANSACTION LIST
-========================= */
+/* TRANSACTION */
 
 .transaction-list {
     display: flex;
@@ -706,13 +668,11 @@ button {
 
 .transaction-icon.income {
     background: var(--green-light);
-
     color: var(--green);
 }
 
 .transaction-icon.expense {
     background: var(--red-light);
-
     color: var(--red);
 }
 
@@ -775,9 +735,7 @@ button {
 }
 
 
-/* =========================
-   EMPTY STATE
-========================= */
+/* EMPTY */
 
 .empty-state {
     text-align: center;
@@ -796,9 +754,7 @@ button {
 }
 
 
-/* =========================
-   PAGE HEADER
-========================= */
+/* PAGE HEADER */
 
 .page-header {
     margin-bottom: 20px;
@@ -817,9 +773,7 @@ button {
 }
 
 
-/* =========================
-   PERIOD SELECTOR
-========================= */
+/* PERIOD */
 
 .period-selector {
     display: flex;
@@ -858,9 +812,7 @@ button {
 }
 
 
-/* =========================
-   DETAIL SUMMARY
-========================= */
+/* SUMMARY DETAIL */
 
 .summary-detail-grid {
     display: grid;
@@ -911,9 +863,7 @@ button {
 }
 
 
-/* =========================
-   CONTENT CARD
-========================= */
+/* CONTENT CARD */
 
 .content-card {
     background: white;
@@ -938,9 +888,7 @@ button {
 }
 
 
-/* =========================
-   CHART
-========================= */
+/* CHART */
 
 .chart-container {
     width: 100%;
@@ -952,14 +900,11 @@ button {
 
 .chart-container canvas {
     width: 100% !important;
-
     height: 100% !important;
 }
 
 
-/* =========================
-   CATEGORY SUMMARY
-========================= */
+/* CATEGORY */
 
 .category-row {
     display: flex;
@@ -992,9 +937,7 @@ button {
 }
 
 
-/* =========================
-   FILTER TABS
-========================= */
+/* FILTER */
 
 .filter-tabs {
     display: flex;
@@ -1034,11 +977,6 @@ button {
     color: white;
 }
 
-
-/* =========================
-   FILTER CARD
-========================= */
-
 .filter-card {
     background: white;
 
@@ -1076,9 +1014,7 @@ button {
 }
 
 
-/* =========================
-   ACCOUNT
-========================= */
+/* ACCOUNT */
 
 .profile-card {
     display: flex;
@@ -1172,9 +1108,7 @@ button {
 }
 
 
-/* =========================
-   BOTTOM NAV
-========================= */
+/* BOTTOM NAV */
 
 .bottom-nav {
     position: fixed;
@@ -1248,9 +1182,7 @@ button {
 }
 
 
-/* =========================
-   MODAL
-========================= */
+/* MODAL */
 
 .modal {
     position: fixed;
@@ -1291,23 +1223,24 @@ button {
 
     padding: 24px;
 
-    box-shadow: 0 -15px 50px rgba(15, 23, 42, 0.15);
+    box-shadow:
+        0 -15px 50px rgba(15, 23, 42, 0.15);
 
     animation: slideUp 0.2s ease;
 }
 
 @keyframes slideUp {
+
     from {
         transform: translateY(30px);
-
         opacity: 0;
     }
 
     to {
         transform: translateY(0);
-
         opacity: 1;
     }
+
 }
 
 .modal-header {
@@ -1350,9 +1283,7 @@ button {
 }
 
 
-/* =========================
-   DETAIL TRANSACTION
-========================= */
+/* DETAIL */
 
 .detail-main {
     text-align: center;
@@ -1464,9 +1395,7 @@ button {
 }
 
 
-/* =========================
-   DESKTOP MODAL
-========================= */
+/* DESKTOP MODAL */
 
 @media (min-width: 700px) {
 
@@ -1483,9 +1412,7 @@ button {
 }
 
 
-/* =========================
-   TABLET
-========================= */
+/* TABLET */
 
 @media (max-width: 700px) {
 
@@ -1500,9 +1427,7 @@ button {
 }
 
 
-/* =========================
-   MOBILE
-========================= */
+/* MOBILE */
 
 @media (max-width: 520px) {
 
@@ -1587,9 +1512,7 @@ button {
 }
 
 
-/* =========================
-   SMALL MOBILE
-========================= */
+/* SMALL MOBILE */
 
 @media (max-width: 360px) {
 
