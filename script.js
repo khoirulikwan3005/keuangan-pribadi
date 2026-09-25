@@ -2142,45 +2142,31 @@ document
             event.preventDefault();
 
 
-            const source =
-                getLoanModalField(
-                    "loan-source"
-                ).value.trim();
+            console.log(
+                "===================================="
+            );
+
+            console.log(
+                "MULAI MENYIMPAN PINJAMAN"
+            );
+
+            console.log(
+                "===================================="
+            );
 
 
-            const amount =
-                Number(
-                    getLoanModalField(
-                        "loan-amount"
-                    ).value
+            /* -----------------------------------------
+               CEK USER
+            ----------------------------------------- */
+
+            if (!currentUser) {
+
+                console.error(
+                    "currentUser tidak ditemukan."
                 );
-
-
-            const tenor =
-                Number(
-                    getLoanModalField(
-                        "loan-tenor"
-                    ).value
-                );
-
-
-            const monthly =
-                Number(
-                    getLoanModalField(
-                        "loan-monthly"
-                    ).value
-                );
-
-
-            if (
-                !source ||
-                amount <= 0 ||
-                tenor <= 0 ||
-                monthly <= 0
-            ) {
 
                 alert(
-                    "Lengkapi data pinjaman dengan benar."
+                    "Sesi login tidak ditemukan.\n\nSilakan login kembali."
                 );
 
                 return;
@@ -2188,22 +2174,190 @@ document
             }
 
 
+            console.log(
+                "User ID:",
+                currentUser.id
+            );
+
+
+            /* -----------------------------------------
+               AMBIL INPUT
+            ----------------------------------------- */
+
+            const sourceInput =
+                getLoanModalField(
+                    "loan-source"
+                );
+
+
+            const amountInput =
+                getLoanModalField(
+                    "loan-amount"
+                );
+
+
+            const tenorInput =
+                getLoanModalField(
+                    "loan-tenor"
+                );
+
+
+            const monthlyInput =
+                getLoanModalField(
+                    "loan-monthly"
+                );
+
+
+            if (
+                !sourceInput ||
+                !amountInput ||
+                !tenorInput ||
+                !monthlyInput
+            ) {
+
+                console.error(
+                    "Input pinjaman tidak ditemukan."
+                );
+
+                alert(
+                    "Form pinjaman tidak ditemukan."
+                );
+
+                return;
+
+            }
+
+
+            /* -----------------------------------------
+               AMBIL NILAI
+            ----------------------------------------- */
+
+            const source =
+                sourceInput.value.trim();
+
+
+            const amount =
+                Number(
+                    amountInput.value
+                );
+
+
+            const tenor =
+                Number(
+                    tenorInput.value
+                );
+
+
+            const monthly =
+                Number(
+                    monthlyInput.value
+                );
+
+
+            console.log(
+                "Data input:",
+                {
+                    source,
+                    amount,
+                    tenor,
+                    monthly
+                }
+            );
+
+
+            /* -----------------------------------------
+               VALIDASI
+            ----------------------------------------- */
+
+            if (!source) {
+
+                alert(
+                    "Sumber pinjaman wajib diisi."
+                );
+
+                sourceInput.focus();
+
+                return;
+
+            }
+
+
+            if (
+                !Number.isFinite(amount) ||
+                amount <= 0
+            ) {
+
+                alert(
+                    "Jumlah pinjaman harus lebih dari 0."
+                );
+
+                amountInput.focus();
+
+                return;
+
+            }
+
+
+            if (
+                !Number.isFinite(tenor) ||
+                tenor <= 0
+            ) {
+
+                alert(
+                    "Tenor harus lebih dari 0."
+                );
+
+                tenorInput.focus();
+
+                return;
+
+            }
+
+
+            if (
+                !Number.isFinite(monthly) ||
+                monthly <= 0
+            ) {
+
+                alert(
+                    "Cicilan per bulan harus lebih dari 0."
+                );
+
+                monthlyInput.focus();
+
+                return;
+
+            }
+
+
+            /* -----------------------------------------
+               HITUNG TOTAL
+            ----------------------------------------- */
+
             const totalPayment =
                 tenor * monthly;
 
+
+            /* -----------------------------------------
+               DATA PINJAMAN
+            ----------------------------------------- */
 
             const loanData = {
 
                 user_id:
                     currentUser.id,
 
-                source,
+                source:
+                    source,
 
-                amount,
+                amount:
+                    amount,
 
-                tenor,
+                tenor:
+                    tenor,
 
-                monthly,
+                monthly:
+                    monthly,
 
                 total_payment:
                     totalPayment
@@ -2211,15 +2365,37 @@ document
             };
 
 
-            let error;
+            console.log(
+                "Data yang akan dikirim:",
+                loanData
+            );
+
+
+            /* -----------------------------------------
+               INSERT / UPDATE
+            ----------------------------------------- */
+
+            let result;
 
 
             if (editingLoanId) {
 
-                const result =
+                console.log(
+                    "MODE: UPDATE"
+                );
+
+                console.log(
+                    "Loan ID:",
+                    editingLoanId
+                );
+
+
+                result =
                     await supabaseClient
                         .from("loans")
-                        .update(loanData)
+                        .update(
+                            loanData
+                        )
                         .eq(
                             "id",
                             editingLoanId
@@ -2227,35 +2403,81 @@ document
                         .eq(
                             "user_id",
                             currentUser.id
-                        );
+                        )
+                        .select();
 
-                error =
-                    result.error;
 
             } else {
 
-                const result =
+                console.log(
+                    "MODE: INSERT"
+                );
+
+
+                result =
                     await supabaseClient
                         .from("loans")
                         .insert([
                             {
                                 ...loanData,
-                                paid_tenor: 0
-                            }
-                        ]);
 
-                error =
-                    result.error;
+                                paid_tenor:
+                                    0
+                            }
+                        ])
+                        .select();
 
             }
 
 
-            if (error) {
+            /* -----------------------------------------
+               CEK ERROR SUPABASE
+            ----------------------------------------- */
 
-                console.error(error);
+            if (result.error) {
+
+                console.error(
+                    "===================================="
+                );
+
+                console.error(
+                    "SUPABASE LOANS ERROR"
+                );
+
+                console.error(
+                    "===================================="
+                );
+
+                console.error(
+                    "Message:",
+                    result.error.message
+                );
+
+                console.error(
+                    "Details:",
+                    result.error.details
+                );
+
+                console.error(
+                    "Hint:",
+                    result.error.hint
+                );
+
+                console.error(
+                    "Code:",
+                    result.error.code
+                );
+
+                console.error(
+                    "Full error:",
+                    result.error
+                );
+
 
                 alert(
-                    "Gagal menyimpan pinjaman."
+                    "Gagal menyimpan pinjaman.\n\n" +
+                    "Pesan Supabase:\n" +
+                    result.error.message
                 );
 
                 return;
@@ -2263,9 +2485,30 @@ document
             }
 
 
+            /* -----------------------------------------
+               CEK HASIL
+            ----------------------------------------- */
+
+            console.log(
+                "Pinjaman berhasil disimpan."
+            );
+
+            console.log(
+                "Data hasil:",
+                result.data
+            );
+
+
             closeLoanModal();
 
             await loadLoans();
+
+
+            alert(
+                editingLoanId
+                    ? "Pinjaman berhasil diperbarui."
+                    : "Pinjaman berhasil ditambahkan."
+            );
 
         }
     );
