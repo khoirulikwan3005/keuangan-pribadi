@@ -2,9 +2,11 @@
 // KONFIGURASI SUPABASE
 // ========================================
 
-const SUPABASE_URL = "https://pzbfdtunxiaunfnopsuc.supabase.co";
+const SUPABASE_URL =
+    "https://pzbfdtunxiaunfnopsuc.supabase.co/";
 
-const SUPABASE_KEY = "sb_publishable_37DoAje5FQZr4FFO5jmpAA_IQHTDk_u";
+const SUPABASE_KEY =
+    "sb_publishable_37DoAje5FQZr4FFO5jmpAA_IQHTDk_u";
 
 const { createClient } = supabase;
 
@@ -14,9 +16,9 @@ const db = createClient(
 );
 
 
-// ========================================
-// VARIABEL GLOBAL
-// ========================================
+/* =========================================================
+   2. VARIABEL GLOBAL
+========================================================= */
 
 let currentUser = null;
 
@@ -33,9 +35,9 @@ let currentHistoryType = "Semua";
 let monthlyChart = null;
 
 
-// ========================================
-// KATEGORI
-// ========================================
+/* =========================================================
+   3. KATEGORI
+========================================================= */
 
 const incomeCategories = [
     "Gaji",
@@ -62,9 +64,9 @@ const expenseCategories = [
 ];
 
 
-// ========================================
-// QUOTE
-// ========================================
+/* =========================================================
+   4. QUOTE
+========================================================= */
 
 const quotes = [
     "Mengatur uang hari ini adalah investasi untuk ketenangan besok.",
@@ -79,9 +81,9 @@ const quotes = [
 let quoteIndex = 0;
 
 
-// ========================================
-// FORMAT RUPIAH
-// ========================================
+/* =========================================================
+   5. FORMAT RUPIAH
+========================================================= */
 
 function formatRupiah(number) {
 
@@ -92,12 +94,13 @@ function formatRupiah(number) {
         currency: "IDR",
         minimumFractionDigits: 0
     }).format(number);
+
 }
 
 
-// ========================================
-// FORMAT TANGGAL
-// ========================================
+/* =========================================================
+   6. FORMAT TANGGAL
+========================================================= */
 
 function formatDate(dateString) {
 
@@ -105,90 +108,89 @@ function formatDate(dateString) {
         return "-";
     }
 
-    const date = new Date(
-        dateString + "T00:00:00"
-    );
+    const date =
+        new Date(
+            dateString + "T00:00:00"
+        );
 
-    return new Intl.DateTimeFormat("id-ID", {
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-    }).format(date);
+    return new Intl.DateTimeFormat(
+        "id-ID",
+        {
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        }
+    ).format(date);
+
 }
 
 
-function formatShortDate(dateString) {
-
-    if (!dateString) {
-        return "-";
-    }
-
-    const date = new Date(
-        dateString + "T00:00:00"
-    );
-
-    return new Intl.DateTimeFormat("id-ID", {
-        day: "numeric",
-        month: "short",
-        year: "numeric"
-    }).format(date);
-}
-
-
-// ========================================
-// FORMAT BULAN
-// ========================================
+/* =========================================================
+   7. FORMAT BULAN
+========================================================= */
 
 function formatMonth(date) {
 
-    return new Intl.DateTimeFormat("id-ID", {
-        month: "long",
-        year: "numeric"
-    }).format(date);
+    return new Intl.DateTimeFormat(
+        "id-ID",
+        {
+            month: "long",
+            year: "numeric"
+        }
+    ).format(date);
+
 }
 
 
-// ========================================
-// FORMAT YYYY-MM
-// ========================================
+/* =========================================================
+   8. FORMAT YYYY-MM
+========================================================= */
 
 function getMonthValue(date) {
 
-    const year = date.getFullYear();
+    const year =
+        date.getFullYear();
 
-    const month = String(
-        date.getMonth() + 1
-    ).padStart(2, "0");
+    const month =
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0");
 
     return `${year}-${month}`;
+
 }
 
 
-// ========================================
-// TANGGAL HARI INI
-// ========================================
+/* =========================================================
+   9. TANGGAL HARI INI
+========================================================= */
 
 function getToday() {
 
-    const today = new Date();
+    const today =
+        new Date();
 
-    const year = today.getFullYear();
+    const year =
+        today.getFullYear();
 
-    const month = String(
-        today.getMonth() + 1
-    ).padStart(2, "0");
+    const month =
+        String(
+            today.getMonth() + 1
+        ).padStart(2, "0");
 
-    const day = String(
-        today.getDate()
-    ).padStart(2, "0");
+    const day =
+        String(
+            today.getDate()
+        ).padStart(2, "0");
 
     return `${year}-${month}-${day}`;
+
 }
 
 
-// ========================================
-// IKON KATEGORI
-// ========================================
+/* =========================================================
+   10. IKON KATEGORI
+========================================================= */
 
 function getCategoryIcon(category) {
 
@@ -210,56 +212,43 @@ function getCategoryIcon(category) {
         "Pendidikan": "📚",
         "Rumah": "🏠",
         "Keluarga": "👨‍👩‍👧",
-
         "Lainnya": "📌"
+
     };
 
     return icons[category] || "📌";
+
 }
 
 
-// ========================================
-// ESCAPE HTML
-// ========================================
-
-function escapeHTML(value) {
-
-    if (
-        value === null ||
-        value === undefined
-    ) {
-        return "";
-    }
-
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-
-// ========================================
-// ELEMENT LOGIN
-// ========================================
+/* =========================================================
+   11. LOGIN PAGE
+========================================================= */
 
 const loginPage =
-    document.getElementById("login-page");
+    document.getElementById(
+        "login-page"
+    );
 
 const app =
-    document.getElementById("app");
+    document.getElementById(
+        "app"
+    );
 
 const loginForm =
-    document.getElementById("login-form");
+    document.getElementById(
+        "login-form"
+    );
 
 const loginMessage =
-    document.getElementById("login-message");
+    document.getElementById(
+        "login-message"
+    );
 
 
-// ========================================
-// LOGIN
-// ========================================
+/* =========================================================
+   12. LOGIN
+========================================================= */
 
 loginForm.addEventListener(
     "submit",
@@ -269,17 +258,22 @@ loginForm.addEventListener(
 
         const email =
             document
-                .getElementById("login-email")
+                .getElementById(
+                    "login-email"
+                )
                 .value
                 .trim();
 
         const password =
             document
-                .getElementById("login-password")
+                .getElementById(
+                    "login-password"
+                )
                 .value;
 
         loginMessage.textContent =
             "Sedang masuk...";
+
 
         try {
 
@@ -292,15 +286,20 @@ loginForm.addEventListener(
                     password
                 });
 
+
             if (error) {
                 throw error;
             }
 
-            currentUser = data.user;
 
-            loginMessage.textContent = "";
+            currentUser =
+                data.user;
 
-            await showApp();
+            loginMessage.textContent =
+                "";
+
+            showApp();
+
 
         } catch (error) {
 
@@ -315,9 +314,9 @@ loginForm.addEventListener(
 );
 
 
-// ========================================
-// TOGGLE PASSWORD
-// ========================================
+/* =========================================================
+   13. TOGGLE PASSWORD
+========================================================= */
 
 const togglePassword =
     document.getElementById(
@@ -335,21 +334,26 @@ if (togglePassword) {
                     "login-password"
                 );
 
+
             if (
-                passwordInput.type === "password"
+                passwordInput.type ===
+                "password"
             ) {
 
-                passwordInput.type = "text";
+                passwordInput.type =
+                    "text";
 
                 togglePassword.textContent =
                     "🙈";
 
             } else {
 
-                passwordInput.type = "password";
+                passwordInput.type =
+                    "password";
 
                 togglePassword.textContent =
                     "👁";
+
             }
 
         }
@@ -358,38 +362,28 @@ if (togglePassword) {
 }
 
 
-// ========================================
-// CEK SESSION
-// ========================================
+/* =========================================================
+   14. CEK SESSION
+========================================================= */
 
 async function checkSession() {
 
-    try {
-
-        const {
-            data: {
-                session
-            }
-        } = await db.auth.getSession();
-
-        if (session) {
-
-            currentUser = session.user;
-
-            await showApp();
-
-        } else {
-
-            showLogin();
-
+    const {
+        data: {
+            session
         }
+    } =
+        await db.auth.getSession();
 
-    } catch (error) {
 
-        console.error(
-            "Gagal mengecek session:",
-            error
-        );
+    if (session) {
+
+        currentUser =
+            session.user;
+
+        showApp();
+
+    } else {
 
         showLogin();
 
@@ -398,9 +392,9 @@ async function checkSession() {
 }
 
 
-// ========================================
-// SHOW LOGIN
-// ========================================
+/* =========================================================
+   15. TAMPILKAN LOGIN
+========================================================= */
 
 function showLogin() {
 
@@ -415,9 +409,9 @@ function showLogin() {
 }
 
 
-// ========================================
-// SHOW APP
-// ========================================
+/* =========================================================
+   16. TAMPILKAN APP
+========================================================= */
 
 async function showApp() {
 
@@ -429,10 +423,12 @@ async function showApp() {
         "hidden"
     );
 
+
     document.getElementById(
         "account-email"
     ).textContent =
         currentUser?.email || "-";
+
 
     await loadTransactions();
 
@@ -443,24 +439,28 @@ async function showApp() {
 }
 
 
-// ========================================
-// LOGOUT
-// ========================================
+/* =========================================================
+   17. LOGOUT
+========================================================= */
 
 document
-    .getElementById("logout-button")
+    .getElementById(
+        "logout-button"
+    )
     .addEventListener(
         "click",
         async function () {
 
-            const confirmed =
+            const confirmLogout =
                 confirm(
                     "Yakin ingin keluar dari akun?"
                 );
 
-            if (!confirmed) {
+
+            if (!confirmLogout) {
                 return;
             }
+
 
             await db.auth.signOut();
 
@@ -474,15 +474,16 @@ document
     );
 
 
-// ========================================
-// LOAD TRANSACTIONS
-// ========================================
+/* =========================================================
+   18. LOAD TRANSACTIONS
+========================================================= */
 
 async function loadTransactions() {
 
     if (!currentUser) {
         return;
     }
+
 
     const {
         data,
@@ -508,6 +509,7 @@ async function loadTransactions() {
                 }
             );
 
+
     if (error) {
 
         console.error(error);
@@ -517,9 +519,13 @@ async function loadTransactions() {
         );
 
         return;
+
     }
 
-    transactions = data || [];
+
+    transactions =
+        data || [];
+
 
     updateHome();
 
@@ -532,9 +538,9 @@ async function loadTransactions() {
 }
 
 
-// ========================================
-// HITUNG SALDO
-// ========================================
+/* =========================================================
+   19. HITUNG SALDO
+========================================================= */
 
 function calculateBalance(
     data = transactions
@@ -544,6 +550,7 @@ function calculateBalance(
 
     let expense = 0;
 
+
     data.forEach(
         transaction => {
 
@@ -551,6 +558,7 @@ function calculateBalance(
                 Number(
                     transaction.nominal
                 ) || 0;
+
 
             if (
                 transaction.jenis ===
@@ -568,52 +576,34 @@ function calculateBalance(
         }
     );
 
+
     return {
+
         income,
+
         expense,
-        balance: income - expense
+
+        balance:
+            income - expense
+
     };
 
 }
 
 
-// ========================================
-// TRANSAKSI BERDASARKAN BULAN
-// ========================================
-
-function getTransactionsByMonth(
-    year,
-    month
-) {
-
-    return transactions.filter(
-        transaction => {
-
-            const date =
-                new Date(
-                    transaction.tanggal +
-                    "T00:00:00"
-                );
-
-            return (
-                date.getFullYear() === year &&
-                date.getMonth() === month
-            );
-
-        }
-    );
-
-}
-
-
-// ========================================
-// UPDATE BERANDA
-// ========================================
+/* =========================================================
+   20. UPDATE BERANDA
+========================================================= */
 
 function updateHome() {
 
     const totals =
         calculateBalance();
+
+
+    /* =========================
+       TOTAL KESELURUHAN
+    ========================= */
 
     document.getElementById(
         "balance"
@@ -622,12 +612,14 @@ function updateHome() {
             totals.balance
         );
 
+
     document.getElementById(
         "total-income"
     ).textContent =
         formatRupiah(
             totals.income
         );
+
 
     document.getElementById(
         "total-expense"
@@ -637,10 +629,15 @@ function updateHome() {
         );
 
 
+    /* =========================
+       STATUS SALDO
+    ========================= */
+
     const status =
         document.getElementById(
             "balance-status"
         );
+
 
     if (totals.balance > 0) {
 
@@ -660,12 +657,12 @@ function updateHome() {
     }
 
 
-    const now = new Date();
+    /* =========================
+       STATISTIK BULAN INI
+    ========================= */
 
-    document.getElementById(
-        "home-month"
-    ).textContent =
-        formatMonth(now);
+    const now =
+        new Date();
 
 
     const monthlyData =
@@ -674,60 +671,172 @@ function updateHome() {
             now.getMonth()
         );
 
+
     const monthlyTotals =
         calculateBalance(
             monthlyData
         );
 
+
     document.getElementById(
-        "home-month-balance"
+        "current-month-label"
     ).textContent =
-        `Sisa ${formatRupiah(
-            monthlyTotals.balance
-        )}`;
+        formatMonth(now);
 
 
-    renderRecentTransactions();
-
-}
-
-
-// ========================================
-// TRANSAKSI TERBARU
-// ========================================
-
-function renderRecentTransactions() {
-
-    const container =
-        document.getElementById(
-            "recent-transactions"
+    document.getElementById(
+        "month-income"
+    ).textContent =
+        formatRupiah(
+            monthlyTotals.income
         );
 
-    const recent =
-        transactions.slice(0, 5);
 
-    if (recent.length === 0) {
+    document.getElementById(
+        "month-expense"
+    ).textContent =
+        formatRupiah(
+            monthlyTotals.expense
+        );
 
-        container.innerHTML = `
-            <div class="empty-state">
-                Belum ada transaksi.
-            </div>
-        `;
 
-        return;
-    }
+    document.getElementById(
+        "month-balance"
+    ).textContent =
+        formatRupiah(
+            monthlyTotals.balance
+        );
 
-    container.innerHTML =
-        recent
-            .map(transactionHTML)
-            .join("");
+
+    document.getElementById(
+        "month-count"
+    ).textContent =
+        `${monthlyData.length} transaksi`;
+
+
+    /* =========================
+       PERSENTASE PENGELUARAN
+    ========================= */
+
+    updateSpendingProgress(
+        monthlyTotals.income,
+        monthlyTotals.expense
+    );
 
 }
 
 
-// ========================================
-// HTML TRANSAKSI
-// ========================================
+/* =========================================================
+   21. UPDATE PERSENTASE PENGELUARAN
+========================================================= */
+
+function updateSpendingProgress(
+    income,
+    expense
+) {
+
+    const percentageElement =
+        document.getElementById(
+            "spending-percentage"
+        );
+
+    const descriptionElement =
+        document.getElementById(
+            "spending-description"
+        );
+
+    const progressElement =
+        document.getElementById(
+            "spending-progress"
+        );
+
+
+    let percentage = 0;
+
+
+    if (income > 0) {
+
+        percentage =
+            (expense / income) * 100;
+
+    } else if (expense > 0) {
+
+        percentage = 100;
+
+    }
+
+
+    const displayPercentage =
+        Math.round(
+            percentage
+        );
+
+
+    percentageElement.textContent =
+        `${displayPercentage}%`;
+
+
+    const progressWidth =
+        Math.min(
+            percentage,
+            100
+        );
+
+
+    progressElement.style.width =
+        `${progressWidth}%`;
+
+
+    if (
+        income === 0 &&
+        expense === 0
+    ) {
+
+        descriptionElement.textContent =
+            "Belum ada transaksi bulan ini.";
+
+    } else if (
+        income === 0 &&
+        expense > 0
+    ) {
+
+        descriptionElement.textContent =
+            "Belum ada pemasukan.";
+
+    } else if (
+        percentage < 50
+    ) {
+
+        descriptionElement.textContent =
+            "Pengeluaran masih relatif rendah.";
+
+    } else if (
+        percentage < 80
+    ) {
+
+        descriptionElement.textContent =
+            "Pengeluaran mulai cukup besar.";
+
+    } else if (
+        percentage <= 100
+    ) {
+
+        descriptionElement.textContent =
+            "Sebagian besar pemasukan sudah digunakan.";
+
+    } else {
+
+        descriptionElement.textContent =
+            "Pengeluaran melebihi pemasukan.";
+
+    }
+
+}
+
+
+/* =========================================================
+   22. HTML TRANSAKSI
+========================================================= */
 
 function transactionHTML(
     transaction
@@ -737,22 +846,27 @@ function transactionHTML(
         transaction.jenis ===
         "Pemasukan";
 
+
     const typeClass =
         isIncome
             ? "income"
             : "expense";
+
 
     const sign =
         isIncome
             ? "+"
             : "-";
 
+
     const icon =
         getCategoryIcon(
             transaction.kategori
         );
 
+
     return `
+
         <div
             class="transaction-item"
             onclick="openTransactionDetail('${transaction.id}')"
@@ -760,20 +874,28 @@ function transactionHTML(
 
             <div class="transaction-left">
 
-                <div class="transaction-icon ${typeClass}">
+                <div
+                    class="transaction-icon ${typeClass}"
+                >
                     ${icon}
                 </div>
 
+
                 <div class="transaction-info">
 
-                    <span class="transaction-name">
+                    <span
+                        class="transaction-name"
+                    >
                         ${escapeHTML(
                             transaction.keterangan ||
                             transaction.kategori
                         )}
                     </span>
 
-                    <span class="transaction-meta">
+
+                    <span
+                        class="transaction-meta"
+                    >
                         ${escapeHTML(
                             transaction.kategori
                         )}
@@ -786,13 +908,19 @@ function transactionHTML(
 
             <div class="transaction-right">
 
-                <span class="transaction-amount ${typeClass}">
-                    ${sign} ${formatRupiah(
+                <span
+                    class="transaction-amount ${typeClass}"
+                >
+                    ${sign}
+                    ${formatRupiah(
                         transaction.nominal
                     )}
                 </span>
 
-                <span class="transaction-date">
+
+                <span
+                    class="transaction-date"
+                >
                     ${formatShortDate(
                         transaction.tanggal
                     )}
@@ -801,27 +929,138 @@ function transactionHTML(
             </div>
 
         </div>
+
     `;
 
 }
 
 
-// ========================================
-// NAVIGASI
-// ========================================
+/* =========================================================
+   23. FORMAT TANGGAL SINGKAT
+========================================================= */
 
-function showPage(pageName) {
+function formatShortDate(
+    dateString
+) {
+
+    const date =
+        new Date(
+            dateString +
+            "T00:00:00"
+        );
+
+
+    return new Intl.DateTimeFormat(
+        "id-ID",
+        {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+        }
+    ).format(date);
+
+}
+
+
+/* =========================================================
+   24. ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================================
+   25. TRANSAKSI BERDASARKAN BULAN
+========================================================= */
+
+function getTransactionsByMonth(
+    year,
+    month
+) {
+
+    return transactions.filter(
+        transaction => {
+
+            const date =
+                new Date(
+                    transaction.tanggal +
+                    "T00:00:00"
+                );
+
+
+            return (
+                date.getFullYear() ===
+                    year &&
+                date.getMonth() ===
+                    month
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   26. NAVIGASI HALAMAN
+========================================================= */
+
+function showPage(
+    pageName
+) {
 
     const pages =
         document.querySelectorAll(
             ".page"
         );
 
+
     pages.forEach(
         page => {
+
             page.classList.remove(
                 "active"
             );
+
         }
     );
 
@@ -830,6 +1069,7 @@ function showPage(pageName) {
         document.getElementById(
             `page-${pageName}`
         );
+
 
     if (targetPage) {
 
@@ -840,10 +1080,15 @@ function showPage(pageName) {
     }
 
 
+    /* =========================
+       NAV ACTIVE
+    ========================= */
+
     const navItems =
         document.querySelectorAll(
             ".nav-item"
         );
+
 
     navItems.forEach(
         item => {
@@ -851,6 +1096,7 @@ function showPage(pageName) {
             item.classList.remove(
                 "active"
             );
+
 
             if (
                 item.dataset.page ===
@@ -867,23 +1113,50 @@ function showPage(pageName) {
     );
 
 
-    if (pageName === "home") {
+    /* =========================
+       REFRESH HALAMAN
+    ========================= */
+
+    if (
+        pageName ===
+        "home"
+    ) {
+
         updateHome();
+
     }
 
-    if (pageName === "summary") {
+
+    if (
+        pageName ===
+        "summary"
+    ) {
+
         updateSummary();
+
     }
 
-    if (pageName === "history") {
+
+    if (
+        pageName ===
+        "history"
+    ) {
+
         updateHistory();
+
     }
 
 }
 
 
+/* =========================================================
+   27. NAV BUTTON
+========================================================= */
+
 document
-    .querySelectorAll(".nav-item")
+    .querySelectorAll(
+        ".nav-item"
+    )
     .forEach(
         button => {
 
@@ -902,9 +1175,9 @@ document
     );
 
 
-// ========================================
-// HISTORY
-// ========================================
+/* =========================================================
+   28. UPDATE HISTORY
+========================================================= */
 
 function updateHistory() {
 
@@ -913,9 +1186,14 @@ function updateHistory() {
             "history-list"
         );
 
+
     let filtered =
         [...transactions];
 
+
+    /* =========================
+       FILTER JENIS
+    ========================= */
 
     if (
         currentHistoryType !==
@@ -932,27 +1210,38 @@ function updateHistory() {
     }
 
 
+    /* =========================
+       FILTER BULAN
+    ========================= */
+
     const month =
         document.getElementById(
             "filter-month"
         ).value;
+
 
     if (month) {
 
         filtered =
             filtered.filter(
                 transaction =>
-                    transaction.tanggal
-                        .startsWith(month)
+                    transaction.tanggal.startsWith(
+                        month
+                    )
             );
 
     }
 
 
+    /* =========================
+       FILTER KATEGORI
+    ========================= */
+
     const category =
         document.getElementById(
             "filter-category"
         ).value;
+
 
     if (
         category &&
@@ -969,12 +1258,18 @@ function updateHistory() {
     }
 
 
+    /* =========================
+       SEARCH
+    ========================= */
+
     const search =
         document.getElementById(
             "search-transaction"
-        ).value
-            .toLowerCase()
-            .trim();
+        )
+        .value
+        .toLowerCase()
+        .trim();
+
 
     if (search) {
 
@@ -983,10 +1278,15 @@ function updateHistory() {
                 transaction => {
 
                     const text = `
+
                         ${transaction.keterangan || ""}
+
                         ${transaction.kategori || ""}
+
                         ${transaction.jenis || ""}
+
                     `.toLowerCase();
+
 
                     return text.includes(
                         search
@@ -998,32 +1298,46 @@ function updateHistory() {
     }
 
 
-    if (filtered.length === 0) {
+    /* =========================
+       EMPTY
+    ========================= */
+
+    if (
+        filtered.length ===
+        0
+    ) {
 
         container.innerHTML = `
+
             <div class="empty-state">
                 Tidak ada transaksi yang sesuai.
             </div>
+
         `;
 
         return;
+
     }
 
 
     container.innerHTML =
         filtered
-            .map(transactionHTML)
+            .map(
+                transactionHTML
+            )
             .join("");
 
 }
 
 
-// ========================================
-// FILTER JENIS
-// ========================================
+/* =========================================================
+   29. FILTER JENIS
+========================================================= */
 
 document
-    .querySelectorAll(".filter-tab")
+    .querySelectorAll(
+        ".filter-tab"
+    )
     .forEach(
         button => {
 
@@ -1042,12 +1356,15 @@ document
                                 )
                         );
 
+
                     this.classList.add(
                         "active"
                     );
 
+
                     currentHistoryType =
                         this.dataset.type;
+
 
                     updateHistory();
 
@@ -1058,9 +1375,9 @@ document
     );
 
 
-// ========================================
-// FILTER BULAN
-// ========================================
+/* =========================================================
+   30. FILTER BULAN
+========================================================= */
 
 document
     .getElementById(
@@ -1072,9 +1389,9 @@ document
     );
 
 
-// ========================================
-// FILTER KATEGORI
-// ========================================
+/* =========================================================
+   31. FILTER KATEGORI
+========================================================= */
 
 document
     .getElementById(
@@ -1086,9 +1403,9 @@ document
     );
 
 
-// ========================================
-// SEARCH
-// ========================================
+/* =========================================================
+   32. SEARCH
+========================================================= */
 
 document
     .getElementById(
@@ -1100,9 +1417,9 @@ document
     );
 
 
-// ========================================
-// CATEGORY FILTER
-// ========================================
+/* =========================================================
+   33. UPDATE CATEGORY FILTER
+========================================================= */
 
 function updateCategoryFilter() {
 
@@ -1110,6 +1427,7 @@ function updateCategoryFilter() {
         document.getElementById(
             "filter-category"
         );
+
 
     const categories =
         [
@@ -1124,11 +1442,15 @@ function updateCategoryFilter() {
         ]
         .sort();
 
+
     select.innerHTML = `
+
         <option value="Semua">
             Semua Kategori
         </option>
+
     `;
+
 
     categories.forEach(
         category => {
@@ -1138,11 +1460,14 @@ function updateCategoryFilter() {
                     "option"
                 );
 
+
             option.value =
                 category;
 
+
             option.textContent =
                 category;
+
 
             select.appendChild(
                 option
@@ -1154,9 +1479,9 @@ function updateCategoryFilter() {
 }
 
 
-// ========================================
-// MODAL TRANSAKSI
-// ========================================
+/* =========================================================
+   34. MODAL TRANSAKSI
+========================================================= */
 
 function openTransactionModal(
     type = "Pemasukan",
@@ -1168,10 +1493,12 @@ function openTransactionModal(
             "transaction-modal"
         );
 
+
     const title =
         document.getElementById(
             "modal-title"
         );
+
 
     const subtitle =
         document.getElementById(
@@ -1197,6 +1524,10 @@ function openTransactionModal(
         currentTransactionType;
 
 
+    /* =========================
+       TITLE
+    ========================= */
+
     if (transaction) {
 
         title.textContent =
@@ -1215,6 +1546,10 @@ function openTransactionModal(
 
     }
 
+
+    /* =========================
+       INPUT
+    ========================= */
 
     document.getElementById(
         "transaction-amount"
@@ -1250,7 +1585,8 @@ function openTransactionModal(
 
     document.getElementById(
         "transaction-message"
-    ).textContent = "";
+    ).textContent =
+        "";
 
 
     modal.classList.remove(
@@ -1260,9 +1596,9 @@ function openTransactionModal(
 }
 
 
-// ========================================
-// POPULATE KATEGORI
-// ========================================
+/* =========================================================
+   35. KATEGORI TRANSAKSI
+========================================================= */
 
 function populateTransactionCategories(
     type,
@@ -1274,6 +1610,7 @@ function populateTransactionCategories(
             "transaction-category"
         );
 
+
     const categories =
         type === "Pemasukan"
             ? incomeCategories
@@ -1281,9 +1618,11 @@ function populateTransactionCategories(
 
 
     select.innerHTML = `
+
         <option value="">
             Pilih kategori
         </option>
+
     `;
 
 
@@ -1295,20 +1634,25 @@ function populateTransactionCategories(
                     "option"
                 );
 
+
             option.value =
                 category;
+
 
             option.textContent =
                 category;
 
+
             if (
-                category === selected
+                category ===
+                selected
             ) {
 
                 option.selected =
                     true;
 
             }
+
 
             select.appendChild(
                 option
@@ -1320,9 +1664,9 @@ function populateTransactionCategories(
 }
 
 
-// ========================================
-// CLOSE TRANSACTION MODAL
-// ========================================
+/* =========================================================
+   36. CLOSE TRANSACTION MODAL
+========================================================= */
 
 function closeTransactionModal() {
 
@@ -1334,15 +1678,16 @@ function closeTransactionModal() {
             "hidden"
         );
 
+
     editingTransactionId =
         null;
 
 }
 
 
-// ========================================
-// SUBMIT TRANSACTION
-// ========================================
+/* =========================================================
+   37. SUBMIT TRANSACTION
+========================================================= */
 
 document
     .getElementById(
@@ -1354,38 +1699,54 @@ document
 
             event.preventDefault();
 
+
             if (!currentUser) {
                 return;
             }
 
 
             const type =
-                document.getElementById(
-                    "transaction-type"
-                ).value;
+                document
+                    .getElementById(
+                        "transaction-type"
+                    )
+                    .value;
+
 
             const amount =
                 Number(
-                    document.getElementById(
-                        "transaction-amount"
-                    ).value
+                    document
+                        .getElementById(
+                            "transaction-amount"
+                        )
+                        .value
                 );
 
+
             const category =
-                document.getElementById(
-                    "transaction-category"
-                ).value;
+                document
+                    .getElementById(
+                        "transaction-category"
+                    )
+                    .value;
+
 
             const date =
-                document.getElementById(
-                    "transaction-date"
-                ).value;
+                document
+                    .getElementById(
+                        "transaction-date"
+                    )
+                    .value;
+
 
             const note =
-                document.getElementById(
-                    "transaction-note"
-                ).value
+                document
+                    .getElementById(
+                        "transaction-note"
+                    )
+                    .value
                     .trim();
+
 
             const message =
                 document.getElementById(
@@ -1448,6 +1809,10 @@ document
                 let error;
 
 
+                /* =========================
+                   EDIT
+                ========================= */
+
                 if (
                     editingTransactionId
                 ) {
@@ -1469,8 +1834,14 @@ document
                                 currentUser.id
                             );
 
+
                     error =
                         result.error;
+
+
+                /* =========================
+                   TAMBAH
+                ========================= */
 
                 } else {
 
@@ -1482,6 +1853,7 @@ document
                             .insert(
                                 transactionData
                             );
+
 
                     error =
                         result.error;
@@ -1501,9 +1873,7 @@ document
 
             } catch (error) {
 
-                console.error(
-                    error
-                );
+                console.error(error);
 
                 message.textContent =
                     "Gagal menyimpan transaksi.";
@@ -1514,17 +1884,20 @@ document
     );
 
 
-// ========================================
-// DETAIL TRANSAKSI
-// ========================================
+/* =========================================================
+   38. DETAIL TRANSAKSI
+========================================================= */
 
-function openTransactionDetail(id) {
+function openTransactionDetail(
+    id
+) {
 
     const transaction =
         transactions.find(
             item =>
                 item.id === id
         );
+
 
     if (!transaction) {
         return;
@@ -1535,10 +1908,12 @@ function openTransactionDetail(id) {
         transaction.jenis ===
         "Pemasukan";
 
+
     const typeClass =
         isIncome
             ? "income"
             : "expense";
+
 
     const sign =
         isIncome
@@ -1556,14 +1931,20 @@ function openTransactionDetail(id) {
 
         <div class="detail-main">
 
-            <span class="detail-type ${typeClass}">
+            <span
+                class="detail-type ${typeClass}"
+            >
                 ${escapeHTML(
                     transaction.jenis
                 )}
             </span>
 
-            <div class="detail-amount ${typeClass}">
-                ${sign} ${formatRupiah(
+
+            <div
+                class="detail-amount ${typeClass}"
+            >
+                ${sign}
+                ${formatRupiah(
                     transaction.nominal
                 )}
             </div>
@@ -1630,6 +2011,7 @@ function openTransactionDetail(id) {
                 Edit
             </button>
 
+
             <button
                 class="delete-button"
                 onclick="deleteTransaction('${transaction.id}')"
@@ -1653,9 +2035,9 @@ function openTransactionDetail(id) {
 }
 
 
-// ========================================
-// CLOSE DETAIL
-// ========================================
+/* =========================================================
+   39. CLOSE DETAIL
+========================================================= */
 
 function closeDetailModal() {
 
@@ -1670,11 +2052,13 @@ function closeDetailModal() {
 }
 
 
-// ========================================
-// EDIT TRANSAKSI
-// ========================================
+/* =========================================================
+   40. EDIT TRANSAKSI
+========================================================= */
 
-function editTransaction(id) {
+function editTransaction(
+    id
+) {
 
     const transaction =
         transactions.find(
@@ -1682,11 +2066,14 @@ function editTransaction(id) {
                 item.id === id
         );
 
+
     if (!transaction) {
         return;
     }
 
+
     closeDetailModal();
+
 
     openTransactionModal(
         transaction.jenis,
@@ -1696,17 +2083,20 @@ function editTransaction(id) {
 }
 
 
-// ========================================
-// DELETE TRANSAKSI
-// ========================================
+/* =========================================================
+   41. DELETE TRANSAKSI
+========================================================= */
 
-async function deleteTransaction(id) {
+async function deleteTransaction(
+    id
+) {
 
     const transaction =
         transactions.find(
             item =>
                 item.id === id
         );
+
 
     if (!transaction) {
         return;
@@ -1758,9 +2148,7 @@ async function deleteTransaction(id) {
 
     } catch (error) {
 
-        console.error(
-            error
-        );
+        console.error(error);
 
         alert(
             "Gagal menghapus transaksi."
@@ -1771,17 +2159,20 @@ async function deleteTransaction(id) {
 }
 
 
-// ========================================
-// SUMMARY
-// ========================================
+/* =========================================================
+   42. UPDATE SUMMARY
+========================================================= */
 
 function updateSummary() {
 
     const year =
-        currentSummaryDate.getFullYear();
+        currentSummaryDate
+            .getFullYear();
+
 
     const month =
-        currentSummaryDate.getMonth();
+        currentSummaryDate
+            .getMonth();
 
 
     document.getElementById(
@@ -1839,14 +2230,15 @@ function updateSummary() {
         monthlyTransactions
     );
 
+
     renderMonthlyChart();
 
 }
 
 
-// ========================================
-// BULAN SEBELUMNYA
-// ========================================
+/* =========================================================
+   43. BULAN SEBELUMNYA
+========================================================= */
 
 document
     .getElementById(
@@ -1858,10 +2250,15 @@ document
 
             currentSummaryDate =
                 new Date(
-                    currentSummaryDate.getFullYear(),
-                    currentSummaryDate.getMonth() - 1,
+                    currentSummaryDate
+                        .getFullYear(),
+
+                    currentSummaryDate
+                        .getMonth() - 1,
+
                     1
                 );
+
 
             updateSummary();
 
@@ -1869,9 +2266,9 @@ document
     );
 
 
-// ========================================
-// BULAN BERIKUTNYA
-// ========================================
+/* =========================================================
+   44. BULAN BERIKUTNYA
+========================================================= */
 
 document
     .getElementById(
@@ -1883,10 +2280,15 @@ document
 
             currentSummaryDate =
                 new Date(
-                    currentSummaryDate.getFullYear(),
-                    currentSummaryDate.getMonth() + 1,
+                    currentSummaryDate
+                        .getFullYear(),
+
+                    currentSummaryDate
+                        .getMonth() + 1,
+
                     1
                 );
+
 
             updateSummary();
 
@@ -1894,9 +2296,9 @@ document
     );
 
 
-// ========================================
-// CATEGORY SUMMARY
-// ========================================
+/* =========================================================
+   45. CATEGORY SUMMARY
+========================================================= */
 
 function renderCategorySummary(
     monthlyTransactions
@@ -1916,12 +2318,17 @@ function renderCategorySummary(
         );
 
 
-    if (expenses.length === 0) {
+    if (
+        expenses.length ===
+        0
+    ) {
 
         container.innerHTML = `
+
             <div class="empty-state">
                 Belum ada pengeluaran pada bulan ini.
             </div>
+
         `;
 
         return;
@@ -1937,6 +2344,7 @@ function renderCategorySummary(
 
             const category =
                 transaction.kategori;
+
 
             const amount =
                 Number(
@@ -1980,17 +2388,26 @@ function renderCategorySummary(
             .map(
                 ([category, amount]) => `
 
-                    <div class="category-row">
+                    <div
+                        class="category-row"
+                    >
 
-                        <div class="transaction-left">
+                        <div
+                            class="transaction-left"
+                        >
 
-                            <div class="transaction-icon expense">
+                            <div
+                                class="transaction-icon expense"
+                            >
                                 ${getCategoryIcon(
                                     category
                                 )}
                             </div>
 
-                            <span class="category-name">
+
+                            <span
+                                class="category-name"
+                            >
                                 ${escapeHTML(
                                     category
                                 )}
@@ -1998,7 +2415,10 @@ function renderCategorySummary(
 
                         </div>
 
-                        <span class="category-amount">
+
+                        <span
+                            class="category-amount"
+                        >
                             ${formatRupiah(
                                 amount
                             )}
@@ -2013,16 +2433,18 @@ function renderCategorySummary(
 }
 
 
-// ========================================
-// CHART.JS
-// ========================================
+/* =========================================================
+   46. LOAD CHART.JS
+========================================================= */
 
 function loadChartLibrary() {
 
     return new Promise(
         (resolve, reject) => {
 
-            if (window.Chart) {
+            if (
+                window.Chart
+            ) {
 
                 resolve();
 
@@ -2036,14 +2458,18 @@ function loadChartLibrary() {
                     "script"
                 );
 
+
             script.src =
                 "https://cdn.jsdelivr.net/npm/chart.js";
+
 
             script.onload =
                 resolve;
 
+
             script.onerror =
                 reject;
+
 
             document.head.appendChild(
                 script
@@ -2055,9 +2481,9 @@ function loadChartLibrary() {
 }
 
 
-// ========================================
-// MONTHLY CHART
-// ========================================
+/* =========================================================
+   47. RENDER MONTHLY CHART
+========================================================= */
 
 async function renderMonthlyChart() {
 
@@ -2065,6 +2491,7 @@ async function renderMonthlyChart() {
         document.getElementById(
             "monthly-chart"
         );
+
 
     if (!canvas) {
         return;
@@ -2088,10 +2515,13 @@ async function renderMonthlyChart() {
 
 
     const year =
-        currentSummaryDate.getFullYear();
+        currentSummaryDate
+            .getFullYear();
+
 
     const month =
-        currentSummaryDate.getMonth();
+        currentSummaryDate
+            .getMonth();
 
 
     const monthlyTransactions =
@@ -2146,6 +2576,7 @@ async function renderMonthlyChart() {
 
                 type: "bar",
 
+
                 data: {
 
                     labels: [
@@ -2153,34 +2584,47 @@ async function renderMonthlyChart() {
                         "Pengeluaran"
                     ],
 
+
                     datasets: [
                         {
-                            label: "Jumlah",
+
+                            label:
+                                "Jumlah",
+
 
                             data: [
                                 income,
                                 expense
                             ],
 
+
                             borderRadius: 8,
 
                             borderWidth: 0
+
                         }
                     ]
 
                 },
 
+
                 options: {
 
                     responsive: true,
 
-                    maintainAspectRatio: false,
+                    maintainAspectRatio:
+                        false,
+
 
                     plugins: {
 
                         legend: {
-                            display: false
+
+                            display:
+                                false
+
                         },
+
 
                         tooltip: {
 
@@ -2203,11 +2647,14 @@ async function renderMonthlyChart() {
 
                     },
 
+
                     scales: {
 
                         y: {
 
-                            beginAtZero: true,
+                            beginAtZero:
+                                true,
+
 
                             ticks: {
 
@@ -2236,9 +2683,9 @@ async function renderMonthlyChart() {
 }
 
 
-// ========================================
-// FORMAT RUPIAH SINGKAT
-// ========================================
+/* =========================================================
+   48. FORMAT RUPIAH SINGKAT UNTUK GRAFIK
+========================================================= */
 
 function formatCompactRupiah(
     value
@@ -2259,7 +2706,10 @@ function formatCompactRupiah(
                 1000000000
             )
                 .toFixed(1)
-                .replace(".0", "") +
+                .replace(
+                    ".0",
+                    ""
+                ) +
             " M"
         );
 
@@ -2277,7 +2727,10 @@ function formatCompactRupiah(
                 1000000
             )
                 .toFixed(1)
-                .replace(".0", "") +
+                .replace(
+                    ".0",
+                    ""
+                ) +
             " jt"
         );
 
@@ -2306,9 +2759,9 @@ function formatCompactRupiah(
 }
 
 
-// ========================================
-// QUOTE ROTATION
-// ========================================
+/* =========================================================
+   49. QUOTE ROTATION
+========================================================= */
 
 function updateQuote() {
 
@@ -2316,6 +2769,7 @@ function updateQuote() {
         document.getElementById(
             "quote-text"
         );
+
 
     if (!quoteElement) {
         return;
@@ -2330,10 +2784,14 @@ function updateQuote() {
         function () {
 
             quoteElement.textContent =
-                quotes[quoteIndex];
+                quotes[
+                    quoteIndex
+                ];
+
 
             quoteElement.style.opacity =
                 "1";
+
 
             quoteIndex =
                 (
@@ -2354,12 +2812,12 @@ setInterval(
 );
 
 
-// ========================================
-// SUPABASE AUTH LISTENER
-// ========================================
+/* =========================================================
+   50. SUPABASE AUTH LISTENER
+========================================================= */
 
 db.auth.onAuthStateChange(
-    function (
+    async function (
         event,
         session
     ) {
@@ -2380,8 +2838,8 @@ db.auth.onAuthStateChange(
 );
 
 
-// ========================================
-// MULAI APLIKASI
-// ========================================
+/* =========================================================
+   51. MULAI APLIKASI
+========================================================= */
 
 checkSession();
