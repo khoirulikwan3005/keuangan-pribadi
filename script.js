@@ -2021,7 +2021,10 @@ function renderRecap() {
                 "Pemasukan"
             ) {
                 income += amount;
-            } else {
+            } else if (
+                transaction.jenis ===
+                "Pengeluaran"
+            ) {
                 expense += amount;
             }
         }
@@ -2108,60 +2111,45 @@ function renderRecap() {
         .classList
         .add("hidden");
 
+
+    /* =================================================
+       URUTKAN TRANSAKSI
+       PALING LAMA → PALING BARU
+    ================================================= */
+
     const chronological =
         [...transactions].sort(
             function (a, b) {
+
+                const dateA =
+                    new Date(
+                        `${a.tanggal}T00:00:00`
+                    );
+
+                const dateB =
+                    new Date(
+                        `${b.tanggal}T00:00:00`
+                    );
+
                 return (
-                    new Date(a.tanggal) -
-                    new Date(b.tanggal)
+                    dateA - dateB
                 );
             }
         );
+
+
+    /* =================================================
+       HITUNG SALDO BERJALAN
+       MENGIKUTI URUTAN TABEL
+    ================================================= */
 
     let runningBalance = 0;
 
-    const runningBalances =
-        new Map();
-
-    chronological.forEach(
-        function (transaction) {
-            const amount =
-                parseRupiah(
-                    transaction.nominal
-                );
-
-            if (
-                transaction.jenis ===
-                "Pemasukan"
-            ) {
-                runningBalance +=
-                    amount;
-            } else {
-                runningBalance -=
-                    amount;
-            }
-
-            runningBalances.set(
-                transaction.id,
-                runningBalance
-            );
-        }
-    );
-
-    const sorted =
-        [...transactions].sort(
-            function (a, b) {
-                return (
-                    new Date(b.tanggal) -
-                    new Date(a.tanggal)
-                );
-            }
-        );
-
     tbody.innerHTML =
-        sorted
+        chronological
             .map(
                 function (transaction) {
+
                     const isIncome =
                         transaction.jenis ===
                         "Pemasukan";
@@ -2171,8 +2159,27 @@ function renderRecap() {
                             transaction.nominal
                         );
 
+
+                    /* ---------------------------------
+                       PEMASUKAN = TAMBAH
+                       PENGELUARAN = KURANG
+                    --------------------------------- */
+
+                    if (isIncome) {
+                        runningBalance +=
+                            amount;
+                    } else if (
+                        transaction.jenis ===
+                        "Pengeluaran"
+                    ) {
+                        runningBalance -=
+                            amount;
+                    }
+
+
                     return `
                         <tr>
+
                             <td>
                                 ${formatDate(
                                     transaction.tanggal
@@ -2213,11 +2220,10 @@ function renderRecap() {
 
                             <td class="text-right">
                                 ${formatRupiah(
-                                    runningBalances.get(
-                                        transaction.id
-                                    ) || 0
+                                    runningBalance
                                 )}
                             </td>
+
                         </tr>
                     `;
                 }
