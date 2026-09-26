@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 
@@ -1724,6 +1725,7 @@
 
                     <select
                         id="note-type"
+                        onchange="updateNoteForm()"
                         required
                     >
 
@@ -1757,26 +1759,6 @@
                 </div>
 
 
-                <!-- ORANG TERKAIT -->
-                <div class="form-group">
-
-                    <label for="note-person">
-                        Orang Terkait
-                    </label>
-
-                    <input
-                        type="text"
-                        id="note-person"
-                        placeholder="Contoh: Kholis"
-                    >
-
-                    <small class="input-help">
-                        Bisa dikosongkan jika tidak diperlukan.
-                    </small>
-
-                </div>
-
-
                 <!-- NOMINAL -->
                 <div class="form-group">
 
@@ -1788,31 +1770,18 @@
                         type="number"
                         id="note-amount"
                         placeholder="Masukkan nominal"
-                        min="0"
+                        min="1"
                         required
                     >
 
                 </div>
 
 
-                <!-- BULAN -->
-                <div class="form-group">
-
-                    <label for="note-month">
-                        Bulan
-                    </label>
-
-                    <input
-                        type="month"
-                        id="note-month"
-                        required
-                    >
-
-                </div>
-
-
-                <!-- JATUH TEMPO -->
-                <div class="form-group">
+                <!-- JATUH TEMPO TAGIHAN -->
+                <div
+                    id="note-due-date-group"
+                    class="form-group"
+                >
 
                     <label for="note-due-date">
                         Tanggal Jatuh Tempo
@@ -1822,26 +1791,6 @@
                         type="date"
                         id="note-due-date"
                     >
-
-                    <small class="input-help">
-                        Opsional. Isi jika ada tanggal jatuh tempo.
-                    </small>
-
-                </div>
-
-
-                <!-- KETERANGAN -->
-                <div class="form-group">
-
-                    <label for="note-notes">
-                        Keterangan
-                    </label>
-
-                    <textarea
-                        id="note-notes"
-                        rows="3"
-                        placeholder="Contoh: Bayar sebelum tanggal 10"
-                    ></textarea>
 
                 </div>
 
@@ -1920,3 +1869,4 @@
 </body>
 
 </html>
+```

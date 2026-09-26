@@ -2528,37 +2528,23 @@ function getLoanFinalDueDate(loan) {
 ===================================================== */
 
 function getLoanDueStatus(loan) {
-    if (!loan) {
+    const dueDate =
+        getLoanFinalDueDate(loan);
+
+    if (!dueDate) {
         return {
-            status: "normal",
-            days: 0,
-            text: ""
+            text: "",
+            className: ""
         };
     }
 
     const remainingTenor =
-        getLoanRemainingTenor(
-            loan
-        );
+        getLoanRemainingTenor(loan);
 
     if (remainingTenor <= 0) {
         return {
-            status: "paid",
-            days: 0,
-            text: "Pinjaman sudah lunas."
-        };
-    }
-
-    const dueDate =
-        getLoanFinalDueDate(
-            loan
-        );
-
-    if (!dueDate) {
-        return {
-            status: "normal",
-            days: 0,
-            text: ""
+            text: "Lunas",
+            className: "loan-due-paid"
         };
     }
 
@@ -2568,40 +2554,36 @@ function getLoanDueStatus(loan) {
         );
 
     if (days < 0) {
-        const overdueDays =
-            Math.abs(days);
-
         return {
-            status: "overdue",
-            days,
-            text:
-                `Terlambat ${overdueDays} hari.`
+            text: `Terlambat ${Math.abs(days)} hari`,
+            className: "loan-due-alert"
         };
     }
 
     if (days === 0) {
         return {
-            status: "today",
-            days,
-            text:
-                "Jatuh tempo hari ini."
+            text: "Jatuh tempo hari ini",
+            className: "loan-due-alert"
         };
     }
 
-    if (days <= 5) {
+    if (days === 1) {
         return {
-            status: "warning",
-            days,
-            text:
-                `Jatuh tempo ${days} hari lagi.`
+            text: "Jatuh tempo besok",
+            className: "loan-due-alert"
+        };
+    }
+
+    if (days <= 30) {
+        return {
+            text: `${days} hari lagi`,
+            className: "loan-due-alert"
         };
     }
 
     return {
-        status: "normal",
-        days,
-        text:
-            `Jatuh tempo ${days} hari lagi.`
+        text: `${days} hari lagi`,
+        className: ""
     };
 }
 
@@ -2611,106 +2593,41 @@ function getLoanDueStatus(loan) {
 ===================================================== */
 
 function getLoanDueDateHTML(loan) {
-    const remainingTenor =
-        getLoanRemainingTenor(
-            loan
-        );
-
     const dueDate =
-        getLoanFinalDueDate(
-            loan
-        );
+        getLoanFinalDueDate(loan);
 
     if (!dueDate) {
         return "";
     }
 
-    if (remainingTenor <= 0) {
-        return `
-            <div class="loan-due-date">
-                <div>
-                    <span>
-                        Tanggal Jatuh Tempo
-                    </span>
-
-                    <strong>
-                        ${formatDate(
-                            dueDate
-                        )}
-                    </strong>
-                </div>
-
-                <div class="loan-due-paid">
-                    Pinjaman Lunas
-                </div>
-            </div>
-        `;
-    }
-
-    const dueStatus =
-        getLoanDueStatus(
-            loan
-        );
-
-    let statusClass = "";
-
-    if (
-        dueStatus.status ===
-        "warning"
-    ) {
-        statusClass =
-            "loan-due-warning";
-    } else if (
-        dueStatus.status ===
-        "today"
-    ) {
-        statusClass =
-            "loan-due-today";
-    } else if (
-        dueStatus.status ===
-        "overdue"
-    ) {
-        statusClass =
-            "loan-due-overdue";
-    }
-
-    const warningHTML =
-        (
-            dueStatus.status === "warning" ||
-            dueStatus.status === "today" ||
-            dueStatus.status === "overdue"
-        )
-            ? `
-                <div class="loan-due-alert ${statusClass}">
-                    ${
-                        dueStatus.status ===
-                        "overdue"
-                            ? "⚠"
-                            : "!"
-                    }
-
-                    ${escapeHTML(
-                        dueStatus.text
-                    )}
-                </div>
-            `
-            : "";
+    const status =
+        getLoanDueStatus(loan);
 
     return `
         <div class="loan-due-date">
+
             <div>
+
                 <span>
                     Tanggal Jatuh Tempo
                 </span>
 
                 <strong>
-                    ${formatDate(
-                        dueDate
-                    )}
+                    ${formatDateForInput(dueDate)}
                 </strong>
+
             </div>
 
-            ${warningHTML}
+            ${
+                status.text
+                    ? `
+                        <span class="${status.className}">
+                            ${status.text}
+                        </span>
+                    `
+                    : ""
+            }
+
         </div>
     `;
 }
@@ -4456,57 +4373,58 @@ function renderNotes() {
                             note.amount
                         );
 
+                    const month =
+                        note.month
+                            ? formatNoteMonth(
+                                note.month
+                            )
+                            : "Bulan tidak ditentukan";
+
                     const dueDate =
                         note.due_date
                             ? formatDate(
                                 note.due_date
                             )
-                            : "-";
+                            : null;
 
                     return `
                         <div
-                            class="note-card ${isPaid ? "paid" : "unpaid"}"
+                            class="note-card ${isReceivable ? "receivable" : "bill"}"
                             onclick="openNoteDetail('${note.id}')"
                         >
 
-                            <div class="note-card-main">
+                            <div class="note-card-header">
 
-                                <div class="note-icon ${isReceivable ? "receivable" : "bill"}">
-                                    ${
-                                        isReceivable
-                                            ? "↗"
-                                            : "🧾"
-                                    }
-                                </div>
+                                <div class="note-main">
 
-                                <div class="note-info">
-
-                                    <strong>
-                                        ${escapeHTML(
-                                            title
-                                        )}
-                                    </strong>
-
-                                    <span>
-                                        ${escapeHTML(
-                                            note.type || "-"
-                                        )}
+                                    <div class="note-icon ${isReceivable ? "receivable" : "bill"}">
                                         ${
-                                            note.person
-                                                ? ` • ${escapeHTML(note.person)}`
-                                                : ""
+                                            isReceivable
+                                                ? "↗"
+                                                : "🧾"
                                         }
-                                    </span>
+                                    </div>
 
-                                    <small>
-                                        ${
-                                            note.month
-                                                ? formatNoteMonth(
-                                                    note.month
-                                                )
-                                                : "Bulan tidak ditentukan"
-                                        }
-                                    </small>
+                                    <div class="note-info">
+
+                                        <strong>
+                                            ${escapeHTML(
+                                                title
+                                            )}
+                                        </strong>
+
+                                        <span>
+                                            ${escapeHTML(
+                                                note.type || "-"
+                                            )}
+                                            ${
+                                                note.person
+                                                    ? ` • ${escapeHTML(note.person)}`
+                                                    : ""
+                                            }
+                                        </span>
+
+                                    </div>
 
                                 </div>
 
@@ -4518,26 +4436,35 @@ function renderNotes() {
                                         )}
                                     </strong>
 
-                                    <span class="note-status ${isPaid ? "paid" : "unpaid"}">
-                                        ${
-                                            isPaid
-                                                ? "Selesai"
-                                                : "Belum selesai"
-                                        }
-                                    </span>
-
                                 </div>
 
                             </div>
 
-                            ${
-                                note.due_date
-                                    ? `
-                                        <div class="note-card-footer">
-                                            <span>
-                                                Jatuh tempo
-                                            </span>
 
+                            <div class="note-meta">
+
+                                <span class="note-badge month">
+                                    ${escapeHTML(
+                                        month
+                                    )}
+                                </span>
+
+                                <span class="note-badge ${isPaid ? "paid" : "unpaid"}">
+                                    ${
+                                        isPaid
+                                            ? "Selesai"
+                                            : "Belum selesai"
+                                    }
+                                </span>
+
+                            </div>
+
+
+                            ${
+                                dueDate
+                                    ? `
+                                        <div class="note-due">
+                                            Jatuh tempo:
                                             <strong>
                                                 ${dueDate}
                                             </strong>
@@ -4545,6 +4472,39 @@ function renderNotes() {
                                     `
                                     : ""
                             }
+
+
+                            <div class="note-actions">
+
+                                <button
+                                    type="button"
+                                    class="note-action pay"
+                                    onclick="event.stopPropagation(); toggleNotePaid('${note.id}')"
+                                >
+                                    ${
+                                        isPaid
+                                            ? "Belum Selesai"
+                                            : "Tandai Selesai"
+                                    }
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="note-action edit"
+                                    onclick="event.stopPropagation(); editNote('${note.id}')"
+                                >
+                                    Edit
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="note-action delete"
+                                    onclick="event.stopPropagation(); deleteNote('${note.id}')"
+                                >
+                                    Hapus
+                                </button>
+
+                            </div>
 
                         </div>
                     `;
@@ -4629,7 +4589,7 @@ function openNoteModal(
 
     const descriptionInput =
         document.getElementById(
-            "note-description"
+            "note-notes"
         );
 
     if (note) {
@@ -4830,7 +4790,7 @@ document
 
             const descriptionInput =
                 document.getElementById(
-                    "note-description"
+                    "note-notes"
                 );
 
             if (
