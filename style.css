@@ -19,10 +19,8 @@
 :root {
     --ink: #172033;
     --ink-light: #26334d;
-
     --muted: #737b8c;
     --soft: #a1a8b5;
-
     --paper: #f4f5f7;
     --white: #ffffff;
 
@@ -91,7 +89,6 @@ body {
         var(--paper);
 
     color: var(--ink);
-
     font-family: "DM Sans", sans-serif;
 
     -webkit-font-smoothing: antialiased;
@@ -212,7 +209,6 @@ textarea {
     margin-top: 5px;
 
     color: var(--muted);
-
     font-size: 13px;
     line-height: 1.5;
 }
@@ -232,6 +228,7 @@ textarea {
 .login-card h2 {
     font-size: 22px;
     font-weight: 800;
+
     letter-spacing: -0.5px;
 
     margin-bottom: 7px;
@@ -241,7 +238,6 @@ textarea {
     margin-bottom: 26px;
 
     color: var(--muted);
-
     font-size: 13px;
     line-height: 1.65;
 }
@@ -270,7 +266,6 @@ textarea {
     margin-bottom: 7px;
 
     color: var(--ink);
-
     font-size: 11px;
     font-weight: 800;
 }
@@ -283,6 +278,7 @@ textarea {
     padding: 13px 14px;
 
     background: #fbfbfc;
+
     color: var(--ink);
 
     border: 1px solid var(--line);
@@ -299,15 +295,58 @@ textarea {
         transform 0.2s ease;
 }
 
+
+/* =====================================================
+   SELECT / DROPDOWN ARROW
+   POSISI PANAH DIGESER SEDIKIT KE KIRI
+===================================================== */
+
+.form-group select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    padding-right: 44px;
+
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23737b8c' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+
+    background-repeat: no-repeat;
+
+    /* Sedikit digeser dari ujung kanan */
+    background-position:
+        right 17px center;
+
+    background-size: 14px 14px;
+}
+
+.form-group select:hover {
+    background-color: #ffffff;
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23172033' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position:
+        right 17px center;
+    background-size: 14px 14px;
+}
+
+.form-group select:focus {
+    background-color: #ffffff;
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23ff7043' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position:
+        right 17px center;
+    background-size: 14px 14px;
+}
+
 .form-group input:hover,
-.form-group select:hover,
 .form-group textarea:hover {
     background: #ffffff;
     border-color: var(--line-dark);
 }
 
 .form-group input:focus,
-.form-group select:focus,
 .form-group textarea:focus {
     background: #ffffff;
 
@@ -401,7 +440,6 @@ input[type="number"] {
     text-align: center;
 
     color: var(--red);
-
     font-size: 12px;
 }
 
@@ -419,6 +457,7 @@ input[type="number"] {
     position: sticky;
 
     top: 0;
+
     z-index: 50;
 
     height: 66px;
@@ -450,6 +489,7 @@ input[type="number"] {
 
 .brand::after {
     content: ".";
+
     color: var(--orange);
 }
 
@@ -513,6 +553,7 @@ input[type="number"] {
 
 .page-header {
     display: flex;
+
     justify-content: space-between;
     align-items: flex-start;
 
@@ -561,7 +602,6 @@ input[type="number"] {
 
 .balance-card {
     position: relative;
-
     overflow: hidden;
 
     padding: 30px 29px;
@@ -626,6 +666,7 @@ input[type="number"] {
 
 .balance-label {
     position: relative;
+
     z-index: 2;
 
     display: block;
@@ -638,6 +679,7 @@ input[type="number"] {
 
 .balance-amount {
     position: relative;
+
     z-index: 2;
 
     margin-top: 10px;
@@ -648,7 +690,6 @@ input[type="number"] {
     font-weight: 800;
 
     letter-spacing: -1.35px;
-
     line-height: 1.15;
 }
 
@@ -669,7 +710,6 @@ input[type="number"] {
 
 .money-card {
     position: relative;
-
     overflow: hidden;
 
     padding: 19px;
@@ -727,6 +767,7 @@ input[type="number"] {
 
 .money-card-top {
     display: flex;
+
     align-items: center;
 
     gap: 9px;
@@ -788,10 +829,10 @@ input[type="number"] {
 
 .transaction-btn {
     position: relative;
-
     overflow: hidden;
 
     display: flex;
+
     align-items: center;
 
     gap: 11px;
@@ -861,6 +902,7 @@ input[type="number"] {
 
 .transaction-btn-content {
     display: flex;
+
     flex-direction: column;
 
     gap: 3px;
@@ -879,6 +921,7 @@ input[type="number"] {
     color: var(--muted);
 
     font-size: 9px;
+
     line-height: 1.4;
 }
 
@@ -938,7 +981,9 @@ input[type="number"] {
 
 .section-title {
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
     margin-bottom: 13px;
@@ -953,6 +998,7 @@ input[type="number"] {
 
 .menu-list {
     display: flex;
+
     flex-direction: column;
 
     gap: 9px;
@@ -964,6 +1010,7 @@ input[type="number"] {
     width: 100%;
 
     display: flex;
+
     align-items: center;
 
     padding: 15px 16px;
@@ -1048,6 +1095,7 @@ input[type="number"] {
     flex: 1;
 
     display: flex;
+
     flex-direction: column;
 
     gap: 3px;
@@ -1084,6 +1132,7 @@ input[type="number"] {
 
 .menu-card:hover .menu-arrow {
     color: var(--orange);
+
     transform: translateX(3px);
 }
 
@@ -1094,7 +1143,9 @@ input[type="number"] {
 
 .period-selector {
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
     padding: 7px;
@@ -1156,7 +1207,6 @@ input[type="number"] {
 
 .summary-card {
     position: relative;
-
     overflow: hidden;
 
     padding: 18px;
@@ -1229,6 +1279,7 @@ input[type="number"] {
 
 .card-header {
     display: flex;
+
     justify-content: space-between;
     align-items: center;
 
@@ -1269,6 +1320,7 @@ input[type="number"] {
 
 .progress-fill {
     height: 100%;
+
     width: 0;
 
     background:
@@ -1287,6 +1339,7 @@ input[type="number"] {
     position: relative;
 
     width: 100%;
+
     height: 270px;
 }
 
@@ -1297,6 +1350,7 @@ input[type="number"] {
 
 .category-item {
     display: flex;
+
     align-items: center;
 
     gap: 11px;
@@ -1319,6 +1373,7 @@ input[type="number"] {
     align-items: center;
 
     background: var(--red-soft);
+
     color: var(--red);
 
     border-radius: 10px;
@@ -1440,6 +1495,7 @@ input[type="number"] {
 
 .transaction-list {
     display: flex;
+
     flex-direction: column;
 
     gap: 8px;
@@ -1447,6 +1503,7 @@ input[type="number"] {
 
 .transaction-item {
     display: flex;
+
     align-items: center;
 
     padding: 15px;
@@ -1506,6 +1563,7 @@ input[type="number"] {
 
 .transaction-item-info {
     flex: 1;
+
     min-width: 0;
 }
 
@@ -1515,6 +1573,7 @@ input[type="number"] {
     overflow: hidden;
 
     white-space: nowrap;
+
     text-overflow: ellipsis;
 
     color: var(--ink);
@@ -1569,6 +1628,7 @@ input[type="number"] {
 
 .recap-table-header {
     display: flex;
+
     justify-content: space-between;
     align-items: center;
 
@@ -1751,7 +1811,9 @@ td {
 
 .loan-overview-main {
     display: flex;
+
     flex-direction: column;
+
     justify-content: center;
 
     padding-right: 15px;
@@ -1776,6 +1838,7 @@ td {
 
 .loan-overview-side {
     display: flex;
+
     flex-direction: column;
 
     gap: 13px;
@@ -1783,6 +1846,7 @@ td {
 
 .loan-overview-side div {
     display: flex;
+
     flex-direction: column;
 }
 
@@ -1831,7 +1895,9 @@ td {
 
 .loan-card-header {
     display: flex;
+
     align-items: flex-start;
+
     justify-content: space-between;
 
     gap: 10px;
@@ -1839,6 +1905,7 @@ td {
 
 .loan-source {
     display: flex;
+
     align-items: center;
 
     gap: 10px;
@@ -1859,6 +1926,7 @@ td {
     border-radius: 11px;
 
     background: var(--orange-soft);
+
     color: var(--orange);
 
     font-size: 12px;
@@ -1912,11 +1980,13 @@ td {
     transform: translateY(-1px);
 
     background: var(--purple-soft);
+
     color: var(--purple);
 }
 
 .loan-action.delete {
     color: var(--red);
+
     background: var(--red-soft);
 }
 
@@ -2058,6 +2128,7 @@ td {
 
 .loan-progress {
     width: 100%;
+
     height: 7px;
 
     margin-top: 16px;
@@ -2102,6 +2173,7 @@ td {
 
 .loan-payment-status div {
     display: flex;
+
     flex-direction: column;
 
     gap: 4px;
@@ -2299,6 +2371,7 @@ td {
 
 .account-card {
     display: flex;
+
     align-items: center;
 
     padding: 21px;
@@ -2419,6 +2492,7 @@ td {
 
 .notes-list {
     display: flex;
+
     flex-direction: column;
 
     gap: 13px;
@@ -2561,7 +2635,9 @@ td {
 
 .note-card-header {
     display: flex;
+
     align-items: flex-start;
+
     justify-content: space-between;
 
     gap: 13px;
@@ -2569,6 +2645,7 @@ td {
 
 .note-main {
     display: flex;
+
     align-items: flex-start;
 
     gap: 12px;
@@ -2644,6 +2721,7 @@ td {
     overflow: hidden;
 
     white-space: nowrap;
+
     text-overflow: ellipsis;
 
     color: var(--ink);
@@ -2673,6 +2751,8 @@ td {
 
 /* =====================================================
    NOTE STATUS
+   BELUM SELESAI = MERAH
+   SELESAI = HIJAU
 ===================================================== */
 
 .note-status {
@@ -2699,36 +2779,42 @@ td {
     letter-spacing: 0.25px;
 }
 
+
+/* BELUM SELESAI */
+
 .note-status.unpaid {
     background:
         linear-gradient(
             135deg,
-            #ffe7e7,
-            #fff0f0
+            #ffd8d8,
+            #ffe8e8
         );
 
-    color: var(--red);
+    color: var(--red-dark);
 
-    border: 1px solid rgba(233, 87, 87, 0.13);
+    border: 1px solid rgba(233, 87, 87, 0.22);
 
     box-shadow:
-        0 3px 8px rgba(233, 87, 87, 0.06);
+        0 4px 10px rgba(233, 87, 87, 0.1);
 }
+
+
+/* SELESAI */
 
 .note-status.paid {
     background:
         linear-gradient(
             135deg,
-            #ddf6e9,
-            #effbf5
+            #cff0df,
+            #e2f8ed
         );
 
-    color: var(--green);
+    color: var(--green-dark);
 
-    border: 1px solid rgba(24, 165, 114, 0.13);
+    border: 1px solid rgba(24, 165, 114, 0.22);
 
     box-shadow:
-        0 3px 8px rgba(24, 165, 114, 0.06);
+        0 4px 10px rgba(24, 165, 114, 0.1);
 }
 
 
@@ -2740,6 +2826,7 @@ td {
     display: flex;
 
     align-items: center;
+
     justify-content: space-between;
 
     gap: 12px;
@@ -2753,6 +2840,7 @@ td {
 
 .note-amount {
     font-size: 18px;
+
     font-weight: 800;
 
     letter-spacing: -0.5px;
@@ -2776,7 +2864,6 @@ td {
     text-align: right;
 
     font-size: 9px;
-
     font-weight: 600;
 
     line-height: 1.45;
@@ -2808,6 +2895,7 @@ td {
     display: flex;
 
     align-items: center;
+
     justify-content: space-between;
 
     gap: 10px;
@@ -2896,30 +2984,30 @@ td {
     background:
         linear-gradient(
             135deg,
-            #ffe0e0,
-            #ffeded
+            #ffd6d6,
+            #ffe7e7
         );
 
-    color: #cf3f3f;
+    color: var(--red-dark);
 
-    border: 1px solid rgba(233, 87, 87, 0.16);
+    border: 1px solid rgba(233, 87, 87, 0.22);
 
     box-shadow:
-        0 4px 11px rgba(233, 87, 87, 0.08);
+        0 4px 11px rgba(233, 87, 87, 0.1);
 }
 
 .note-card:not(.is-paid) .note-action.toggle:hover {
     background:
         linear-gradient(
             135deg,
-            #ffd5d5,
-            #ffe5e5
+            #ffcaca,
+            #ffdddd
         );
 
-    color: var(--red-dark);
+    color: #c73333;
 
     box-shadow:
-        0 7px 16px rgba(233, 87, 87, 0.12);
+        0 7px 16px rgba(233, 87, 87, 0.14);
 }
 
 
@@ -2932,30 +3020,30 @@ td {
     background:
         linear-gradient(
             135deg,
-            #d9f4e7,
-            #e9f8f1
+            #cdeedc,
+            #e1f7eb
         );
 
     color: var(--green-dark);
 
-    border: 1px solid rgba(24, 165, 114, 0.16);
+    border: 1px solid rgba(24, 165, 114, 0.22);
 
     box-shadow:
-        0 4px 11px rgba(24, 165, 114, 0.08);
+        0 4px 11px rgba(24, 165, 114, 0.1);
 }
 
 .note-card.is-paid .note-action.toggle:hover {
     background:
         linear-gradient(
             135deg,
-            #c9eddb,
-            #dcf5e9
+            #bde7d0,
+            #d6f3e3
         );
 
     color: var(--green-dark);
 
     box-shadow:
-        0 7px 16px rgba(24, 165, 114, 0.12);
+        0 7px 16px rgba(24, 165, 114, 0.14);
 }
 
 
@@ -3160,7 +3248,7 @@ td {
 
     margin-top: 13px;
 
-    padding: 8px 11px;
+    padding: 8px 12px;
 
     border-radius: 100px;
 
@@ -3168,28 +3256,46 @@ td {
     font-weight: 800;
 
     line-height: 1;
+
+    border: 1px solid transparent;
 }
 
-.note-detail-status.paid {
-    background:
-        linear-gradient(
-            135deg,
-            #d9f4e7,
-            #e9f8f1
-        );
 
-    color: var(--green-dark);
-}
+/* BELUM SELESAI = MERAH */
 
 .note-detail-status.unpaid {
     background:
         linear-gradient(
             135deg,
-            #ffe0e0,
-            #ffeded
+            #ffd4d4,
+            #ffe6e6
         );
 
     color: var(--red-dark);
+
+    border-color: rgba(233, 87, 87, 0.22);
+
+    box-shadow:
+        0 4px 10px rgba(233, 87, 87, 0.1);
+}
+
+
+/* SELESAI = HIJAU */
+
+.note-detail-status.paid {
+    background:
+        linear-gradient(
+            135deg,
+            #ccefdc,
+            #e2f8ec
+        );
+
+    color: var(--green-dark);
+
+    border-color: rgba(24, 165, 114, 0.22);
+
+    box-shadow:
+        0 4px 10px rgba(24, 165, 114, 0.1);
 }
 
 
@@ -3247,28 +3353,28 @@ td {
     background:
         linear-gradient(
             135deg,
-            #d9f4e7,
-            #e9f8f1
+            #ccefdc,
+            #e2f8ec
         );
 
     color: var(--green-dark);
 
-    border: 1px solid rgba(24, 165, 114, 0.12);
+    border: 1px solid rgba(24, 165, 114, 0.18);
 
     box-shadow:
-        0 4px 11px rgba(24, 165, 114, 0.07);
+        0 4px 11px rgba(24, 165, 114, 0.08);
 }
 
 .note-detail-toggle:hover {
     background:
         linear-gradient(
             135deg,
-            #c9eddb,
-            #dcf5e9
+            #bde8d1,
+            #d8f3e4
         );
 
     box-shadow:
-        0 7px 16px rgba(24, 165, 114, 0.11);
+        0 7px 16px rgba(24, 165, 114, 0.12);
 }
 
 
@@ -3384,6 +3490,7 @@ td {
     flex: 1;
 
     min-width: 0;
+
     max-width: 125px;
 
     display: flex;
@@ -3484,6 +3591,7 @@ td {
 
 .nav-item:hover .nav-icon {
     background: var(--orange-soft);
+
     color: var(--orange);
 }
 
@@ -3510,6 +3618,7 @@ td {
     display: flex;
 
     justify-content: center;
+
     align-items: flex-end;
 }
 
@@ -3556,13 +3665,16 @@ td {
 }
 
 @keyframes modalUp {
+
     from {
         transform: translateY(25px);
+
         opacity: 0;
     }
 
     to {
         transform: translateY(0);
+
         opacity: 1;
     }
 }
@@ -3604,6 +3716,7 @@ td {
     flex-shrink: 0;
 
     display: flex;
+
     justify-content: center;
     align-items: center;
 
@@ -3696,11 +3809,13 @@ td {
 
 .detail-edit-btn {
     background: var(--purple-soft);
+
     color: var(--purple);
 }
 
 .detail-delete-btn {
     background: var(--red-soft);
+
     color: var(--red);
 }
 
@@ -3804,6 +3919,7 @@ td {
 
     .loan-overview-main {
         padding-right: 0;
+
         padding-bottom: 15px;
 
         border-right: 0;
@@ -4079,6 +4195,12 @@ td {
 
     .note-detail-actions {
         grid-template-columns: 1fr 1fr;
+    }
+
+    .note-detail-status {
+        padding: 7px 10px;
+
+        font-size: 8px;
     }
 
 
