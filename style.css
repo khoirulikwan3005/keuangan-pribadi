@@ -10,11 +10,9 @@
 }
 
 :root {
-
     --ink: #172033;
     --muted: #737b8c;
     --soft: #a1a8b5;
-
     --paper: #f7f7f2;
     --white: #ffffff;
 
@@ -39,18 +37,19 @@
 
     --line: #e8e6df;
 
-    --shadow: 0 12px 35px rgba(32, 34, 45, 0.07);
-    --shadow-small: 0 5px 18px rgba(32, 34, 45, 0.055);
+    --shadow:
+        0 12px 35px rgba(32, 34, 45, 0.07);
+
+    --shadow-small:
+        0 5px 18px rgba(32, 34, 45, 0.055);
 
     --radius: 18px;
     --radius-small: 12px;
 }
 
-
 html {
     scroll-behavior: smooth;
 }
-
 
 body {
     min-height: 100vh;
@@ -64,10 +63,8 @@ body {
         var(--paper);
 
     color: var(--ink);
-
     font-family: "DM Sans", sans-serif;
 }
-
 
 h1,
 h2,
@@ -77,7 +74,6 @@ h3,
     font-family: "Plus Jakarta Sans", sans-serif;
 }
 
-
 button,
 input,
 select,
@@ -85,12 +81,10 @@ textarea {
     font-family: inherit;
 }
 
-
 button {
     border: 0;
     cursor: pointer;
 }
-
 
 .hidden {
     display: none !important;
@@ -124,18 +118,15 @@ button {
         #f7f7f2;
 }
 
-
 .login-container {
     width: 100%;
     max-width: 410px;
 }
 
-
 .login-logo {
     text-align: center;
     margin-bottom: 25px;
 }
-
 
 .logo-mark {
     width: 65px;
@@ -153,7 +144,6 @@ button {
     color: white;
 
     font-family: "Plus Jakarta Sans", sans-serif;
-
     font-size: 28px;
     font-weight: 800;
 
@@ -164,20 +154,15 @@ button {
         0 12px 25px rgba(255, 112, 67, 0.2);
 }
 
-
 .login-logo h1 {
     font-size: 30px;
 }
 
-
 .login-logo p {
     margin-top: 4px;
-
     color: var(--muted);
-
     font-size: 13px;
 }
-
 
 .login-card {
     padding: 30px;
@@ -185,18 +170,15 @@ button {
     background: rgba(255, 255, 255, 0.92);
 
     border: 1px solid var(--line);
-
     border-radius: 22px;
 
     box-shadow: var(--shadow);
 }
 
-
 .login-card h2 {
     font-size: 22px;
     margin-bottom: 7px;
 }
-
 
 .login-subtitle {
     margin-bottom: 25px;
@@ -207,14 +189,12 @@ button {
     line-height: 1.6;
 }
 
-
 .login-footer {
     margin-top: 18px;
 
     text-align: center;
 
     color: var(--soft);
-
     font-size: 11px;
 }
 
@@ -227,7 +207,6 @@ button {
     margin-bottom: 17px;
 }
 
-
 .form-group label {
     display: block;
 
@@ -239,7 +218,6 @@ button {
     font-weight: 700;
 }
 
-
 .form-group input,
 .form-group select,
 .form-group textarea {
@@ -248,7 +226,6 @@ button {
     padding: 13px 14px;
 
     background: white;
-
     color: var(--ink);
 
     border: 1px solid var(--line);
@@ -261,7 +238,6 @@ button {
     transition: 0.2s;
 }
 
-
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
@@ -271,11 +247,9 @@ button {
         0 0 0 3px rgba(255, 112, 67, 0.09);
 }
 
-
 .form-group textarea {
     resize: vertical;
 }
-
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
@@ -283,22 +257,18 @@ input[type="number"]::-webkit-outer-spin-button {
     margin: 0;
 }
 
-
 input[type="number"] {
     -moz-appearance: textfield;
     appearance: textfield;
 }
 
-
 .password-wrapper {
     position: relative;
 }
 
-
 .password-wrapper input {
     padding-right: 45px;
 }
-
 
 .toggle-password {
     position: absolute;
@@ -313,14 +283,12 @@ input[type="number"] {
     font-size: 16px;
 }
 
-
 .primary-btn {
     width: 100%;
 
     padding: 14px;
 
     background: var(--orange);
-
     color: white;
 
     border-radius: 11px;
@@ -334,12 +302,10 @@ input[type="number"] {
         0 7px 18px rgba(255, 112, 67, 0.18);
 }
 
-
 .primary-btn:hover {
     background: var(--orange-dark);
     transform: translateY(-1px);
 }
-
 
 .error-message {
     margin-top: 10px;
@@ -347,7 +313,6 @@ input[type="number"] {
     text-align: center;
 
     color: var(--red);
-
     font-size: 12px;
 }
 
@@ -358,14 +323,14 @@ input[type="number"] {
 
 .app {
     min-height: 100vh;
-
-    padding-bottom: 90px;
+    padding-bottom: 94px;
 }
-
 
 .top-header {
     position: sticky;
+
     top: 0;
+
     z-index: 50;
 
     height: 64px;
@@ -380,9 +345,9 @@ input[type="number"] {
 
     backdrop-filter: blur(15px);
 
-    border-bottom: 1px solid rgba(232, 230, 223, 0.8);
+    border-bottom:
+        1px solid rgba(232, 230, 223, 0.8);
 }
-
 
 .brand {
     color: var(--ink);
@@ -393,13 +358,10 @@ input[type="number"] {
     letter-spacing: -0.7px;
 }
 
-
 .brand::after {
     content: ".";
-
     color: var(--orange);
 }
-
 
 .header-user {
     width: 38px;
@@ -408,10 +370,20 @@ input[type="number"] {
     border-radius: 50%;
 
     background: var(--ink);
-
     color: white;
 
     font-size: 15px;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.header-user:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 14px rgba(23, 32, 51, 0.15);
 }
 
 
@@ -423,11 +395,9 @@ input[type="number"] {
     display: none;
 }
 
-
 .page.active {
     display: block;
 }
-
 
 .page-container {
     width: 100%;
@@ -438,7 +408,6 @@ input[type="number"] {
     padding: 28px 20px;
 }
 
-
 .page-header {
     display: flex;
     justify-content: space-between;
@@ -446,7 +415,6 @@ input[type="number"] {
 
     margin-bottom: 22px;
 }
-
 
 .page-header h1 {
     margin-top: 2px;
@@ -456,7 +424,6 @@ input[type="number"] {
     letter-spacing: -0.7px;
 }
 
-
 .page-header p {
     margin-top: 6px;
 
@@ -464,7 +431,6 @@ input[type="number"] {
 
     font-size: 13px;
 }
-
 
 .page-kicker,
 .section-kicker,
@@ -508,8 +474,18 @@ input[type="number"] {
 
     box-shadow:
         0 15px 38px rgba(23, 32, 51, 0.16);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
+.balance-card:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 18px 42px rgba(23, 32, 51, 0.19);
+}
 
 .balance-decoration {
     position: absolute;
@@ -522,7 +498,6 @@ input[type="number"] {
     pointer-events: none;
 }
 
-
 .balance-decoration.one {
     right: -65px;
     top: -80px;
@@ -531,7 +506,6 @@ input[type="number"] {
 
     opacity: 0.88;
 }
-
 
 .balance-decoration.two {
     right: 45px;
@@ -542,19 +516,17 @@ input[type="number"] {
     opacity: 0.5;
 }
 
-
 .balance-label {
     position: relative;
     z-index: 2;
 
     display: block;
 
-    color: rgba(255,255,255,0.66);
+    color: rgba(255, 255, 255, 0.66);
 
     font-size: 11px;
     font-weight: 500;
 }
-
 
 .balance-amount {
     position: relative;
@@ -566,7 +538,6 @@ input[type="number"] {
     font-weight: 800;
 
     letter-spacing: -1.2px;
-
     line-height: 1.15;
 }
 
@@ -585,7 +556,6 @@ input[type="number"] {
     margin-bottom: 13px;
 }
 
-
 .money-card {
     position: relative;
 
@@ -594,7 +564,6 @@ input[type="number"] {
     background: white;
 
     border: 1px solid var(--line);
-
     border-radius: var(--radius);
 
     box-shadow: var(--shadow-small);
@@ -604,21 +573,19 @@ input[type="number"] {
         box-shadow 0.2s ease;
 }
 
-
 .money-card:hover {
     transform: translateY(-2px);
 
     box-shadow: var(--shadow);
 }
 
-
 .money-card-top {
     display: flex;
+
     align-items: center;
 
     gap: 8px;
 }
-
 
 .money-icon {
     width: 30px;
@@ -633,18 +600,15 @@ input[type="number"] {
     font-weight: 800;
 }
 
-
 .income-card .money-icon {
     background: var(--green-soft);
     color: var(--green);
 }
 
-
 .expense-card .money-icon {
     background: var(--red-soft);
     color: var(--red);
 }
-
 
 .money-label {
     color: var(--muted);
@@ -652,7 +616,6 @@ input[type="number"] {
     font-size: 11px;
     font-weight: 600;
 }
-
 
 .money-amount {
     margin-top: 10px;
@@ -680,7 +643,6 @@ input[type="number"] {
     margin-bottom: 16px;
 }
 
-
 .transaction-btn {
     display: flex;
     align-items: center;
@@ -692,7 +654,6 @@ input[type="number"] {
     background: white;
 
     border: 1px solid var(--line);
-
     border-radius: var(--radius);
 
     text-align: left;
@@ -701,9 +662,9 @@ input[type="number"] {
 
     transition:
         transform 0.2s ease,
-        box-shadow 0.2s ease;
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
 }
-
 
 .transaction-btn:hover {
     transform: translateY(-2px);
@@ -711,6 +672,13 @@ input[type="number"] {
     box-shadow: var(--shadow);
 }
 
+.transaction-btn.income:hover {
+    border-color: rgba(24, 165, 114, 0.25);
+}
+
+.transaction-btn.expense:hover {
+    border-color: rgba(233, 87, 87, 0.25);
+}
 
 .transaction-btn-icon {
     width: 38px;
@@ -728,31 +696,28 @@ input[type="number"] {
     font-weight: 500;
 }
 
-
 .transaction-btn.income .transaction-btn-icon {
     background: var(--green-soft);
     color: var(--green);
 }
-
 
 .transaction-btn.expense .transaction-btn-icon {
     background: var(--red-soft);
     color: var(--red);
 }
 
-
 .transaction-btn-content {
     display: flex;
     flex-direction: column;
 
     gap: 3px;
-}
 
+    min-width: 0;
+}
 
 .transaction-btn-content strong {
     font-size: 12px;
 }
-
 
 .transaction-btn-content span {
     color: var(--muted);
@@ -775,10 +740,11 @@ input[type="number"] {
     background: #fff7df;
 
     border: 1px solid #f6e6bb;
-
     border-radius: var(--radius);
-}
 
+    box-shadow:
+        0 5px 16px rgba(242, 184, 75, 0.05);
+}
 
 .quote-icon {
     position: absolute;
@@ -794,7 +760,6 @@ input[type="number"] {
     font-weight: 700;
 }
 
-
 .quote-card p {
     color: #806b3b;
 
@@ -809,16 +774,18 @@ input[type="number"] {
 ===================================================== */
 
 .section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
     margin-bottom: 11px;
 }
-
 
 .section-title h2 {
     font-size: 17px;
 
     letter-spacing: -0.4px;
 }
-
 
 .menu-list {
     display: flex;
@@ -827,7 +794,6 @@ input[type="number"] {
 
     gap: 9px;
 }
-
 
 .menu-card {
     width: 100%;
@@ -840,7 +806,6 @@ input[type="number"] {
     background: white;
 
     border: 1px solid var(--line);
-
     border-radius: var(--radius);
 
     text-align: left;
@@ -849,9 +814,9 @@ input[type="number"] {
 
     transition:
         transform 0.2s ease,
-        box-shadow 0.2s ease;
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
 }
-
 
 .menu-card:hover {
     transform: translateX(2px);
@@ -859,6 +824,9 @@ input[type="number"] {
     box-shadow: var(--shadow);
 }
 
+.menu-card:active {
+    transform: scale(0.995);
+}
 
 .menu-icon {
     width: 42px;
@@ -874,32 +842,29 @@ input[type="number"] {
 
     font-size: 16px;
     font-weight: 800;
-}
 
+    flex-shrink: 0;
+}
 
 .history-icon {
     background: var(--blue-soft);
     color: var(--blue);
 }
 
-
 .summary-icon {
     background: var(--purple-soft);
     color: var(--purple);
 }
-
 
 .recap-icon {
     background: var(--green-soft);
     color: var(--green);
 }
 
-
 .loan-icon {
     background: var(--orange-soft);
     color: var(--orange);
 }
-
 
 .menu-content {
     flex: 1;
@@ -908,25 +873,28 @@ input[type="number"] {
     flex-direction: column;
 
     gap: 3px;
-}
 
+    min-width: 0;
+}
 
 .menu-content strong {
     font-size: 13px;
 }
 
-
 .menu-content span {
     color: var(--muted);
 
     font-size: 10px;
-}
 
+    line-height: 1.4;
+}
 
 .menu-arrow {
     color: var(--soft);
 
     font-size: 18px;
+
+    margin-left: 8px;
 }
 
 
@@ -946,16 +914,15 @@ input[type="number"] {
     background: white;
 
     border: 1px solid var(--line);
-
     border-radius: var(--radius);
-}
 
+    box-shadow: var(--shadow-small);
+}
 
 .period-selector > div {
     font-size: 12px;
     font-weight: 800;
 }
-
 
 .period-btn {
     width: 34px;
@@ -964,12 +931,23 @@ input[type="number"] {
     border-radius: 9px;
 
     background: var(--paper);
-
     color: var(--ink);
 
     font-size: 20px;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
 }
 
+.period-btn:hover {
+    background: var(--orange-soft);
+    color: var(--orange);
+}
+
+.period-btn:active {
+    transform: scale(0.94);
+}
 
 .summary-grid {
     display: grid;
@@ -981,26 +959,22 @@ input[type="number"] {
     margin-bottom: 14px;
 }
 
-
 .summary-card {
     padding: 16px;
 
     background: white;
 
     border: 1px solid var(--line);
-
     border-radius: var(--radius);
 
     box-shadow: var(--shadow-small);
 }
-
 
 .summary-card-label {
     color: var(--muted);
 
     font-size: 10px;
 }
-
 
 .summary-card-value {
     margin-top: 8px;
@@ -1009,16 +983,13 @@ input[type="number"] {
     font-weight: 800;
 }
 
-
 .income-summary .summary-card-value {
     color: var(--green);
 }
 
-
 .expense-summary .summary-card-value {
     color: var(--red);
 }
-
 
 .balance-summary .summary-card-value {
     color: var(--orange);
@@ -1037,12 +1008,10 @@ input[type="number"] {
     background: white;
 
     border: 1px solid var(--line);
-
     border-radius: var(--radius);
 
     box-shadow: var(--shadow-small);
 }
-
 
 .card-header {
     display: flex;
@@ -1052,11 +1021,9 @@ input[type="number"] {
     margin-bottom: 15px;
 }
 
-
 .card-header h3 {
     font-size: 13px;
 }
-
 
 .card-header p {
     margin-top: 4px;
@@ -1066,13 +1033,11 @@ input[type="number"] {
     font-size: 10px;
 }
 
-
 .card-header > strong {
     color: var(--orange);
 
     font-size: 14px;
 }
-
 
 .progress-bar {
     height: 8px;
@@ -1084,23 +1049,22 @@ input[type="number"] {
     border-radius: 100px;
 }
 
-
 .progress-fill {
     height: 100%;
 
     width: 0;
 
-    background: linear-gradient(
-        90deg,
-        var(--orange),
-        var(--purple)
-    );
+    background:
+        linear-gradient(
+            90deg,
+            var(--orange),
+            var(--purple)
+        );
 
     border-radius: 100px;
 
     transition: width 0.4s;
 }
-
 
 .chart-container {
     position: relative;
@@ -1125,11 +1089,9 @@ input[type="number"] {
     border-bottom: 1px solid var(--line);
 }
 
-
 .category-item:last-child {
     border-bottom: 0;
 }
-
 
 .category-icon {
     width: 36px;
@@ -1140,24 +1102,20 @@ input[type="number"] {
     align-items: center;
 
     background: var(--red-soft);
-
     color: var(--red);
 
     border-radius: 10px;
 }
 
-
 .category-info {
     flex: 1;
 }
-
 
 .category-info strong {
     display: block;
 
     font-size: 12px;
 }
-
 
 .category-info span {
     display: block;
@@ -1168,7 +1126,6 @@ input[type="number"] {
 
     font-size: 9px;
 }
-
 
 .category-total {
     font-size: 12px;
@@ -1188,8 +1145,13 @@ input[type="number"] {
     overflow-x: auto;
 
     margin-bottom: 12px;
+
+    scrollbar-width: none;
 }
 
+.filter-tabs::-webkit-scrollbar {
+    display: none;
+}
 
 .filter-tab {
     flex-shrink: 0;
@@ -1197,16 +1159,18 @@ input[type="number"] {
     padding: 8px 13px;
 
     background: white;
-
     color: var(--muted);
 
     border: 1px solid var(--line);
-
     border-radius: 100px;
 
     font-size: 10px;
-}
 
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
 
 .filter-tab.active {
     background: var(--ink);
@@ -1216,7 +1180,6 @@ input[type="number"] {
     color: white;
 }
 
-
 .filter-card {
     padding: 16px;
 
@@ -1225,10 +1188,8 @@ input[type="number"] {
     background: white;
 
     border: 1px solid var(--line);
-
     border-radius: var(--radius);
 }
-
 
 .filter-row {
     display: grid;
@@ -1238,7 +1199,6 @@ input[type="number"] {
     gap: 11px;
 }
 
-
 .transaction-list {
     display: flex;
 
@@ -1246,7 +1206,6 @@ input[type="number"] {
 
     gap: 8px;
 }
-
 
 .transaction-item {
     display: flex;
@@ -1257,21 +1216,23 @@ input[type="number"] {
     background: white;
 
     border: 1px solid var(--line);
-
     border-radius: var(--radius-small);
 
     box-shadow: var(--shadow-small);
 
     cursor: pointer;
 
-    transition: 0.2s;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
-
 
 .transaction-item:hover {
     transform: translateY(-1px);
-}
 
+    box-shadow:
+        0 7px 20px rgba(32, 34, 45, 0.07);
+}
 
 .transaction-item-icon {
     width: 39px;
@@ -1286,25 +1247,21 @@ input[type="number"] {
     border-radius: 11px;
 }
 
-
 .transaction-item.income .transaction-item-icon {
     background: var(--green-soft);
     color: var(--green);
 }
-
 
 .transaction-item.expense .transaction-item-icon {
     background: var(--red-soft);
     color: var(--red);
 }
 
-
 .transaction-item-info {
     flex: 1;
 
     min-width: 0;
 }
-
 
 .transaction-item-info strong {
     display: block;
@@ -1318,7 +1275,6 @@ input[type="number"] {
     font-size: 12px;
 }
 
-
 .transaction-item-info span {
     display: block;
 
@@ -1329,19 +1285,18 @@ input[type="number"] {
     font-size: 9px;
 }
 
-
 .transaction-item-amount {
     text-align: right;
 
     font-size: 11px;
     font-weight: 800;
-}
 
+    margin-left: 10px;
+}
 
 .transaction-item.income .transaction-item-amount {
     color: var(--green);
 }
-
 
 .transaction-item.expense .transaction-item-amount {
     color: var(--red);
@@ -1358,12 +1313,10 @@ input[type="number"] {
     background: white;
 
     border: 1px solid var(--line);
-
     border-radius: var(--radius);
 
     box-shadow: var(--shadow-small);
 }
-
 
 .recap-table-header {
     display: flex;
@@ -1373,13 +1326,13 @@ input[type="number"] {
     padding: 18px;
 
     border-bottom: 1px solid var(--line);
-}
 
+    gap: 12px;
+}
 
 .recap-table-header h3 {
     font-size: 14px;
 }
-
 
 .recap-table-header p {
     margin-top: 4px;
@@ -1389,8 +1342,9 @@ input[type="number"] {
     font-size: 10px;
 }
 
-
 .recap-count {
+    flex-shrink: 0;
+
     padding: 6px 9px;
 
     background: var(--paper);
@@ -1402,13 +1356,11 @@ input[type="number"] {
     font-size: 9px;
 }
 
-
 .table-wrapper {
     width: 100%;
 
     overflow-x: auto;
 }
-
 
 table {
     width: 100%;
@@ -1417,7 +1369,6 @@ table {
 
     min-width: 700px;
 }
-
 
 th {
     padding: 12px 14px;
@@ -1436,7 +1387,6 @@ th {
     letter-spacing: 0.5px;
 }
 
-
 td {
     padding: 13px 14px;
 
@@ -1445,11 +1395,9 @@ td {
     font-size: 11px;
 }
 
-
 .text-right {
     text-align: right;
 }
-
 
 .recap-income {
     color: var(--green);
@@ -1457,13 +1405,11 @@ td {
     font-weight: 800;
 }
 
-
 .recap-expense {
     color: var(--red);
 
     font-weight: 800;
 }
-
 
 .type-badge {
     display: inline-block;
@@ -1476,12 +1422,10 @@ td {
     font-weight: 800;
 }
 
-
 .type-badge.income {
     background: var(--green-soft);
     color: var(--green);
 }
-
 
 .type-badge.expense {
     background: var(--red-soft);
@@ -1497,7 +1441,6 @@ td {
     padding: 10px 13px;
 
     background: var(--orange);
-
     color: white;
 
     border-radius: 10px;
@@ -1507,8 +1450,17 @@ td {
 
     box-shadow:
         0 6px 15px rgba(255, 112, 67, 0.18);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
 }
 
+.add-loan-btn:hover {
+    background: var(--orange-dark);
+
+    transform: translateY(-1px);
+}
 
 .loan-overview {
     display: grid;
@@ -1531,26 +1483,25 @@ td {
         0 13px 30px rgba(23, 32, 51, 0.14);
 }
 
-
 .loan-overview-main {
     display: flex;
+
     flex-direction: column;
 
     justify-content: center;
 
     padding-right: 15px;
 
-    border-right: 1px solid rgba(255,255,255,0.1);
+    border-right:
+        1px solid rgba(255, 255, 255, 0.1);
 }
-
 
 .loan-overview-main span,
 .loan-overview-side span {
-    color: rgba(255,255,255,0.55);
+    color: rgba(255, 255, 255, 0.55);
 
     font-size: 9px;
 }
-
 
 .loan-overview-main strong {
     margin-top: 6px;
@@ -1558,20 +1509,19 @@ td {
     font-size: 22px;
 }
 
-
 .loan-overview-side {
     display: flex;
+
     flex-direction: column;
 
     gap: 13px;
 }
 
-
 .loan-overview-side div {
     display: flex;
+
     flex-direction: column;
 }
-
 
 .loan-overview-side strong {
     margin-top: 3px;
@@ -1580,7 +1530,6 @@ td {
 
     font-size: 13px;
 }
-
 
 .loan-card {
     position: relative;
@@ -1592,31 +1541,34 @@ td {
     background: white;
 
     border: 1px solid var(--line);
-
     border-radius: var(--radius);
 
     box-shadow: var(--shadow-small);
 }
 
-
 .loan-card-header {
     display: flex;
+
     align-items: flex-start;
+
     justify-content: space-between;
 }
 
-
 .loan-source {
     display: flex;
+
     align-items: center;
 
     gap: 10px;
-}
 
+    min-width: 0;
+}
 
 .loan-source-icon {
     width: 39px;
     height: 39px;
+
+    flex-shrink: 0;
 
     display: flex;
     justify-content: center;
@@ -1625,20 +1577,19 @@ td {
     border-radius: 11px;
 
     background: var(--orange-soft);
-
     color: var(--orange);
 
     font-size: 12px;
     font-weight: 800;
 }
 
-
 .loan-source strong {
     display: block;
 
     font-size: 13px;
-}
 
+    word-break: break-word;
+}
 
 .loan-source span {
     display: block;
@@ -1650,13 +1601,13 @@ td {
     font-size: 9px;
 }
 
-
 .loan-actions {
     display: flex;
 
     gap: 5px;
-}
 
+    flex-shrink: 0;
+}
 
 .loan-action {
     width: 29px;
@@ -1669,13 +1620,11 @@ td {
     color: var(--muted);
 }
 
-
 .loan-action.delete {
     color: var(--red);
 
     background: var(--red-soft);
 }
-
 
 .loan-details {
     display: grid;
@@ -1691,7 +1640,6 @@ td {
     border-top: 1px solid var(--line);
 }
 
-
 .loan-detail span {
     display: block;
 
@@ -1700,7 +1648,6 @@ td {
     font-size: 9px;
 }
 
-
 .loan-detail strong {
     display: block;
 
@@ -1708,7 +1655,6 @@ td {
 
     font-size: 11px;
 }
-
 
 .loan-remaining {
     margin-top: 14px;
@@ -1720,15 +1666,12 @@ td {
     border-radius: 9px;
 }
 
-
 .loan-remaining-row {
     display: flex;
 
     justify-content: space-between;
-
     align-items: center;
 }
-
 
 .loan-remaining-row span {
     color: var(--muted);
@@ -1736,21 +1679,17 @@ td {
     font-size: 9px;
 }
 
-
 .loan-remaining-row strong {
     font-size: 11px;
 }
-
 
 .input-with-suffix {
     position: relative;
 }
 
-
 .input-with-suffix input {
     padding-right: 65px;
 }
-
 
 .input-with-suffix span {
     position: absolute;
@@ -1765,7 +1704,6 @@ td {
     font-size: 11px;
 }
 
-
 .input-help {
     display: block;
 
@@ -1775,7 +1713,6 @@ td {
 
     font-size: 9px;
 }
-
 
 .loan-calculation {
     display: flex;
@@ -1792,13 +1729,11 @@ td {
     border-radius: 11px;
 }
 
-
 .loan-calculation span {
     color: #99503b;
 
     font-size: 11px;
 }
-
 
 .loan-calculation strong {
     color: var(--orange);
@@ -1825,7 +1760,6 @@ td {
     border-radius: 100px;
 }
 
-
 .loan-progress-fill {
     height: 100%;
 
@@ -1840,7 +1774,6 @@ td {
 
     transition: width 0.35s ease;
 }
-
 
 .loan-payment-status {
     display: grid;
@@ -1858,7 +1791,6 @@ td {
     border-radius: 10px;
 }
 
-
 .loan-payment-status div {
     display: flex;
 
@@ -1867,33 +1799,27 @@ td {
     gap: 4px;
 }
 
-
 .loan-payment-status span {
     color: var(--muted);
 
     font-size: 9px;
 }
 
-
 .loan-payment-status strong {
     font-size: 11px;
 }
-
 
 .loan-paid-value {
     color: var(--green);
 }
 
-
 .loan-remaining-tenor {
     color: var(--orange);
 }
 
-
 .loan-paid {
     color: var(--green) !important;
 }
-
 
 .loan-payment-btn {
     width: 100%;
@@ -1903,13 +1829,11 @@ td {
     padding: 12px;
 
     background: var(--green);
-
     color: white;
 
     border-radius: 10px;
 
     font-size: 11px;
-
     font-weight: 800;
 
     transition: 0.2s;
@@ -1918,13 +1842,11 @@ td {
         0 6px 15px rgba(24, 165, 114, 0.15);
 }
 
-
 .loan-payment-btn:hover {
     background: #138b61;
 
     transform: translateY(-1px);
 }
-
 
 .loan-paid-banner {
     margin-top: 12px;
@@ -1940,7 +1862,6 @@ td {
     text-align: center;
 
     font-size: 10px;
-
     font-weight: 800;
 }
 
@@ -1959,12 +1880,10 @@ td {
     border-radius: 11px;
 }
 
-
 .payment-summary-row {
     display: flex;
 
     justify-content: space-between;
-
     align-items: center;
 
     gap: 15px;
@@ -1974,18 +1893,15 @@ td {
     border-bottom: 1px solid var(--line);
 }
 
-
 .payment-summary-row:last-child {
     border-bottom: 0;
 }
-
 
 .payment-summary-row span {
     color: var(--muted);
 
     font-size: 10px;
 }
-
 
 .payment-summary-row strong {
     color: var(--ink);
@@ -1994,7 +1910,6 @@ td {
 
     font-size: 11px;
 }
-
 
 .payment-calculation {
     padding: 15px;
@@ -2006,17 +1921,14 @@ td {
     border-radius: 11px;
 }
 
-
 .payment-calculation > div {
     display: flex;
 
     justify-content: space-between;
-
     align-items: center;
 
     gap: 15px;
 }
-
 
 .payment-calculation span {
     color: #3d7661;
@@ -2024,13 +1936,11 @@ td {
     font-size: 10px;
 }
 
-
 .payment-calculation strong {
     color: var(--green);
 
     font-size: 15px;
 }
-
 
 .payment-submit-btn {
     background: var(--green);
@@ -2038,7 +1948,6 @@ td {
     box-shadow:
         0 7px 18px rgba(24, 165, 114, 0.18);
 }
-
 
 .payment-submit-btn:hover {
     background: #138b61;
@@ -2051,6 +1960,7 @@ td {
 
 .account-card {
     display: flex;
+
     align-items: center;
 
     padding: 20px;
@@ -2060,12 +1970,10 @@ td {
     background: white;
 
     border: 1px solid var(--line);
-
     border-radius: var(--radius);
 
     box-shadow: var(--shadow-small);
 }
-
 
 .account-avatar {
     width: 48px;
@@ -2084,7 +1992,6 @@ td {
     font-size: 19px;
 }
 
-
 .account-info span {
     display: block;
 
@@ -2092,7 +1999,6 @@ td {
 
     font-size: 9px;
 }
-
 
 .account-info strong {
     display: block;
@@ -2104,13 +2010,11 @@ td {
     word-break: break-all;
 }
 
-
 .app-info h3 {
     margin-bottom: 7px;
 
     font-size: 14px;
 }
-
 
 .app-info p {
     color: var(--muted);
@@ -2120,7 +2024,6 @@ td {
     line-height: 1.6;
 }
 
-
 .app-version {
     margin-top: 14px;
 
@@ -2129,20 +2032,28 @@ td {
     font-size: 9px;
 }
 
-
 .logout-btn {
     width: 100%;
 
     padding: 13px;
 
     background: var(--red-soft);
-
     color: var(--red);
 
     border-radius: 10px;
 
     font-size: 12px;
     font-weight: 800;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.logout-btn:hover {
+    background: #ffe2e2;
+
+    transform: translateY(-1px);
 }
 
 
@@ -2160,35 +2071,36 @@ td {
 
     z-index: 100;
 
-    height: 72px;
+    height: 76px;
 
     display: flex;
     justify-content: center;
     align-items: stretch;
 
+    gap: 3px;
+
     padding:
-        4px 6px
+        5px 7px
         env(safe-area-inset-bottom, 0);
 
-    background: rgba(255, 255, 255, 0.96);
+    background: rgba(255, 255, 255, 0.97);
 
     backdrop-filter: blur(18px);
 
-    border-top: 1px solid var(--line);
+    border-top: 1px solid rgba(232, 230, 223, 0.95);
 
     box-shadow:
-        0 -5px 20px rgba(32, 34, 45, 0.035);
+        0 -7px 24px rgba(32, 34, 45, 0.055);
 }
-
 
 .nav-item {
     flex: 1;
 
     min-width: 0;
-
-    max-width: none;
+    max-width: 125px;
 
     display: flex;
+
     flex-direction: column;
 
     justify-content: center;
@@ -2196,23 +2108,43 @@ td {
 
     gap: 3px;
 
-    padding: 5px 2px;
+    padding: 5px 3px;
 
     background: transparent;
 
     color: var(--soft);
 
+    border-radius: 13px;
+
     font-size: 8px;
     font-weight: 700;
 
+    line-height: 1;
+
     transition:
         color 0.2s ease,
+        background 0.2s ease,
         transform 0.2s ease;
 }
 
+.nav-label {
+    display: block;
+
+    width: 100%;
+
+    overflow: hidden;
+
+    text-align: center;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+
+    line-height: 1.15;
+}
 
 .nav-icon {
-    width: 31px;
+    width: 32px;
     height: 28px;
 
     display: flex;
@@ -2222,26 +2154,51 @@ td {
     border-radius: 9px;
 
     font-size: 16px;
+    font-weight: 800;
 
     transition:
         background 0.2s ease,
-        color 0.2s ease;
+        color 0.2s ease,
+        transform 0.2s ease;
 }
-
 
 .nav-item.active {
     color: var(--orange);
-}
 
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 112, 67, 0.075),
+            rgba(255, 112, 67, 0.025)
+        );
+}
 
 .nav-item.active .nav-icon {
     background: var(--orange-soft);
 
     color: var(--orange);
+
+    box-shadow:
+        0 3px 9px rgba(255, 112, 67, 0.08);
 }
 
+.nav-item:hover {
+    color: var(--orange);
+
+    background: rgba(255, 112, 67, 0.045);
+}
+
+.nav-item:hover .nav-icon {
+    background: var(--orange-soft);
+
+    color: var(--orange);
+}
 
 .nav-item:active {
+    transform: scale(0.94);
+}
+
+.nav-item:active .nav-icon {
     transform: scale(0.94);
 }
 
@@ -2260,9 +2217,9 @@ td {
     display: flex;
 
     justify-content: center;
+
     align-items: flex-end;
 }
-
 
 .modal-overlay {
     position: absolute;
@@ -2272,14 +2229,12 @@ td {
     background: rgba(23, 32, 51, 0.5);
 }
 
-
 .modal-content {
     position: relative;
 
     z-index: 2;
 
     width: 100%;
-
     max-width: 620px;
 
     max-height: 90vh;
@@ -2295,9 +2250,7 @@ td {
     animation: modalUp 0.2s ease;
 }
 
-
 @keyframes modalUp {
-
     from {
         transform: translateY(25px);
         opacity: 0;
@@ -2307,9 +2260,7 @@ td {
         transform: translateY(0);
         opacity: 1;
     }
-
 }
-
 
 .modal-header {
     display: flex;
@@ -2320,20 +2271,17 @@ td {
     margin-bottom: 21px;
 }
 
-
 .modal-header h2 {
     margin-bottom: 4px;
 
     font-size: 18px;
 }
 
-
 .modal-header p {
     color: var(--muted);
 
     font-size: 10px;
 }
-
 
 .modal-close {
     width: 33px;
@@ -2346,6 +2294,19 @@ td {
     border-radius: 50%;
 
     font-size: 21px;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.modal-close:hover {
+    background: var(--red-soft);
+
+    color: var(--red);
+
+    transform: rotate(3deg);
 }
 
 
@@ -2359,7 +2320,6 @@ td {
     border-bottom: 1px solid var(--line);
 }
 
-
 .detail-label {
     margin-bottom: 5px;
 
@@ -2368,28 +2328,25 @@ td {
     font-size: 9px;
 }
 
-
 .detail-value {
     font-size: 12px;
+
     font-weight: 700;
 }
 
-
 .detail-amount {
     font-size: 23px;
+
     font-weight: 800;
 }
-
 
 .detail-amount.income {
     color: var(--green);
 }
 
-
 .detail-amount.expense {
     color: var(--red);
 }
-
 
 .detail-actions {
     display: grid;
@@ -2401,7 +2358,6 @@ td {
     margin-top: 17px;
 }
 
-
 .detail-edit-btn,
 .detail-delete-btn {
     padding: 12px;
@@ -2412,13 +2368,11 @@ td {
     font-weight: 800;
 }
 
-
 .detail-edit-btn {
     background: var(--purple-soft);
 
     color: var(--purple);
 }
-
 
 .detail-delete-btn {
     background: var(--red-soft);
@@ -2443,7 +2397,7 @@ td {
 
 
 /* =====================================================
-   RESPONSIVE
+   RESPONSIVE DESKTOP
 ===================================================== */
 
 @media (min-width: 768px) {
@@ -2452,56 +2406,59 @@ td {
         padding: 0 35px;
     }
 
-
     .page-container {
         padding: 35px 25px;
     }
-
 
     .bottom-nav {
         left: 50%;
         right: auto;
 
-        width: min(720px, calc(100% - 40px));
+        width: min(760px, calc(100% - 40px));
 
         transform: translateX(-50%);
 
-        height: 74px;
+        height: 78px;
 
-        padding: 4px 8px;
+        padding:
+            5px 9px;
 
-        border: 1px solid var(--line);
+        border:
+            1px solid var(--line);
 
         border-bottom: 0;
 
-        border-radius: 18px 18px 0 0;
+        border-radius: 20px 20px 0 0;
     }
-
 
     .nav-item {
+        max-width: none;
+
         font-size: 9px;
+
+        border-radius: 14px;
     }
 
-
     .nav-icon {
-        width: 34px;
-        height: 29px;
+        width: 35px;
+        height: 30px;
 
         font-size: 17px;
     }
-
 
     .modal {
         align-items: center;
     }
 
-
     .modal-content {
         border-radius: 20px;
     }
-
 }
 
+
+/* =====================================================
+   TABLET / SMALL LAPTOP
+===================================================== */
 
 @media (max-width: 650px) {
 
@@ -2509,44 +2466,44 @@ td {
         grid-template-columns: 1fr;
     }
 
-
     .loan-overview-main {
         padding-right: 0;
+
         padding-bottom: 15px;
 
         border-right: 0;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
 
+        border-bottom:
+            1px solid rgba(255, 255, 255, 0.1);
+    }
 }
 
+
+/* =====================================================
+   MOBILE
+===================================================== */
 
 @media (max-width: 520px) {
 
     .app {
-        padding-bottom: 86px;
+        padding-bottom: 88px;
     }
-
 
     .top-header {
         padding: 0 17px;
     }
 
-
     .page-container {
         padding: 22px 15px;
     }
-
 
     .page-header {
         margin-bottom: 19px;
     }
 
-
     .page-header h1 {
         font-size: 23px;
     }
-
 
     .balance-card {
         padding: 24px 21px;
@@ -2554,46 +2511,37 @@ td {
         border-radius: 19px;
     }
 
-
     .balance-amount {
         font-size: 27px;
     }
-
 
     .income-expense-grid {
         gap: 9px;
     }
 
-
     .money-card {
         padding: 15px;
     }
-
 
     .money-amount {
         font-size: 15px;
     }
 
-
     .transaction-buttons {
         grid-template-columns: 1fr;
     }
-
 
     .filter-row {
         grid-template-columns: 1fr;
     }
 
-
     .loan-details {
         grid-template-columns: repeat(2, 1fr);
     }
 
-
     .loan-payment-status {
         grid-template-columns: 1fr;
     }
-
 
     .payment-summary-row {
         align-items: flex-start;
@@ -2603,11 +2551,9 @@ td {
         gap: 3px;
     }
 
-
     .payment-summary-row strong {
         text-align: left;
     }
-
 
     .payment-calculation > div {
         align-items: flex-start;
@@ -2623,25 +2569,32 @@ td {
     ================================================= */
 
     .bottom-nav {
-        height: 70px;
+        height: 72px;
+
+        gap: 1px;
 
         padding:
-            3px 3px
+            3px 4px
             env(safe-area-inset-bottom, 0);
-    }
 
+        box-shadow:
+            0 -6px 20px rgba(32, 34, 45, 0.05);
+    }
 
     .nav-item {
-        padding: 4px 0;
+        max-width: none;
 
-        font-size: 7.5px;
+        padding: 4px 1px;
 
         gap: 2px;
+
+        border-radius: 11px;
+
+        font-size: 7.5px;
     }
 
-
     .nav-icon {
-        width: 28px;
+        width: 29px;
         height: 25px;
 
         border-radius: 8px;
@@ -2649,6 +2602,14 @@ td {
         font-size: 15px;
     }
 
+    .nav-item.active {
+        background:
+            linear-gradient(
+                180deg,
+                rgba(255, 112, 67, 0.08),
+                rgba(255, 112, 67, 0.02)
+            );
+    }
 
     .nav-item.active .nav-icon {
         background: var(--orange-soft);
@@ -2656,6 +2617,9 @@ td {
         color: var(--orange);
     }
 
+    .nav-label {
+        letter-spacing: -0.1px;
+    }
 
     .modal-content {
         padding: 21px;
@@ -2663,37 +2627,102 @@ td {
         border-radius: 20px 20px 0 0;
     }
 
+    .recap-table-header {
+        align-items: flex-start;
+    }
+
+    .recap-count {
+        margin-top: 1px;
+    }
 }
 
 
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
 @media (max-width: 380px) {
 
-    .bottom-nav {
-        height: 68px;
+    .app {
+        padding-bottom: 85px;
     }
 
+    .bottom-nav {
+        height: 69px;
+
+        padding:
+            3px 2px
+            env(safe-area-inset-bottom, 0);
+    }
 
     .nav-item {
+        padding: 3px 0;
+
         font-size: 7px;
+
+        border-radius: 9px;
     }
 
-
     .nav-icon {
-        width: 26px;
+        width: 27px;
         height: 24px;
 
         font-size: 14px;
     }
-
 
     .page-container {
         padding-left: 12px;
         padding-right: 12px;
     }
 
-
     .balance-amount {
         font-size: 25px;
     }
 
+    .money-card {
+        padding: 13px;
+    }
+
+    .money-label {
+        font-size: 10px;
+    }
+
+    .money-amount {
+        font-size: 14px;
+    }
+
+    .transaction-btn {
+        padding: 13px;
+    }
+
+    .transaction-btn-content strong {
+        font-size: 11px;
+    }
+
+    .transaction-btn-content span {
+        font-size: 9px;
+    }
+}
+
+
+/* =====================================================
+   EXTRA MOBILE SAFETY
+===================================================== */
+
+@media (max-width: 340px) {
+
+    .nav-item {
+        font-size: 6.5px;
+    }
+
+    .nav-icon {
+        width: 25px;
+        height: 23px;
+
+        font-size: 13px;
+    }
+
+    .nav-label {
+        letter-spacing: -0.2px;
+    }
 }
