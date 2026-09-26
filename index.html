@@ -390,6 +390,35 @@
 
                     </button>
 
+
+                    <!-- CATATAN -->
+                    <button
+                        class="menu-card"
+                        onclick="showPage('notes')"
+                    >
+
+                        <div class="menu-icon notes-icon">
+                            ✓
+                        </div>
+
+                        <div class="menu-content">
+
+                            <strong>
+                                Catatan
+                            </strong>
+
+                            <span>
+                                Pengingat tagihan dan piutang
+                            </span>
+
+                        </div>
+
+                        <div class="menu-arrow">
+                            ›
+                        </div>
+
+                    </button>
+
                 </div>
 
             </div>
@@ -916,6 +945,60 @@
 
                 <!-- LOAN LIST -->
                 <div id="loan-list-container"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- NOTES -->
+        <section id="page-notes" class="page">
+
+            <div class="page-container">
+
+                <div class="page-header">
+
+                    <div>
+
+                        <span class="page-kicker">
+                            PENGINGAT
+                        </span>
+
+                        <h1>
+                            Catatan
+                        </h1>
+
+                        <p>
+                            Catat tagihan dan piutang agar tidak lupa.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="add-loan-btn"
+                        onclick="openNoteModal()"
+                    >
+                        + Catatan
+                    </button>
+
+                </div>
+
+
+                <!-- NOTES LIST -->
+                <div
+                    id="notes-list-container"
+                    class="notes-list"
+                ></div>
+
+
+                <!-- NOTES EMPTY -->
+                <div
+                    id="notes-empty"
+                    class="empty-state hidden"
+                >
+                    Belum ada catatan.
+                </div>
 
             </div>
 
@@ -1581,6 +1664,246 @@
                 </button>
 
             </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- NOTE MODAL -->
+    <div
+        id="note-modal"
+        class="modal hidden"
+    >
+
+        <div
+            class="modal-overlay"
+            onclick="closeNoteModal()"
+        ></div>
+
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <span class="modal-kicker">
+                        CATATAN
+                    </span>
+
+                    <h2 id="note-modal-title">
+                        Tambah Catatan
+                    </h2>
+
+                    <p>
+                        Catat tagihan atau piutang kamu.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="modal-close"
+                    onclick="closeNoteModal()"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="note-form">
+
+                <!-- JENIS CATATAN -->
+                <div class="form-group">
+
+                    <label for="note-type">
+                        Jenis Catatan
+                    </label>
+
+                    <select
+                        id="note-type"
+                        required
+                    >
+
+                        <option value="Tagihan">
+                            Tagihan
+                        </option>
+
+                        <option value="Piutang">
+                            Piutang
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- JUDUL -->
+                <div class="form-group">
+
+                    <label for="note-title">
+                        Judul
+                    </label>
+
+                    <input
+                        type="text"
+                        id="note-title"
+                        placeholder="Contoh: Bayar listrik"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- ORANG TERKAIT -->
+                <div class="form-group">
+
+                    <label for="note-person">
+                        Orang Terkait
+                    </label>
+
+                    <input
+                        type="text"
+                        id="note-person"
+                        placeholder="Contoh: Kholis"
+                    >
+
+                    <small class="input-help">
+                        Bisa dikosongkan jika tidak diperlukan.
+                    </small>
+
+                </div>
+
+
+                <!-- NOMINAL -->
+                <div class="form-group">
+
+                    <label for="note-amount">
+                        Nominal
+                    </label>
+
+                    <input
+                        type="number"
+                        id="note-amount"
+                        placeholder="Masukkan nominal"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- BULAN -->
+                <div class="form-group">
+
+                    <label for="note-month">
+                        Bulan
+                    </label>
+
+                    <input
+                        type="month"
+                        id="note-month"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- JATUH TEMPO -->
+                <div class="form-group">
+
+                    <label for="note-due-date">
+                        Tanggal Jatuh Tempo
+                    </label>
+
+                    <input
+                        type="date"
+                        id="note-due-date"
+                    >
+
+                    <small class="input-help">
+                        Opsional. Isi jika ada tanggal jatuh tempo.
+                    </small>
+
+                </div>
+
+
+                <!-- KETERANGAN -->
+                <div class="form-group">
+
+                    <label for="note-notes">
+                        Keterangan
+                    </label>
+
+                    <textarea
+                        id="note-notes"
+                        rows="3"
+                        placeholder="Contoh: Bayar sebelum tanggal 10"
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                >
+                    Simpan Catatan
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- NOTE DETAIL MODAL -->
+    <div
+        id="note-detail-modal"
+        class="modal hidden"
+    >
+
+        <div
+            class="modal-overlay"
+            onclick="closeNoteDetail()"
+        ></div>
+
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <span class="modal-kicker">
+                        CATATAN
+                    </span>
+
+                    <h2>
+                        Detail Catatan
+                    </h2>
+
+                    <p>
+                        Informasi lengkap catatan.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="modal-close"
+                    onclick="closeNoteDetail()"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div id="note-detail-content"></div>
 
         </div>
 

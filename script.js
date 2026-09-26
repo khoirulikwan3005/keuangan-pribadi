@@ -31,6 +31,14 @@ let transactions = [];
 
 let loans = [];
 
+/* =====================================================
+   CATATAN
+===================================================== */
+
+let notes = [];
+
+let editingNoteId = null;
+
 let currentTransactionType = "Pemasukan";
 
 let editingTransactionId = null;
@@ -588,6 +596,10 @@ if (logoutButton) {
 
             loans = [];
 
+            notes = [];
+
+            editingNoteId = null;
+
             document
                 .getElementById("app")
                 ?.classList
@@ -632,6 +644,8 @@ async function initializeApp() {
     await loadTransactions();
 
     await loadLoans();
+
+    await loadNotes();
 
     updateQuote();
 
@@ -856,6 +870,10 @@ function showPage(pageName) {
 
     if (pageName === "loans") {
         renderLoans();
+    }
+
+    if (pageName === "notes") {
+        renderNotes();
     }
 
     window.scrollTo({
@@ -4280,6 +4298,1140 @@ document
             }
         }
     );
+
+
+/* =====================================================
+   CATATAN
+   LOAD NOTES
+===================================================== */
+
+async function loadNotes() {
+    if (!currentUser) {
+        return;
+    }
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("notes")
+            .select("*")
+            .eq(
+                "user_id",
+                currentUser.id
+            )
+            .order(
+                "is_paid",
+                {
+                    ascending: true
+                }
+            )
+            .order(
+                "due_date",
+                {
+                    ascending: true,
+                    nullsFirst: false
+                }
+            )
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
+    if (error) {
+        console.error(
+            "Gagal mengambil catatan:",
+            error
+        );
+
+        return;
+    }
+
+    notes =
+        data || [];
+
+    renderNotes();
+}
+
+
+/* =====================================================
+   CATATAN
+   FORMAT BULAN
+===================================================== */
+
+function formatNoteMonth(monthString) {
+    if (!monthString) {
+        return "-";
+    }
+
+    const date =
+        new Date(
+            `${String(monthString).substring(0, 10)}T00:00:00`
+        );
+
+    if (isNaN(date.getTime())) {
+        return "-";
+    }
+
+    return date.toLocaleDateString(
+        "id-ID",
+        {
+            month: "long",
+            year: "numeric"
+        }
+    );
+}
+
+
+/* =====================================================
+   CATATAN
+   RENDER
+===================================================== */
+
+function renderNotes() {
+    const container =
+        document.getElementById(
+            "notes-list-container"
+        );
+
+    if (!container) {
+        return;
+    }
+
+    const countElement =
+        document.getElementById(
+            "notes-count"
+        );
+
+    const unpaidCount =
+        notes.filter(
+            function (note) {
+                return !note.is_paid;
+            }
+        ).length;
+
+    if (countElement) {
+        countElement.textContent =
+            `${unpaidCount} belum selesai`;
+    }
+
+    if (!notes.length) {
+        container.innerHTML = `
+            <div class="content-card">
+                <div class="empty-state">
+                    Belum ada catatan.
+                </div>
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        notes
+            .map(
+                function (note) {
+                    const isPaid =
+                        Boolean(
+                            note.is_paid
+                        );
+
+                    const isReceivable =
+                        note.type ===
+                        "Piutang";
+
+                    const title =
+                        note.title ||
+                        (
+                            isReceivable
+                                ? "Piutang"
+                                : "Tagihan"
+                        );
+
+                    const amount =
+                        parseRupiah(
+                            note.amount
+                        );
+
+                    const dueDate =
+                        note.due_date
+                            ? formatDate(
+                                note.due_date
+                            )
+                            : "-";
+
+                    return `
+                        <div
+                            class="note-card ${isPaid ? "paid" : "unpaid"}"
+                            onclick="openNoteDetail('${note.id}')"
+                        >
+
+                            <div class="note-card-main">
+
+                                <div class="note-icon ${isReceivable ? "receivable" : "bill"}">
+                                    ${
+                                        isReceivable
+                                            ? "↗"
+                                            : "🧾"
+                                    }
+                                </div>
+
+                                <div class="note-info">
+
+                                    <strong>
+                                        ${escapeHTML(
+                                            title
+                                        )}
+                                    </strong>
+
+                                    <span>
+                                        ${escapeHTML(
+                                            note.type || "-"
+                                        )}
+                                        ${
+                                            note.person
+                                                ? ` • ${escapeHTML(note.person)}`
+                                                : ""
+                                        }
+                                    </span>
+
+                                    <small>
+                                        ${
+                                            note.month
+                                                ? formatNoteMonth(
+                                                    note.month
+                                                )
+                                                : "Bulan tidak ditentukan"
+                                        }
+                                    </small>
+
+                                </div>
+
+                                <div class="note-amount">
+
+                                    <strong>
+                                        ${formatRupiah(
+                                            amount
+                                        )}
+                                    </strong>
+
+                                    <span class="note-status ${isPaid ? "paid" : "unpaid"}">
+                                        ${
+                                            isPaid
+                                                ? "Selesai"
+                                                : "Belum selesai"
+                                        }
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            ${
+                                note.due_date
+                                    ? `
+                                        <div class="note-card-footer">
+                                            <span>
+                                                Jatuh tempo
+                                            </span>
+
+                                            <strong>
+                                                ${dueDate}
+                                            </strong>
+                                        </div>
+                                    `
+                                    : ""
+                            }
+
+                        </div>
+                    `;
+                }
+            )
+            .join("");
+}
+
+
+/* =====================================================
+   CATATAN
+   OPEN MODAL TAMBAH / EDIT
+===================================================== */
+
+function openNoteModal(
+    note = null
+) {
+    const modal =
+        document.getElementById(
+            "note-modal"
+        );
+
+    const form =
+        document.getElementById(
+            "note-form"
+        );
+
+    if (!modal || !form) {
+        console.error(
+            "note-modal atau note-form tidak ditemukan."
+        );
+
+        return;
+    }
+
+    form.reset();
+
+    editingNoteId =
+        note?.id || null;
+
+    const titleElement =
+        document.getElementById(
+            "note-modal-title"
+        );
+
+    if (titleElement) {
+        titleElement.textContent =
+            note
+                ? "Edit Catatan"
+                : "Tambah Catatan";
+    }
+
+    const typeInput =
+        document.getElementById(
+            "note-type"
+        );
+
+    const titleInput =
+        document.getElementById(
+            "note-title"
+        );
+
+    const personInput =
+        document.getElementById(
+            "note-person"
+        );
+
+    const amountInput =
+        document.getElementById(
+            "note-amount"
+        );
+
+    const monthInput =
+        document.getElementById(
+            "note-month"
+        );
+
+    const dueDateInput =
+        document.getElementById(
+            "note-due-date"
+        );
+
+    const descriptionInput =
+        document.getElementById(
+            "note-description"
+        );
+
+    if (note) {
+        if (typeInput) {
+            typeInput.value =
+                note.type || "Tagihan";
+        }
+
+        if (titleInput) {
+            titleInput.value =
+                note.title || "";
+        }
+
+        if (personInput) {
+            personInput.value =
+                note.person || "";
+        }
+
+        if (amountInput) {
+            amountInput.value =
+                parseRupiah(
+                    note.amount
+                ) || "";
+        }
+
+        if (monthInput) {
+            monthInput.value =
+                note.month
+                    ? String(
+                        note.month
+                    ).substring(0, 7)
+                    : "";
+        }
+
+        if (dueDateInput) {
+            dueDateInput.value =
+                note.due_date
+                    ? String(
+                        note.due_date
+                    ).substring(0, 10)
+                    : "";
+        }
+
+        if (descriptionInput) {
+            descriptionInput.value =
+                note.notes || "";
+        }
+    } else {
+        if (typeInput) {
+            typeInput.value =
+                "Tagihan";
+        }
+
+        const today =
+            getTodayDate();
+
+        if (monthInput) {
+            monthInput.value =
+                `${today.getFullYear()}-${String(
+                    today.getMonth() + 1
+                ).padStart(2, "0")}`;
+        }
+    }
+
+    updateNotePersonField();
+
+    modal
+        .classList
+        .remove("hidden");
+}
+
+
+/* =====================================================
+   CATATAN
+   CLOSE MODAL
+===================================================== */
+
+function closeNoteModal() {
+    const modal =
+        document.getElementById(
+            "note-modal"
+        );
+
+    if (modal) {
+        modal
+            .classList
+            .add("hidden");
+    }
+
+    editingNoteId = null;
+}
+
+
+/* =====================================================
+   CATATAN
+   PERSON FIELD
+===================================================== */
+
+function updateNotePersonField() {
+    const typeInput =
+        document.getElementById(
+            "note-type"
+        );
+
+    const personGroup =
+        document.getElementById(
+            "note-person-group"
+        );
+
+    const personInput =
+        document.getElementById(
+            "note-person"
+        );
+
+    if (!typeInput) {
+        return;
+    }
+
+    const isReceivable =
+        typeInput.value ===
+        "Piutang";
+
+    if (personGroup) {
+        personGroup.classList.toggle(
+            "hidden",
+            !isReceivable
+        );
+    }
+
+    if (personInput) {
+        personInput.required =
+            isReceivable;
+    }
+}
+
+
+document
+    .getElementById(
+        "note-type"
+    )
+    ?.addEventListener(
+        "change",
+        updateNotePersonField
+    );
+
+
+/* =====================================================
+   CATATAN
+   SAVE
+===================================================== */
+
+document
+    .getElementById(
+        "note-form"
+    )
+    ?.addEventListener(
+        "submit",
+        async function (event) {
+            event.preventDefault();
+
+            if (!currentUser) {
+                alert(
+                    "Sesi login tidak ditemukan."
+                );
+
+                return;
+            }
+
+            const typeInput =
+                document.getElementById(
+                    "note-type"
+                );
+
+            const titleInput =
+                document.getElementById(
+                    "note-title"
+                );
+
+            const personInput =
+                document.getElementById(
+                    "note-person"
+                );
+
+            const amountInput =
+                document.getElementById(
+                    "note-amount"
+                );
+
+            const monthInput =
+                document.getElementById(
+                    "note-month"
+                );
+
+            const dueDateInput =
+                document.getElementById(
+                    "note-due-date"
+                );
+
+            const descriptionInput =
+                document.getElementById(
+                    "note-description"
+                );
+
+            if (
+                !typeInput ||
+                !titleInput ||
+                !amountInput
+            ) {
+                alert(
+                    "Field catatan tidak ditemukan."
+                );
+
+                return;
+            }
+
+            const type =
+                String(
+                    typeInput.value || ""
+                ).trim();
+
+            const title =
+                String(
+                    titleInput.value || ""
+                ).trim();
+
+            const person =
+                String(
+                    personInput?.value || ""
+                ).trim();
+
+            const amount =
+                parseRupiah(
+                    amountInput.value
+                );
+
+            const month =
+                String(
+                    monthInput?.value || ""
+                ).trim();
+
+            const dueDate =
+                String(
+                    dueDateInput?.value || ""
+                ).trim();
+
+            const description =
+                String(
+                    descriptionInput?.value || ""
+                ).trim();
+
+            if (
+                type !== "Tagihan" &&
+                type !== "Piutang"
+            ) {
+                alert(
+                    "Jenis catatan tidak valid."
+                );
+
+                return;
+            }
+
+            if (!title) {
+                alert(
+                    "Judul catatan wajib diisi."
+                );
+
+                titleInput.focus();
+
+                return;
+            }
+
+            if (amount <= 0) {
+                alert(
+                    "Nominal harus lebih dari 0."
+                );
+
+                amountInput.focus();
+
+                return;
+            }
+
+            if (
+                type === "Piutang" &&
+                !person
+            ) {
+                alert(
+                    "Nama orang yang memiliki piutang wajib diisi."
+                );
+
+                personInput?.focus();
+
+                return;
+            }
+
+            if (
+                dueDate &&
+                month &&
+                dueDate.substring(0, 7) <
+                month
+            ) {
+                alert(
+                    "Jatuh tempo tidak boleh sebelum bulan catatan."
+                );
+
+                dueDateInput?.focus();
+
+                return;
+            }
+
+            const noteData = {
+                user_id:
+                    currentUser.id,
+
+                type:
+                    type,
+
+                title:
+                    title,
+
+                person:
+                    type === "Piutang"
+                        ? person
+                        : null,
+
+                amount:
+                    Math.round(amount),
+
+                month:
+                    month
+                        ? `${month}-01`
+                        : null,
+
+                due_date:
+                    dueDate
+                        ? dueDate
+                        : null,
+
+                notes:
+                    description
+            };
+
+            let result;
+
+            try {
+                if (editingNoteId) {
+                    result =
+                        await supabaseClient
+                            .from("notes")
+                            .update(
+                                noteData
+                            )
+                            .eq(
+                                "id",
+                                editingNoteId
+                            )
+                            .eq(
+                                "user_id",
+                                currentUser.id
+                            )
+                            .select();
+                } else {
+                    result =
+                        await supabaseClient
+                            .from("notes")
+                            .insert([
+                                {
+                                    ...noteData,
+                                    is_paid: false,
+                                    paid_at: null
+                                }
+                            ])
+                            .select();
+                }
+            } catch (error) {
+                console.error(
+                    "Exception saat menyimpan catatan:",
+                    error
+                );
+
+                alert(
+                    "Gagal menyimpan catatan.\n\n" +
+                    (
+                        error?.message ||
+                        "Terjadi kesalahan saat menghubungi server."
+                    )
+                );
+
+                return;
+            }
+
+            if (result?.error) {
+                console.error(
+                    "Supabase notes error:",
+                    result.error
+                );
+
+                alert(
+                    "Gagal menyimpan catatan.\n\n" +
+                    result.error.message
+                );
+
+                return;
+            }
+
+            closeNoteModal();
+
+            await loadNotes();
+
+            showPage("notes");
+        }
+    );
+
+
+/* =====================================================
+   CATATAN
+   DETAIL
+===================================================== */
+
+function openNoteDetail(id) {
+    const note =
+        notes.find(
+            function (item) {
+                return String(item.id) ===
+                    String(id);
+            }
+        );
+
+    if (!note) {
+        return;
+    }
+
+    const detail =
+        document.getElementById(
+            "note-detail-content"
+        );
+
+    const modal =
+        document.getElementById(
+            "note-detail-modal"
+        );
+
+    if (!detail || !modal) {
+        return;
+    }
+
+    const isPaid =
+        Boolean(
+            note.is_paid
+        );
+
+    const isReceivable =
+        note.type ===
+        "Piutang";
+
+    detail.innerHTML = `
+        <div class="note-detail-status ${isPaid ? "paid" : "unpaid"}">
+            ${isPaid ? "Selesai" : "Belum selesai"}
+        </div>
+
+        <div class="detail-item">
+
+            <div class="detail-label">
+                Judul
+            </div>
+
+            <div class="detail-value">
+                ${escapeHTML(
+                    note.title || "-"
+                )}
+            </div>
+
+        </div>
+
+        <div class="detail-item">
+
+            <div class="detail-label">
+                Jenis
+            </div>
+
+            <div class="detail-value">
+                ${isReceivable ? "Piutang" : "Tagihan"}
+            </div>
+
+        </div>
+
+        ${
+            note.person
+                ? `
+                    <div class="detail-item">
+
+                        <div class="detail-label">
+                            Nama
+                        </div>
+
+                        <div class="detail-value">
+                            ${escapeHTML(
+                                note.person
+                            )}
+                        </div>
+
+                    </div>
+                `
+                : ""
+        }
+
+        <div class="detail-item">
+
+            <div class="detail-label">
+                Nominal
+            </div>
+
+            <div class="detail-amount ${isPaid ? "income" : "expense"}">
+                ${formatRupiah(
+                    note.amount
+                )}
+            </div>
+
+        </div>
+
+        <div class="detail-item">
+
+            <div class="detail-label">
+                Bulan
+            </div>
+
+            <div class="detail-value">
+                ${formatNoteMonth(
+                    note.month
+                )}
+            </div>
+
+        </div>
+
+        <div class="detail-item">
+
+            <div class="detail-label">
+                Jatuh Tempo
+            </div>
+
+            <div class="detail-value">
+                ${
+                    note.due_date
+                        ? formatDate(
+                            note.due_date
+                        )
+                        : "-"
+                }
+            </div>
+
+        </div>
+
+        ${
+            note.paid_at
+                ? `
+                    <div class="detail-item">
+
+                        <div class="detail-label">
+                            Tanggal Selesai
+                        </div>
+
+                        <div class="detail-value">
+                            ${formatDate(
+                                note.paid_at
+                            )}
+                        </div>
+
+                    </div>
+                `
+                : ""
+        }
+
+        <div class="detail-item">
+
+            <div class="detail-label">
+                Keterangan
+            </div>
+
+            <div class="detail-value">
+                ${escapeHTML(
+                    note.notes || "-"
+                )}
+            </div>
+
+        </div>
+
+        <div class="detail-actions">
+
+            <button
+                class="detail-edit-btn"
+                onclick="editNote('${note.id}')"
+            >
+                Edit
+            </button>
+
+            <button
+                class="note-paid-btn"
+                onclick="toggleNotePaid('${note.id}')"
+            >
+                ${
+                    isPaid
+                        ? "Tandai Belum Selesai"
+                        : "Tandai Selesai"
+                }
+            </button>
+
+            <button
+                class="detail-delete-btn"
+                onclick="deleteNote('${note.id}')"
+            >
+                Hapus
+            </button>
+
+        </div>
+    `;
+
+    modal
+        .classList
+        .remove("hidden");
+}
+
+
+/* =====================================================
+   CATATAN
+   CLOSE DETAIL
+===================================================== */
+
+function closeNoteDetail() {
+    document
+        .getElementById(
+            "note-detail-modal"
+        )
+        ?.classList
+        .add("hidden");
+}
+
+
+/* =====================================================
+   CATATAN
+   EDIT
+===================================================== */
+
+function editNote(id) {
+    const note =
+        notes.find(
+            function (item) {
+                return String(item.id) ===
+                    String(id);
+            }
+        );
+
+    if (!note) {
+        return;
+    }
+
+    closeNoteDetail();
+
+    openNoteModal(
+        note
+    );
+}
+
+
+/* =====================================================
+   CATATAN
+   TOGGLE SELESAI / BELUM SELESAI
+===================================================== */
+
+async function toggleNotePaid(id) {
+    if (!currentUser) {
+        alert(
+            "Sesi login tidak ditemukan."
+        );
+
+        return;
+    }
+
+    const note =
+        notes.find(
+            function (item) {
+                return String(item.id) ===
+                    String(id);
+            }
+        );
+
+    if (!note) {
+        return;
+    }
+
+    const newPaidStatus =
+        !Boolean(
+            note.is_paid
+        );
+
+    const updateData = {
+        is_paid:
+            newPaidStatus,
+
+        paid_at:
+            newPaidStatus
+                ? formatDateForInput(
+                    getTodayDate()
+                )
+                : null
+    };
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("notes")
+            .update(
+                updateData
+            )
+            .eq(
+                "id",
+                id
+            )
+            .eq(
+                "user_id",
+                currentUser.id
+            );
+
+    if (error) {
+        console.error(
+            "Gagal mengubah status catatan:",
+            error
+        );
+
+        alert(
+            "Gagal mengubah status catatan.\n\n" +
+            error.message
+        );
+
+        return;
+    }
+
+    closeNoteDetail();
+
+    await loadNotes();
+
+    showPage("notes");
+}
+
+
+/* =====================================================
+   CATATAN
+   DELETE
+===================================================== */
+
+async function deleteNote(id) {
+    if (!currentUser) {
+        alert(
+            "Sesi login tidak ditemukan."
+        );
+
+        return;
+    }
+
+    const confirmed =
+        confirm(
+            "Hapus catatan ini?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("notes")
+            .delete()
+            .eq(
+                "id",
+                id
+            )
+            .eq(
+                "user_id",
+                currentUser.id
+            );
+
+    if (error) {
+        console.error(
+            "Gagal menghapus catatan:",
+            error
+        );
+
+        alert(
+            "Gagal menghapus catatan.\n\n" +
+            error.message
+        );
+
+        return;
+    }
+
+    closeNoteDetail();
+
+    await loadNotes();
+
+    showPage("notes");
+}
 
 
 /* =====================================================
