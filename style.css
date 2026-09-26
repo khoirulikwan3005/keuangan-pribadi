@@ -1,6 +1,12 @@
 /* =====================================================
    KEPRI
    Custom Financial App
+   Modern Finance UI
+===================================================== */
+
+
+/* =====================================================
+   RESET & ROOT
 ===================================================== */
 
 * {
@@ -11,9 +17,12 @@
 
 :root {
     --ink: #172033;
+    --ink-light: #26334d;
+
     --muted: #737b8c;
     --soft: #a1a8b5;
-    --paper: #f7f7f2;
+
+    --paper: #f5f6f8;
     --white: #ffffff;
 
     --orange: #ff7043;
@@ -21,12 +30,15 @@
     --orange-soft: #fff0eb;
 
     --purple: #7657e8;
+    --purple-dark: #6043d2;
     --purple-soft: #f0edff;
 
     --green: #18a572;
+    --green-dark: #138b61;
     --green-soft: #e9f8f1;
 
     --red: #e95757;
+    --red-dark: #d94343;
     --red-soft: #ffeded;
 
     --yellow: #f2b84b;
@@ -35,13 +47,17 @@
     --blue: #4788d9;
     --blue-soft: #eaf3ff;
 
-    --line: #e8e6df;
+    --line: #e7e8ec;
+    --line-dark: #dedfe5;
 
     --shadow:
-        0 12px 35px rgba(32, 34, 45, 0.07);
+        0 12px 35px rgba(32, 34, 45, 0.065);
 
     --shadow-small:
-        0 5px 18px rgba(32, 34, 45, 0.055);
+        0 5px 18px rgba(32, 34, 45, 0.045);
+
+    --shadow-hover:
+        0 14px 34px rgba(32, 34, 45, 0.09);
 
     --radius: 18px;
     --radius-small: 12px;
@@ -49,19 +65,31 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 body {
     min-height: 100vh;
+    overflow-x: hidden;
+
     background:
         radial-gradient(
-            circle at 10% 10%,
-            rgba(255, 112, 67, 0.05),
-            transparent 25%
+            circle at 8% 5%,
+            rgba(255, 112, 67, 0.045),
+            transparent 24%
+        ),
+        radial-gradient(
+            circle at 92% 20%,
+            rgba(118, 87, 232, 0.035),
+            transparent 23%
         ),
         var(--paper);
+
     color: var(--ink);
     font-family: "DM Sans", sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
 h1,
@@ -84,6 +112,13 @@ button {
     cursor: pointer;
 }
 
+button,
+input,
+select,
+textarea {
+    -webkit-tap-highlight-color: transparent;
+}
+
 .hidden {
     display: none !important;
 }
@@ -95,22 +130,25 @@ button {
 
 .login-page {
     min-height: 100vh;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     padding: 25px;
+
     background:
         radial-gradient(
             circle at 15% 15%,
-            rgba(255, 112, 67, 0.15),
+            rgba(255, 112, 67, 0.14),
             transparent 30%
         ),
         radial-gradient(
             circle at 85% 85%,
-            rgba(118, 87, 232, 0.14),
+            rgba(118, 87, 232, 0.12),
             transparent 30%
         ),
-        #f7f7f2;
+        #f5f6f8;
 }
 
 .login-container {
@@ -120,61 +158,90 @@ button {
 
 .login-logo {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 27px;
 }
 
 .logo-mark {
-    width: 65px;
-    height: 65px;
-    margin: 0 auto 13px;
+    width: 66px;
+    height: 66px;
+
+    margin: 0 auto 14px;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     border-radius: 20px;
-    background: var(--orange);
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--orange),
+            var(--orange-dark)
+        );
+
     color: white;
+
     font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 28px;
     font-weight: 800;
+
     transform: rotate(-4deg);
+
     box-shadow:
         7px 7px 0 #ffd1c3,
-        0 12px 25px rgba(255, 112, 67, 0.2);
+        0 14px 28px rgba(255, 112, 67, 0.18);
 }
 
 .login-logo h1 {
     font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -1px;
 }
 
 .login-logo p {
-    margin-top: 4px;
+    margin-top: 5px;
+
     color: var(--muted);
+
     font-size: 13px;
+    line-height: 1.5;
 }
 
 .login-card {
-    padding: 30px;
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid var(--line);
-    border-radius: 22px;
-    box-shadow: var(--shadow);
+    padding: 31px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    border: 1px solid rgba(231, 232, 236, 0.95);
+    border-radius: 24px;
+
+    box-shadow:
+        0 18px 45px rgba(32, 34, 45, 0.075);
 }
 
 .login-card h2 {
     font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+
     margin-bottom: 7px;
 }
 
 .login-subtitle {
-    margin-bottom: 25px;
+    margin-bottom: 26px;
+
     color: var(--muted);
+
     font-size: 13px;
-    line-height: 1.6;
+    line-height: 1.65;
 }
 
 .login-footer {
-    margin-top: 18px;
+    margin-top: 19px;
+
     text-align: center;
+
     color: var(--soft);
     font-size: 11px;
 }
@@ -185,41 +252,65 @@ button {
 ===================================================== */
 
 .form-group {
-    margin-bottom: 17px;
+    margin-bottom: 18px;
 }
 
 .form-group label {
     display: block;
+
     margin-bottom: 7px;
+
     color: var(--ink);
-    font-size: 12px;
-    font-weight: 700;
+
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.05px;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
     width: 100%;
+
     padding: 13px 14px;
-    background: white;
+
+    background: #fcfcfd;
     color: var(--ink);
+
     border: 1px solid var(--line);
-    border-radius: 11px;
+    border-radius: 12px;
+
     outline: none;
+
     font-size: 13px;
-    transition: 0.2s;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+    background: #ffffff;
+    border-color: var(--line-dark);
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
+    background: #ffffff;
+
     border-color: var(--orange);
+
     box-shadow:
         0 0 0 3px rgba(255, 112, 67, 0.09);
 }
 
 .form-group textarea {
     resize: vertical;
+    min-height: 82px;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -243,35 +334,65 @@ input[type="number"] {
 
 .toggle-password {
     position: absolute;
+
     top: 50%;
     right: 12px;
+
     transform: translateY(-50%);
+
     background: transparent;
+
     font-size: 16px;
 }
 
 .primary-btn {
     width: 100%;
+
     padding: 14px;
-    background: var(--orange);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange),
+            var(--orange-dark)
+        );
+
     color: white;
-    border-radius: 11px;
+
+    border-radius: 12px;
+
     font-size: 13px;
     font-weight: 800;
-    transition: 0.2s;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+
     box-shadow:
-        0 7px 18px rgba(255, 112, 67, 0.18);
+        0 8px 20px rgba(255, 112, 67, 0.18);
 }
 
 .primary-btn:hover {
-    background: var(--orange-dark);
+    filter: brightness(0.98);
+
     transform: translateY(-1px);
+
+    box-shadow:
+        0 11px 24px rgba(255, 112, 67, 0.21);
+}
+
+.primary-btn:active {
+    transform: scale(0.99);
 }
 
 .error-message {
     margin-top: 10px;
+
     text-align: center;
+
     color: var(--red);
+
     font-size: 12px;
 }
 
@@ -287,24 +408,35 @@ input[type="number"] {
 
 .top-header {
     position: sticky;
+
     top: 0;
     z-index: 50;
-    height: 64px;
+
+    height: 66px;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     padding: 0 25px;
-    background: rgba(247, 247, 242, 0.91);
-    backdrop-filter: blur(15px);
+
+    background:
+        rgba(245, 246, 248, 0.88);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
     border-bottom:
-        1px solid rgba(232, 230, 223, 0.8);
+        1px solid rgba(222, 223, 229, 0.72);
 }
 
 .brand {
     color: var(--ink);
+
     font-size: 21px;
     font-weight: 800;
-    letter-spacing: -0.7px;
+
+    letter-spacing: -0.8px;
 }
 
 .brand::after {
@@ -313,12 +445,26 @@ input[type="number"] {
 }
 
 .header-user {
-    width: 38px;
-    height: 38px;
+    width: 39px;
+    height: 39px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     border-radius: 50%;
-    background: var(--ink);
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--ink),
+            var(--ink-light)
+        );
+
     color: white;
+
     font-size: 15px;
+
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease;
@@ -326,8 +472,9 @@ input[type="number"] {
 
 .header-user:hover {
     transform: translateY(-1px);
+
     box-shadow:
-        0 5px 14px rgba(23, 32, 51, 0.15);
+        0 6px 16px rgba(23, 32, 51, 0.16);
 }
 
 
@@ -346,38 +493,53 @@ input[type="number"] {
 .page-container {
     width: 100%;
     max-width: 900px;
+
     margin: 0 auto;
-    padding: 28px 20px;
+
+    padding: 30px 20px;
 }
 
 .page-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 22px;
+
+    gap: 15px;
+
+    margin-bottom: 23px;
 }
 
 .page-header h1 {
     margin-top: 2px;
+
     font-size: 26px;
-    letter-spacing: -0.7px;
+    font-weight: 800;
+
+    letter-spacing: -0.8px;
 }
 
 .page-header p {
     margin-top: 6px;
+
     color: var(--muted);
-    font-size: 13px;
+
+    font-size: 12px;
+    line-height: 1.5;
 }
 
 .page-kicker,
 .section-kicker,
 .modal-kicker {
     display: block;
-    margin-bottom: 5px;
+
+    margin-bottom: 6px;
+
     color: var(--orange);
-    font-size: 9px;
+
+    font-size: 8px;
     font-weight: 800;
-    letter-spacing: 1.5px;
+
+    letter-spacing: 1.6px;
 }
 
 
@@ -387,19 +549,28 @@ input[type="number"] {
 
 .balance-card {
     position: relative;
+
     overflow: hidden;
-    padding: 28px 27px;
+
+    padding: 29px 28px;
+
     margin-bottom: 14px;
+
     background:
         linear-gradient(
             135deg,
             #172033 0%,
-            #202b43 100%
+            #202b43 55%,
+            #273550 100%
         );
+
     color: white;
-    border-radius: 22px;
+
+    border-radius: 23px;
+
     box-shadow:
-        0 15px 38px rgba(23, 32, 51, 0.16);
+        0 16px 40px rgba(23, 32, 51, 0.15);
+
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease;
@@ -407,48 +578,67 @@ input[type="number"] {
 
 .balance-card:hover {
     transform: translateY(-1px);
+
     box-shadow:
-        0 18px 42px rgba(23, 32, 51, 0.19);
+        0 20px 45px rgba(23, 32, 51, 0.18);
 }
 
 .balance-decoration {
     position: absolute;
-    width: 160px;
-    height: 160px;
+
+    width: 170px;
+    height: 170px;
+
     border-radius: 50%;
+
     pointer-events: none;
 }
 
 .balance-decoration.one {
-    right: -65px;
-    top: -80px;
+    right: -70px;
+    top: -85px;
+
     background: var(--orange);
-    opacity: 0.88;
+
+    opacity: 0.9;
 }
 
 .balance-decoration.two {
-    right: 45px;
-    bottom: -125px;
+    right: 40px;
+    bottom: -130px;
+
     background: var(--purple);
+
     opacity: 0.5;
 }
 
 .balance-label {
     position: relative;
     z-index: 2;
+
     display: block;
-    color: rgba(255, 255, 255, 0.66);
-    font-size: 11px;
-    font-weight: 500;
+
+    color: rgba(255, 255, 255, 0.63);
+
+    font-size: 10px;
+    font-weight: 600;
+
+    letter-spacing: 0.2px;
 }
 
 .balance-amount {
     position: relative;
     z-index: 2;
-    margin-top: 8px;
+
+    margin-top: 9px;
+
+    color: #ffffff;
+
     font-size: 31px;
     font-weight: 800;
-    letter-spacing: -1.2px;
+
+    letter-spacing: -1.25px;
+
     line-height: 1.15;
 }
 
@@ -459,41 +649,63 @@ input[type="number"] {
 
 .income-expense-grid {
     display: grid;
+
     grid-template-columns: repeat(2, 1fr);
+
     gap: 12px;
+
     margin-bottom: 13px;
 }
 
 .money-card {
     position: relative;
-    padding: 17px;
-    background: white;
+
+    overflow: hidden;
+
+    padding: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #fcfcfd
+        );
+
     border: 1px solid var(--line);
+
     border-radius: var(--radius);
+
     box-shadow: var(--shadow-small);
+
     transition:
         transform 0.2s ease,
-        box-shadow 0.2s ease;
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .money-card:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow);
+
+    box-shadow: var(--shadow-hover);
 }
 
 .money-card-top {
     display: flex;
     align-items: center;
-    gap: 8px;
+
+    gap: 9px;
 }
 
 .money-icon {
-    width: 30px;
-    height: 30px;
+    width: 31px;
+    height: 31px;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 9px;
+
+    border-radius: 10px;
+
     font-weight: 800;
 }
 
@@ -509,16 +721,20 @@ input[type="number"] {
 
 .money-label {
     color: var(--muted);
-    font-size: 11px;
-    font-weight: 600;
+
+    font-size: 10px;
+    font-weight: 700;
 }
 
 .money-amount {
-    margin-top: 10px;
+    margin-top: 11px;
+
     font-family: "Plus Jakarta Sans", sans-serif;
+
     font-size: 17px;
     font-weight: 800;
-    letter-spacing: -0.3px;
+
+    letter-spacing: -0.35px;
 }
 
 
@@ -528,21 +744,37 @@ input[type="number"] {
 
 .transaction-buttons {
     display: grid;
+
     grid-template-columns: repeat(2, 1fr);
+
     gap: 12px;
-    margin-bottom: 16px;
+
+    margin-bottom: 17px;
 }
 
 .transaction-btn {
     display: flex;
     align-items: center;
+
     gap: 11px;
-    padding: 14px;
-    background: white;
+
+    padding: 15px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #fcfcfd
+        );
+
     border: 1px solid var(--line);
+
     border-radius: var(--radius);
+
     text-align: left;
+
     box-shadow: var(--shadow-small);
+
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease,
@@ -551,25 +783,30 @@ input[type="number"] {
 
 .transaction-btn:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow);
+
+    box-shadow: var(--shadow-hover);
 }
 
 .transaction-btn.income:hover {
-    border-color: rgba(24, 165, 114, 0.25);
+    border-color: rgba(24, 165, 114, 0.24);
 }
 
 .transaction-btn.expense:hover {
-    border-color: rgba(233, 87, 87, 0.25);
+    border-color: rgba(233, 87, 87, 0.24);
 }
 
 .transaction-btn-icon {
-    width: 38px;
-    height: 38px;
+    width: 39px;
+    height: 39px;
+
     flex-shrink: 0;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     border-radius: 11px;
+
     font-size: 21px;
     font-weight: 500;
 }
@@ -587,17 +824,24 @@ input[type="number"] {
 .transaction-btn-content {
     display: flex;
     flex-direction: column;
+
     gap: 3px;
+
     min-width: 0;
 }
 
 .transaction-btn-content strong {
+    color: var(--ink);
+
     font-size: 12px;
+    font-weight: 800;
 }
 
 .transaction-btn-content span {
     color: var(--muted);
-    font-size: 10px;
+
+    font-size: 9px;
+    line-height: 1.35;
 }
 
 
@@ -607,29 +851,46 @@ input[type="number"] {
 
 .quote-card {
     position: relative;
-    padding: 17px 18px 17px 43px;
-    margin-bottom: 25px;
-    background: #fff7df;
-    border: 1px solid #f6e6bb;
+
+    padding: 18px 19px 18px 44px;
+
+    margin-bottom: 26px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fff8e5,
+            #fff6df
+        );
+
+    border: 1px solid #f2e4bd;
+
     border-radius: var(--radius);
+
     box-shadow:
-        0 5px 16px rgba(242, 184, 75, 0.05);
+        0 6px 18px rgba(242, 184, 75, 0.055);
 }
 
 .quote-icon {
     position: absolute;
+
     left: 17px;
     top: 12px;
+
     color: var(--yellow);
+
     font-family: Georgia, serif;
+
     font-size: 29px;
     font-weight: 700;
 }
 
 .quote-card p {
     color: #806b3b;
-    font-size: 11px;
-    line-height: 1.6;
+
+    font-size: 10px;
+
+    line-height: 1.65;
 }
 
 
@@ -641,30 +902,47 @@ input[type="number"] {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 11px;
+
+    margin-bottom: 12px;
 }
 
 .section-title h2 {
     font-size: 17px;
-    letter-spacing: -0.4px;
+    font-weight: 800;
+
+    letter-spacing: -0.45px;
 }
 
 .menu-list {
     display: flex;
     flex-direction: column;
+
     gap: 9px;
 }
 
 .menu-card {
     width: 100%;
+
     display: flex;
     align-items: center;
-    padding: 14px;
-    background: white;
+
+    padding: 14px 15px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #fcfcfd
+        );
+
     border: 1px solid var(--line);
+
     border-radius: var(--radius);
+
     text-align: left;
+
     box-shadow: var(--shadow-small);
+
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease,
@@ -673,7 +951,10 @@ input[type="number"] {
 
 .menu-card:hover {
     transform: translateX(2px);
-    box-shadow: var(--shadow);
+
+    box-shadow: var(--shadow-hover);
+
+    border-color: var(--line-dark);
 }
 
 .menu-card:active {
@@ -683,13 +964,18 @@ input[type="number"] {
 .menu-icon {
     width: 42px;
     height: 42px;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     margin-right: 13px;
+
     border-radius: 12px;
+
     font-size: 16px;
     font-weight: 800;
+
     flex-shrink: 0;
 }
 
@@ -720,26 +1006,45 @@ input[type="number"] {
 
 .menu-content {
     flex: 1;
+
     display: flex;
     flex-direction: column;
+
     gap: 3px;
+
     min-width: 0;
 }
 
 .menu-content strong {
-    font-size: 13px;
+    color: var(--ink);
+
+    font-size: 12px;
+    font-weight: 800;
 }
 
 .menu-content span {
     color: var(--muted);
-    font-size: 10px;
-    line-height: 1.4;
+
+    font-size: 9px;
+
+    line-height: 1.45;
 }
 
 .menu-arrow {
     color: var(--soft);
+
     font-size: 18px;
+
     margin-left: 8px;
+
+    transition:
+        transform 0.2s ease,
+        color 0.2s ease;
+}
+
+.menu-card:hover .menu-arrow {
+    color: var(--orange);
+    transform: translateX(2px);
 }
 
 
@@ -751,28 +1056,42 @@ input[type="number"] {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     padding: 7px;
+
     margin-bottom: 15px;
+
     background: white;
+
     border: 1px solid var(--line);
+
     border-radius: var(--radius);
+
     box-shadow: var(--shadow-small);
 }
 
 .period-selector > div {
-    font-size: 12px;
+    color: var(--ink);
+
+    font-size: 11px;
     font-weight: 800;
 }
 
 .period-btn {
     width: 34px;
     height: 34px;
+
     border-radius: 9px;
+
     background: var(--paper);
+
     color: var(--ink);
+
     font-size: 20px;
+
     transition:
         background 0.2s ease,
+        color 0.2s ease,
         transform 0.2s ease;
 }
 
@@ -787,28 +1106,45 @@ input[type="number"] {
 
 .summary-grid {
     display: grid;
+
     grid-template-columns: repeat(2, 1fr);
+
     gap: 11px;
+
     margin-bottom: 14px;
 }
 
 .summary-card {
-    padding: 16px;
-    background: white;
+    padding: 17px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #fcfcfd
+        );
+
     border: 1px solid var(--line);
+
     border-radius: var(--radius);
+
     box-shadow: var(--shadow-small);
 }
 
 .summary-card-label {
     color: var(--muted);
-    font-size: 10px;
+
+    font-size: 9px;
+    font-weight: 600;
 }
 
 .summary-card-value {
     margin-top: 8px;
+
     font-size: 16px;
     font-weight: 800;
+
+    letter-spacing: -0.25px;
 }
 
 .income-summary .summary-card-value {
@@ -829,11 +1165,21 @@ input[type="number"] {
 ===================================================== */
 
 .content-card {
-    padding: 19px;
+    padding: 20px;
+
     margin-bottom: 14px;
-    background: white;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #fcfcfd
+        );
+
     border: 1px solid var(--line);
+
     border-radius: var(--radius);
+
     box-shadow: var(--shadow-small);
 }
 
@@ -841,46 +1187,61 @@ input[type="number"] {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+
+    margin-bottom: 16px;
 }
 
 .card-header h3 {
+    color: var(--ink);
+
     font-size: 13px;
+    font-weight: 800;
 }
 
 .card-header p {
     margin-top: 4px;
+
     color: var(--muted);
-    font-size: 10px;
+
+    font-size: 9px;
 }
 
 .card-header > strong {
     color: var(--orange);
-    font-size: 14px;
+
+    font-size: 13px;
+    font-weight: 800;
 }
 
 .progress-bar {
     height: 8px;
+
     overflow: hidden;
-    background: #eee;
+
+    background: #eeeeef;
+
     border-radius: 100px;
 }
 
 .progress-fill {
     height: 100%;
     width: 0;
+
     background:
         linear-gradient(
             90deg,
             var(--orange),
             var(--purple)
         );
+
     border-radius: 100px;
-    transition: width 0.4s;
+
+    transition: width 0.4s ease;
 }
 
 .chart-container {
     position: relative;
+
     width: 100%;
     height: 270px;
 }
@@ -893,8 +1254,11 @@ input[type="number"] {
 .category-item {
     display: flex;
     align-items: center;
+
     gap: 11px;
+
     padding: 11px 0;
+
     border-bottom: 1px solid var(--line);
 }
 
@@ -905,11 +1269,14 @@ input[type="number"] {
 .category-icon {
     width: 36px;
     height: 36px;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     background: var(--red-soft);
     color: var(--red);
+
     border-radius: 10px;
 }
 
@@ -919,18 +1286,23 @@ input[type="number"] {
 
 .category-info strong {
     display: block;
-    font-size: 12px;
+
+    font-size: 11px;
+    font-weight: 800;
 }
 
 .category-info span {
     display: block;
+
     margin-top: 2px;
+
     color: var(--muted);
-    font-size: 9px;
+
+    font-size: 8px;
 }
 
 .category-total {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 800;
 }
 
@@ -941,9 +1313,13 @@ input[type="number"] {
 
 .filter-tabs {
     display: flex;
+
     gap: 7px;
+
     overflow-x: auto;
+
     margin-bottom: 12px;
+
     scrollbar-width: none;
 }
 
@@ -953,71 +1329,116 @@ input[type="number"] {
 
 .filter-tab {
     flex-shrink: 0;
+
     padding: 8px 13px;
+
     background: white;
+
     color: var(--muted);
+
     border: 1px solid var(--line);
+
     border-radius: 100px;
-    font-size: 10px;
+
+    font-size: 9px;
+    font-weight: 700;
+
     transition:
         background 0.2s ease,
         color 0.2s ease,
-        border-color 0.2s ease;
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.filter-tab:hover {
+    border-color: var(--line-dark);
+
+    color: var(--ink);
 }
 
 .filter-tab.active {
     background: var(--ink);
+
     border-color: var(--ink);
+
     color: white;
 }
 
 .filter-card {
-    padding: 16px;
+    padding: 17px;
+
     margin-bottom: 17px;
+
     background: white;
+
     border: 1px solid var(--line);
+
     border-radius: var(--radius);
+
+    box-shadow: var(--shadow-small);
 }
 
 .filter-row {
     display: grid;
+
     grid-template-columns: repeat(2, 1fr);
+
     gap: 11px;
 }
 
 .transaction-list {
     display: flex;
     flex-direction: column;
+
     gap: 8px;
 }
 
 .transaction-item {
     display: flex;
     align-items: center;
-    padding: 13px;
-    background: white;
+
+    padding: 14px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #fcfcfd
+        );
+
     border: 1px solid var(--line);
+
     border-radius: var(--radius-small);
+
     box-shadow: var(--shadow-small);
+
     cursor: pointer;
+
     transition:
         transform 0.2s ease,
-        box-shadow 0.2s ease;
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .transaction-item:hover {
     transform: translateY(-1px);
+
     box-shadow:
-        0 7px 20px rgba(32, 34, 45, 0.07);
+        0 8px 22px rgba(32, 34, 45, 0.065);
+
+    border-color: var(--line-dark);
 }
 
 .transaction-item-icon {
     width: 39px;
     height: 39px;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     margin-right: 11px;
+
     border-radius: 11px;
 }
 
@@ -1038,23 +1459,34 @@ input[type="number"] {
 
 .transaction-item-info strong {
     display: block;
+
     overflow: hidden;
+
     white-space: nowrap;
     text-overflow: ellipsis;
-    font-size: 12px;
+
+    color: var(--ink);
+
+    font-size: 11px;
+    font-weight: 800;
 }
 
 .transaction-item-info span {
     display: block;
+
     margin-top: 3px;
+
     color: var(--muted);
-    font-size: 9px;
+
+    font-size: 8px;
 }
 
 .transaction-item-amount {
     text-align: right;
-    font-size: 11px;
+
+    font-size: 10px;
     font-weight: 800;
+
     margin-left: 10px;
 }
 
@@ -1073,9 +1505,13 @@ input[type="number"] {
 
 .recap-table-card {
     overflow: hidden;
+
     background: white;
+
     border: 1px solid var(--line);
+
     border-radius: var(--radius);
+
     box-shadow: var(--shadow-small);
 }
 
@@ -1083,56 +1519,79 @@ input[type="number"] {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     padding: 18px;
+
     border-bottom: 1px solid var(--line);
+
     gap: 12px;
 }
 
 .recap-table-header h3 {
-    font-size: 14px;
+    font-size: 13px;
+    font-weight: 800;
 }
 
 .recap-table-header p {
     margin-top: 4px;
+
     color: var(--muted);
-    font-size: 10px;
+
+    font-size: 9px;
 }
 
 .recap-count {
     flex-shrink: 0;
+
     padding: 6px 9px;
+
     background: var(--paper);
+
     border-radius: 100px;
+
     color: var(--muted);
-    font-size: 9px;
+
+    font-size: 8px;
+    font-weight: 700;
 }
 
 .table-wrapper {
     width: 100%;
+
     overflow-x: auto;
 }
 
 table {
     width: 100%;
+
     border-collapse: collapse;
+
     min-width: 700px;
 }
 
 th {
     padding: 12px 14px;
-    background: #faf9f5;
+
+    background: #fafafa;
+
     color: var(--muted);
+
     text-align: left;
-    font-size: 9px;
+
+    font-size: 8px;
     font-weight: 800;
+
     text-transform: uppercase;
+
     letter-spacing: 0.5px;
 }
 
 td {
     padding: 13px 14px;
+
     border-top: 1px solid var(--line);
-    font-size: 11px;
+
+    font-size: 10px;
 }
 
 .text-right {
@@ -1141,19 +1600,24 @@ td {
 
 .recap-income {
     color: var(--green);
+
     font-weight: 800;
 }
 
 .recap-expense {
     color: var(--red);
+
     font-weight: 800;
 }
 
 .type-badge {
     display: inline-block;
+
     padding: 5px 8px;
+
     border-radius: 100px;
-    font-size: 8px;
+
+    font-size: 7px;
     font-weight: 800;
 }
 
@@ -1174,59 +1638,94 @@ td {
 
 .add-loan-btn {
     padding: 10px 13px;
-    background: var(--orange);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange),
+            var(--orange-dark)
+        );
+
     color: white;
+
     border-radius: 10px;
-    font-size: 11px;
+
+    font-size: 10px;
     font-weight: 800;
+
     box-shadow:
-        0 6px 15px rgba(255, 112, 67, 0.18);
+        0 6px 15px rgba(255, 112, 67, 0.16);
+
     transition:
         transform 0.2s ease,
-        background 0.2s ease;
+        background 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .add-loan-btn:hover {
     background: var(--orange-dark);
+
     transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 18px rgba(255, 112, 67, 0.2);
 }
 
 .loan-overview {
     display: grid;
+
     grid-template-columns: 1fr 1fr;
+
     gap: 12px;
-    padding: 21px;
+
+    padding: 22px;
+
     margin-bottom: 16px;
-    background: var(--ink);
+
+    background:
+        linear-gradient(
+            135deg,
+            #172033,
+            #26344e
+        );
+
     color: white;
-    border-radius: 20px;
+
+    border-radius: 21px;
+
     box-shadow:
-        0 13px 30px rgba(23, 32, 51, 0.14);
+        0 14px 32px rgba(23, 32, 51, 0.14);
 }
 
 .loan-overview-main {
     display: flex;
     flex-direction: column;
     justify-content: center;
+
     padding-right: 15px;
+
     border-right:
         1px solid rgba(255, 255, 255, 0.1);
 }
 
 .loan-overview-main span,
 .loan-overview-side span {
-    color: rgba(255, 255, 255, 0.55);
-    font-size: 9px;
+    color: rgba(255, 255, 255, 0.54);
+
+    font-size: 8px;
 }
 
 .loan-overview-main strong {
     margin-top: 6px;
+
     font-size: 22px;
+    font-weight: 800;
 }
 
 .loan-overview-side {
     display: flex;
     flex-direction: column;
+
     gap: 13px;
 }
 
@@ -1237,72 +1736,131 @@ td {
 
 .loan-overview-side strong {
     margin-top: 3px;
+
     color: #fff;
-    font-size: 13px;
+
+    font-size: 12px;
+    font-weight: 800;
 }
 
 .loan-card {
     position: relative;
+
     padding: 18px;
+
     margin-bottom: 10px;
-    background: white;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #fcfcfd
+        );
+
     border: 1px solid var(--line);
+
     border-radius: var(--radius);
+
     box-shadow: var(--shadow-small);
+
+    transition:
+        box-shadow 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.loan-card:hover {
+    transform: translateY(-1px);
+
+    box-shadow: var(--shadow);
+
+    border-color: var(--line-dark);
 }
 
 .loan-card-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+
+    gap: 10px;
 }
 
 .loan-source {
     display: flex;
     align-items: center;
+
     gap: 10px;
+
     min-width: 0;
 }
 
 .loan-source-icon {
     width: 39px;
     height: 39px;
+
     flex-shrink: 0;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     border-radius: 11px;
+
     background: var(--orange-soft);
     color: var(--orange);
+
     font-size: 12px;
     font-weight: 800;
 }
 
 .loan-source strong {
     display: block;
-    font-size: 13px;
+
+    font-size: 12px;
+    font-weight: 800;
+
     word-break: break-word;
 }
 
 .loan-source span {
     display: block;
+
     margin-top: 3px;
+
     color: var(--muted);
-    font-size: 9px;
+
+    font-size: 8px;
 }
 
 .loan-actions {
     display: flex;
+
     gap: 5px;
+
     flex-shrink: 0;
 }
 
 .loan-action {
     width: 29px;
     height: 29px;
+
     border-radius: 8px;
+
     background: var(--paper);
+
     color: var(--muted);
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.loan-action:hover {
+    transform: translateY(-1px);
+
+    background: var(--purple-soft);
+    color: var(--purple);
 }
 
 .loan-action.delete {
@@ -1310,47 +1868,67 @@ td {
     background: var(--red-soft);
 }
 
+.loan-action.delete:hover {
+    background: #ffe1e1;
+}
+
 .loan-details {
     display: grid;
+
     grid-template-columns: repeat(3, 1fr);
+
     gap: 9px;
+
     margin-top: 17px;
+
     padding-top: 15px;
+
     border-top: 1px solid var(--line);
 }
 
 .loan-detail span {
     display: block;
+
     color: var(--muted);
-    font-size: 9px;
+
+    font-size: 8px;
 }
 
 .loan-detail strong {
     display: block;
+
     margin-top: 4px;
-    font-size: 11px;
+
+    font-size: 10px;
+    font-weight: 800;
 }
 
 .loan-remaining {
     margin-top: 14px;
+
     padding: 10px 11px;
+
     background: var(--paper);
+
     border-radius: 9px;
 }
 
 .loan-remaining-row {
     display: flex;
+
     justify-content: space-between;
     align-items: center;
 }
 
 .loan-remaining-row span {
     color: var(--muted);
-    font-size: 9px;
+
+    font-size: 8px;
 }
 
 .loan-remaining-row strong {
-    font-size: 11px;
+    font-size: 10px;
+    font-weight: 800;
 }
 
 .input-with-suffix {
@@ -1363,38 +1941,62 @@ td {
 
 .input-with-suffix span {
     position: absolute;
+
     top: 50%;
     right: 13px;
+
     transform: translateY(-50%);
+
     color: var(--muted);
-    font-size: 11px;
+
+    font-size: 10px;
 }
 
 .input-help {
     display: block;
+
     margin-top: 5px;
+
     color: var(--muted);
-    font-size: 9px;
+
+    font-size: 8px;
+
+    line-height: 1.4;
 }
 
 .loan-calculation {
     display: flex;
+
     justify-content: space-between;
     align-items: center;
+
     padding: 14px;
+
     margin-bottom: 17px;
-    background: var(--orange-soft);
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--orange-soft),
+            #fff5f1
+        );
+
+    border: 1px solid rgba(255, 112, 67, 0.07);
+
     border-radius: 11px;
 }
 
 .loan-calculation span {
     color: #99503b;
-    font-size: 11px;
+
+    font-size: 10px;
 }
 
 .loan-calculation strong {
     color: var(--orange);
-    font-size: 14px;
+
+    font-size: 13px;
+    font-weight: 800;
 }
 
 
@@ -1405,47 +2007,63 @@ td {
 .loan-progress {
     width: 100%;
     height: 7px;
+
     margin-top: 16px;
+
     overflow: hidden;
-    background: #eeeeee;
+
+    background: #eeeeef;
+
     border-radius: 100px;
 }
 
 .loan-progress-fill {
     height: 100%;
+
     background:
         linear-gradient(
             90deg,
             var(--orange),
             var(--green)
         );
+
     border-radius: 100px;
+
     transition: width 0.35s ease;
 }
 
 .loan-payment-status {
     display: grid;
+
     grid-template-columns: 1fr 1fr;
+
     gap: 10px;
+
     margin-top: 12px;
+
     padding: 12px;
+
     background: var(--paper);
+
     border-radius: 10px;
 }
 
 .loan-payment-status div {
     display: flex;
     flex-direction: column;
+
     gap: 4px;
 }
 
 .loan-payment-status span {
     color: var(--muted);
-    font-size: 9px;
+
+    font-size: 8px;
 }
 
 .loan-payment-status strong {
-    font-size: 11px;
+    font-size: 10px;
+    font-weight: 800;
 }
 
 .loan-paid-value {
@@ -1462,31 +2080,59 @@ td {
 
 .loan-payment-btn {
     width: 100%;
+
     margin-top: 12px;
+
     padding: 12px;
-    background: var(--green);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--green),
+            var(--green-dark)
+        );
+
     color: white;
+
     border-radius: 10px;
-    font-size: 11px;
+
+    font-size: 10px;
     font-weight: 800;
-    transition: 0.2s;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+
     box-shadow:
-        0 6px 15px rgba(24, 165, 114, 0.15);
+        0 6px 15px rgba(24, 165, 114, 0.14);
 }
 
 .loan-payment-btn:hover {
-    background: #138b61;
+    background: var(--green-dark);
+
     transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 18px rgba(24, 165, 114, 0.18);
 }
 
 .loan-paid-banner {
     margin-top: 12px;
+
     padding: 11px;
+
     background: var(--green-soft);
+
     color: var(--green);
+
+    border: 1px solid rgba(24, 165, 114, 0.07);
+
     border-radius: 10px;
+
     text-align: center;
-    font-size: 10px;
+
+    font-size: 9px;
     font-weight: 800;
 }
 
@@ -1497,17 +2143,26 @@ td {
 
 .payment-summary {
     margin-bottom: 18px;
+
     padding: 14px;
+
     background: var(--paper);
+
+    border: 1px solid var(--line);
+
     border-radius: 11px;
 }
 
 .payment-summary-row {
     display: flex;
+
     justify-content: space-between;
     align-items: center;
+
     gap: 15px;
+
     padding: 8px 0;
+
     border-bottom: 1px solid var(--line);
 }
 
@@ -1517,47 +2172,72 @@ td {
 
 .payment-summary-row span {
     color: var(--muted);
-    font-size: 10px;
+
+    font-size: 9px;
 }
 
 .payment-summary-row strong {
     color: var(--ink);
+
     text-align: right;
-    font-size: 11px;
+
+    font-size: 10px;
+    font-weight: 800;
 }
 
 .payment-calculation {
     padding: 15px;
+
     margin-bottom: 17px;
-    background: var(--green-soft);
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--green-soft),
+            #effbf5
+        );
+
+    border: 1px solid rgba(24, 165, 114, 0.07);
+
     border-radius: 11px;
 }
 
 .payment-calculation > div {
     display: flex;
+
     justify-content: space-between;
     align-items: center;
+
     gap: 15px;
 }
 
 .payment-calculation span {
     color: #3d7661;
-    font-size: 10px;
+
+    font-size: 9px;
 }
 
 .payment-calculation strong {
     color: var(--green);
-    font-size: 15px;
+
+    font-size: 14px;
+    font-weight: 800;
 }
 
 .payment-submit-btn {
-    background: var(--green);
+    background:
+        linear-gradient(
+            135deg,
+            var(--green),
+            var(--green-dark)
+        );
+
     box-shadow:
-        0 7px 18px rgba(24, 165, 114, 0.18);
+        0 7px 18px rgba(24, 165, 114, 0.17);
 }
 
 .payment-submit-btn:hover {
-    background: #138b61;
+    background: var(--green-dark);
 }
 
 
@@ -1568,72 +2248,115 @@ td {
 .account-card {
     display: flex;
     align-items: center;
+
     padding: 20px;
+
     margin-bottom: 14px;
-    background: white;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #fcfcfd
+        );
+
     border: 1px solid var(--line);
+
     border-radius: var(--radius);
+
     box-shadow: var(--shadow-small);
 }
 
 .account-avatar {
     width: 48px;
     height: 48px;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     margin-right: 13px;
+
     background: var(--purple-soft);
+
     border-radius: 50%;
+
     font-size: 19px;
+}
+
+.account-info {
+    min-width: 0;
 }
 
 .account-info span {
     display: block;
+
     color: var(--muted);
-    font-size: 9px;
+
+    font-size: 8px;
 }
 
 .account-info strong {
     display: block;
+
     margin-top: 4px;
-    font-size: 13px;
+
+    font-size: 12px;
+    font-weight: 800;
+
     word-break: break-all;
 }
 
 .app-info h3 {
     margin-bottom: 7px;
-    font-size: 14px;
+
+    font-size: 13px;
+    font-weight: 800;
 }
 
 .app-info p {
     color: var(--muted);
-    font-size: 11px;
-    line-height: 1.6;
+
+    font-size: 10px;
+
+    line-height: 1.65;
 }
 
 .app-version {
     margin-top: 14px;
+
     color: var(--soft);
-    font-size: 9px;
+
+    font-size: 8px;
 }
 
 .logout-btn {
     width: 100%;
+
     padding: 13px;
+
     background: var(--red-soft);
+
     color: var(--red);
+
     border-radius: 10px;
-    font-size: 12px;
+
+    font-size: 11px;
     font-weight: 800;
+
     transition:
         background 0.2s ease,
-        transform 0.2s ease;
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .logout-btn:hover {
     background: #ffe2e2;
+
     transform: translateY(-1px);
+
+    box-shadow:
+        0 6px 15px rgba(233, 87, 87, 0.08);
 }
 
 
@@ -1644,29 +2367,37 @@ td {
 .notes-list {
     display: flex;
     flex-direction: column;
+
     gap: 11px;
 }
 
 
-/* ================================
+/* =====================================================
    NOTE CARD
-================================ */
+===================================================== */
 
 .note-card {
     position: relative;
-    padding: 18px;
+
     overflow: hidden;
+
+    padding: 18px;
+
     background:
         linear-gradient(
             145deg,
             #ffffff 0%,
-            #fcfcfa 100%
+            #fcfcfd 100%
         );
+
     border: 1px solid var(--line);
+
     border-radius: var(--radius);
-    box-shadow:
-        0 5px 18px rgba(32, 34, 45, 0.055);
+
+    box-shadow: var(--shadow-small);
+
     cursor: pointer;
+
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease,
@@ -1676,23 +2407,41 @@ td {
 
 .note-card::before {
     content: "";
+
     position: absolute;
+
     left: 0;
     top: 0;
     bottom: 0;
+
     width: 4px;
-    background: var(--orange);
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--orange),
+            #ff8c67
+        );
+
     border-radius: 18px 0 0 18px;
 }
 
 .note-card.piutang::before {
-    background: var(--purple);
+    background:
+        linear-gradient(
+            180deg,
+            var(--purple),
+            #987fff
+        );
 }
 
 .note-card:hover {
     transform: translateY(-2px);
+
     box-shadow:
-        0 10px 26px rgba(32, 34, 45, 0.08);
+        0 12px 30px rgba(32, 34, 45, 0.085);
+
+    border-color: var(--line-dark);
 }
 
 .note-card:active {
@@ -1700,135 +2449,207 @@ td {
 }
 
 .note-card.is-paid {
-    opacity: 0.82;
+    opacity: 0.88;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f9fcfa
+        );
 }
 
 .note-card.is-paid::before {
-    background: var(--green);
+    background:
+        linear-gradient(
+            180deg,
+            var(--green),
+            #42bc91
+        );
 }
 
 .note-card.is-paid:hover {
-    opacity: 0.92;
+    opacity: 0.96;
 }
 
 
-/* ================================
+/* =====================================================
    NOTE HEADER
-================================ */
+===================================================== */
 
 .note-card-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+
     gap: 12px;
 }
 
 .note-main {
     display: flex;
     align-items: flex-start;
+
     gap: 11px;
+
     min-width: 0;
 }
 
 .note-icon {
     width: 41px;
     height: 41px;
+
     flex-shrink: 0;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     border-radius: 12px;
-    background: var(--orange-soft);
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--orange-soft),
+            #fff4f0
+        );
+
     color: var(--orange);
+
     font-size: 14px;
     font-weight: 800;
+
     box-shadow:
-        0 3px 10px rgba(255, 112, 67, 0.07);
+        0 4px 11px rgba(255, 112, 67, 0.065);
 }
 
 .note-card.piutang .note-icon {
-    background: var(--purple-soft);
+    background:
+        linear-gradient(
+            145deg,
+            var(--purple-soft),
+            #f5f2ff
+        );
+
     color: var(--purple);
+
     box-shadow:
-        0 3px 10px rgba(118, 87, 232, 0.07);
+        0 4px 11px rgba(118, 87, 232, 0.065);
+}
+
+.note-card.is-paid .note-icon {
+    background: var(--green-soft);
+    color: var(--green);
+
+    box-shadow:
+        0 4px 11px rgba(24, 165, 114, 0.06);
 }
 
 .note-info {
     min-width: 0;
+
     padding-top: 1px;
 }
 
 .note-info strong {
     display: block;
+
     overflow: hidden;
+
     white-space: nowrap;
     text-overflow: ellipsis;
+
     color: var(--ink);
+
     font-family: "Plus Jakarta Sans", sans-serif;
+
     font-size: 13px;
     font-weight: 800;
+
     line-height: 1.35;
 }
 
 .note-info span {
     display: block;
+
     margin-top: 4px;
+
     color: var(--muted);
+
     font-size: 9px;
+
     line-height: 1.4;
 }
 
 
-/* ================================
+/* =====================================================
    NOTE STATUS
-================================ */
+===================================================== */
 
 .note-status {
     flex-shrink: 0;
+
     display: inline-flex;
+
     align-items: center;
     justify-content: center;
+
     padding: 6px 9px;
+
     border-radius: 100px;
-    font-size: 8px;
+
+    font-size: 7.5px;
     font-weight: 800;
+
     line-height: 1;
+
     white-space: nowrap;
-    letter-spacing: 0.15px;
+
+    letter-spacing: 0.2px;
 }
 
 .note-status.unpaid {
     background: var(--red-soft);
+
     color: var(--red);
+
     border: 1px solid rgba(233, 87, 87, 0.08);
 }
 
 .note-status.paid {
     background: var(--green-soft);
+
     color: var(--green);
+
     border: 1px solid rgba(24, 165, 114, 0.08);
 }
 
 
-/* ================================
+/* =====================================================
    NOTE MIDDLE
-================================ */
+===================================================== */
 
 .note-card-middle {
     display: flex;
+
     align-items: center;
     justify-content: space-between;
+
     gap: 12px;
+
     margin-top: 16px;
+
     padding-top: 14px;
+
     border-top: 1px solid var(--line);
 }
 
 .note-amount {
     font-family: "Plus Jakarta Sans", sans-serif;
+
     font-size: 16px;
     font-weight: 800;
-    letter-spacing: -0.35px;
+
+    letter-spacing: -0.4px;
 }
 
 .note-card.piutang .note-amount {
@@ -1845,44 +2666,56 @@ td {
 
 .note-period {
     color: var(--muted);
+
     text-align: right;
-    font-size: 9px;
-    line-height: 1.4;
+
+    font-size: 8.5px;
+
+    line-height: 1.45;
 }
 
 
-/* ================================
+/* =====================================================
    NOTE DUE DATE
-================================ */
+===================================================== */
 
 .note-due {
     margin-top: 11px;
+
     padding: 10px 11px;
+
     background: var(--paper);
+
     border: 1px solid rgba(232, 230, 223, 0.65);
+
     border-radius: 10px;
 }
 
 .note-due-row {
     display: flex;
+
     align-items: center;
     justify-content: space-between;
+
     gap: 10px;
 }
 
 .note-due-row span {
     color: var(--muted);
-    font-size: 9px;
+
+    font-size: 8.5px;
 }
 
 .note-due-row strong {
     color: var(--ink);
-    font-size: 10px;
+
+    font-size: 9.5px;
     font-weight: 800;
 }
 
 .note-due.overdue {
     background: var(--red-soft);
+
     border-color: rgba(233, 87, 87, 0.08);
 }
 
@@ -1892,27 +2725,37 @@ td {
 }
 
 
-/* ================================
+/* =====================================================
    NOTE ACTIONS
-================================ */
+===================================================== */
 
 .note-card-actions {
     display: flex;
+
     gap: 7px;
+
     margin-top: 13px;
 }
 
 .note-action {
     flex: 1;
-    min-height: 35px;
+
+    min-height: 36px;
+
     display: inline-flex;
+
     align-items: center;
     justify-content: center;
+
     padding: 9px 10px;
-    border-radius: 9px;
-    font-size: 9px;
+
+    border-radius: 10px;
+
+    font-size: 8.5px;
     font-weight: 800;
+
     line-height: 1.2;
+
     transition:
         background 0.2s ease,
         color 0.2s ease,
@@ -1925,39 +2768,79 @@ td {
 }
 
 
-/* BELUM SELESAI = MERAH */
+/* =====================================================
+   BELUM SELESAI
+   MERAH
+===================================================== */
 
 .note-card:not(.is-paid) .note-action.toggle {
-    background: var(--red-soft);
+    background:
+        linear-gradient(
+            145deg,
+            var(--red-soft),
+            #fff0f0
+        );
+
     color: var(--red);
+
+    border: 1px solid rgba(233, 87, 87, 0.07);
+
     box-shadow:
-        0 3px 9px rgba(233, 87, 87, 0.06);
+        0 3px 9px rgba(233, 87, 87, 0.055);
 }
 
 .note-card:not(.is-paid) .note-action.toggle:hover {
     background: #ffe2e2;
+
+    box-shadow:
+        0 5px 13px rgba(233, 87, 87, 0.08);
 }
 
 
-/* SELESAI = HIJAU */
+/* =====================================================
+   SELESAI
+   HIJAU
+===================================================== */
 
 .note-card.is-paid .note-action.toggle {
-    background: var(--green-soft);
+    background:
+        linear-gradient(
+            145deg,
+            var(--green-soft),
+            #effbf5
+        );
+
     color: var(--green);
+
+    border: 1px solid rgba(24, 165, 114, 0.07);
+
     box-shadow:
-        0 3px 9px rgba(24, 165, 114, 0.06);
+        0 3px 9px rgba(24, 165, 114, 0.055);
 }
 
 .note-card.is-paid .note-action.toggle:hover {
     background: #dcf5e9;
+
+    box-shadow:
+        0 5px 13px rgba(24, 165, 114, 0.08);
 }
 
 
-/* EDIT */
+/* =====================================================
+   EDIT
+===================================================== */
 
 .note-action.edit {
-    background: var(--purple-soft);
+    background:
+        linear-gradient(
+            145deg,
+            var(--purple-soft),
+            #f5f2ff
+        );
+
     color: var(--purple);
+
+    border: 1px solid rgba(118, 87, 232, 0.06);
 }
 
 .note-action.edit:hover {
@@ -1965,11 +2848,21 @@ td {
 }
 
 
-/* DELETE */
+/* =====================================================
+   DELETE
+===================================================== */
 
 .note-action.delete {
-    background: var(--red-soft);
+    background:
+        linear-gradient(
+            145deg,
+            var(--red-soft),
+            #fff1f1
+        );
+
     color: var(--red);
+
+    border: 1px solid rgba(233, 87, 87, 0.06);
 }
 
 .note-action.delete:hover {
@@ -1977,50 +2870,78 @@ td {
 }
 
 
-/* ================================
+/* =====================================================
    NOTE DETAIL
-================================ */
+===================================================== */
 
 .note-detail-summary {
     position: relative;
+
     overflow: hidden;
-    padding: 19px;
+
+    padding: 20px;
+
     margin-bottom: 16px;
+
     background:
         linear-gradient(
             145deg,
-            #fafaf7 0%,
-            #f5f4ee 100%
+            #fafaf8 0%,
+            #f5f5f1 100%
         );
+
     border: 1px solid var(--line);
-    border-radius: 14px;
+
+    border-radius: 15px;
 }
 
 .note-detail-summary::before {
     content: "";
+
     position: absolute;
+
     left: 0;
     top: 0;
     bottom: 0;
+
     width: 4px;
-    background: var(--orange);
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--orange),
+            #ff9778
+        );
 }
 
 .note-detail-summary:has(.note-detail-type.piutang)::before {
-    background: var(--purple);
+    background:
+        linear-gradient(
+            180deg,
+            var(--purple),
+            #987fff
+        );
 }
 
 .note-detail-type {
     display: inline-flex;
+
     align-items: center;
+
     padding: 5px 9px;
+
     margin-bottom: 10px;
+
     background: var(--orange-soft);
+
     color: var(--orange);
+
     border-radius: 100px;
-    font-size: 8px;
+
+    font-size: 7.5px;
     font-weight: 800;
-    letter-spacing: 0.2px;
+
+    letter-spacing: 0.25px;
 }
 
 .note-detail-type.piutang {
@@ -2030,18 +2951,27 @@ td {
 
 .note-detail-title {
     color: var(--ink);
+
     font-family: "Plus Jakarta Sans", sans-serif;
+
     font-size: 18px;
     font-weight: 800;
+
     line-height: 1.35;
+
+    letter-spacing: -0.4px;
 }
 
 .note-detail-amount {
     margin-top: 9px;
+
     font-family: "Plus Jakarta Sans", sans-serif;
+
     font-size: 23px;
     font-weight: 800;
-    letter-spacing: -0.5px;
+
+    letter-spacing: -0.55px;
+
     color: var(--orange);
 }
 
@@ -2050,18 +2980,24 @@ td {
 }
 
 
-/* ================================
+/* =====================================================
    DETAIL STATUS
-================================ */
+===================================================== */
 
 .note-detail-status {
     display: inline-flex;
+
     align-items: center;
+
     margin-top: 12px;
+
     padding: 7px 10px;
+
     border-radius: 100px;
-    font-size: 9px;
+
+    font-size: 8.5px;
     font-weight: 800;
+
     line-height: 1;
 }
 
@@ -2076,32 +3012,43 @@ td {
 }
 
 
-/* ================================
+/* =====================================================
    DETAIL ACTIONS
-================================ */
+===================================================== */
 
 .note-detail-actions {
     display: grid;
+
     grid-template-columns: 1fr 1fr;
+
     gap: 9px;
+
     margin-top: 17px;
 }
 
 .note-detail-toggle,
 .note-detail-edit,
 .note-detail-delete {
-    min-height: 41px;
+    min-height: 42px;
+
     display: inline-flex;
+
     align-items: center;
     justify-content: center;
+
     padding: 12px;
+
     border-radius: 10px;
-    font-size: 10px;
+
+    font-size: 9.5px;
     font-weight: 800;
+
     line-height: 1.2;
+
     transition:
         background 0.2s ease,
-        transform 0.2s ease;
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .note-detail-toggle:hover,
@@ -2111,34 +3058,80 @@ td {
 }
 
 
-/* Detail status button */
+/* =====================================================
+   DETAIL STATUS BUTTON
+===================================================== */
 
 .note-detail-toggle {
-    background: var(--green-soft);
+    background:
+        linear-gradient(
+            145deg,
+            var(--green-soft),
+            #effbf5
+        );
+
     color: var(--green);
+
+    border: 1px solid rgba(24, 165, 114, 0.07);
 }
 
 .note-detail-toggle:hover {
     background: #dcf5e9;
+
+    box-shadow:
+        0 5px 13px rgba(24, 165, 114, 0.07);
 }
 
+
+/* =====================================================
+   DETAIL EDIT
+===================================================== */
+
 .note-detail-edit {
-    background: var(--purple-soft);
+    background:
+        linear-gradient(
+            145deg,
+            var(--purple-soft),
+            #f5f2ff
+        );
+
     color: var(--purple);
+
+    border: 1px solid rgba(118, 87, 232, 0.06);
 }
 
 .note-detail-edit:hover {
     background: #e8e3ff;
+
+    box-shadow:
+        0 5px 13px rgba(118, 87, 232, 0.07);
 }
 
+
+/* =====================================================
+   DETAIL DELETE
+===================================================== */
+
 .note-detail-delete {
-    background: var(--red-soft);
+    background:
+        linear-gradient(
+            145deg,
+            var(--red-soft),
+            #fff1f1
+        );
+
     color: var(--red);
+
+    border: 1px solid rgba(233, 87, 87, 0.06);
+
     grid-column: 1 / -1;
 }
 
 .note-detail-delete:hover {
     background: #ffe2e2;
+
+    box-shadow:
+        0 5px 13px rgba(233, 87, 87, 0.07);
 }
 
 
@@ -2149,41 +3142,67 @@ td {
 
 .bottom-nav {
     position: fixed;
+
     left: 0;
     right: 0;
     bottom: 0;
+
     z-index: 100;
+
     height: 76px;
+
     display: flex;
+
     justify-content: center;
     align-items: stretch;
+
     gap: 3px;
+
     padding:
         5px 7px
         env(safe-area-inset-bottom, 0);
-    background: rgba(255, 255, 255, 0.97);
+
+    background:
+        rgba(255, 255, 255, 0.96);
+
     backdrop-filter: blur(18px);
-    border-top: 1px solid rgba(232, 230, 223, 0.95);
+    -webkit-backdrop-filter: blur(18px);
+
+    border-top:
+        1px solid rgba(222, 223, 229, 0.95);
+
     box-shadow:
-        0 -7px 24px rgba(32, 34, 45, 0.055);
+        0 -8px 25px rgba(32, 34, 45, 0.05);
 }
 
 .nav-item {
     flex: 1;
+
     min-width: 0;
     max-width: 125px;
+
     display: flex;
+
     flex-direction: column;
+
     justify-content: center;
     align-items: center;
+
     gap: 3px;
+
     padding: 5px 3px;
+
     background: transparent;
+
     color: var(--soft);
+
     border-radius: 13px;
+
     font-size: 8px;
     font-weight: 700;
+
     line-height: 1;
+
     transition:
         color 0.2s ease,
         background 0.2s ease,
@@ -2192,23 +3211,34 @@ td {
 
 .nav-label {
     display: block;
+
     width: 100%;
+
     overflow: hidden;
+
     text-align: center;
+
     white-space: nowrap;
+
     text-overflow: ellipsis;
+
     line-height: 1.15;
 }
 
 .nav-icon {
     width: 32px;
     height: 28px;
+
     display: flex;
+
     justify-content: center;
     align-items: center;
+
     border-radius: 9px;
+
     font-size: 16px;
     font-weight: 800;
+
     transition:
         background 0.2s ease,
         color 0.2s ease,
@@ -2217,6 +3247,7 @@ td {
 
 .nav-item.active {
     color: var(--orange);
+
     background:
         linear-gradient(
             180deg,
@@ -2226,15 +3257,24 @@ td {
 }
 
 .nav-item.active .nav-icon {
-    background: var(--orange-soft);
+    background:
+        linear-gradient(
+            145deg,
+            var(--orange-soft),
+            #fff5f1
+        );
+
     color: var(--orange);
+
     box-shadow:
-        0 3px 9px rgba(255, 112, 67, 0.08);
+        0 4px 10px rgba(255, 112, 67, 0.075);
 }
 
 .nav-item:hover {
     color: var(--orange);
-    background: rgba(255, 112, 67, 0.045);
+
+    background:
+        rgba(255, 112, 67, 0.045);
 }
 
 .nav-item:hover .nav-icon {
@@ -2257,29 +3297,56 @@ td {
 
 .modal {
     position: fixed;
+
     inset: 0;
+
     z-index: 200;
+
     display: flex;
+
     justify-content: center;
     align-items: flex-end;
 }
 
 .modal-overlay {
     position: absolute;
+
     inset: 0;
-    background: rgba(23, 32, 51, 0.5);
+
+    background:
+        rgba(23, 32, 51, 0.52);
+
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
 }
 
 .modal-content {
     position: relative;
+
     z-index: 2;
+
     width: 100%;
+
     max-width: 620px;
+
     max-height: 90vh;
+
     overflow-y: auto;
-    padding: 25px;
-    background: white;
-    border-radius: 22px 22px 0 0;
+
+    padding: 26px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #fcfcfd 100%
+        );
+
+    border-radius: 23px 23px 0 0;
+
+    box-shadow:
+        0 -8px 35px rgba(23, 32, 51, 0.12);
+
     animation: modalUp 0.2s ease;
 }
 
@@ -2297,28 +3364,52 @@ td {
 
 .modal-header {
     display: flex;
+
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 21px;
+
+    gap: 15px;
+
+    margin-bottom: 22px;
 }
 
 .modal-header h2 {
     margin-bottom: 4px;
+
+    color: var(--ink);
+
     font-size: 18px;
+    font-weight: 800;
+
+    letter-spacing: -0.35px;
 }
 
 .modal-header p {
     color: var(--muted);
-    font-size: 10px;
+
+    font-size: 9px;
+
+    line-height: 1.5;
 }
 
 .modal-close {
-    width: 33px;
-    height: 33px;
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     background: var(--paper);
+
     color: var(--muted);
+
     border-radius: 50%;
-    font-size: 21px;
+
+    font-size: 20px;
+
     transition:
         background 0.2s ease,
         color 0.2s ease,
@@ -2327,8 +3418,10 @@ td {
 
 .modal-close:hover {
     background: var(--red-soft);
+
     color: var(--red);
-    transform: rotate(3deg);
+
+    transform: rotate(4deg);
 }
 
 
@@ -2338,23 +3431,32 @@ td {
 
 .detail-item {
     padding: 13px 0;
+
     border-bottom: 1px solid var(--line);
 }
 
 .detail-label {
     margin-bottom: 5px;
+
     color: var(--muted);
-    font-size: 9px;
+
+    font-size: 8px;
 }
 
 .detail-value {
-    font-size: 12px;
+    color: var(--ink);
+
+    font-size: 11px;
     font-weight: 700;
+
+    line-height: 1.5;
 }
 
 .detail-amount {
     font-size: 23px;
     font-weight: 800;
+
+    letter-spacing: -0.5px;
 }
 
 .detail-amount.income {
@@ -2367,16 +3469,23 @@ td {
 
 .detail-actions {
     display: grid;
+
     grid-template-columns: 1fr 1fr;
+
     gap: 9px;
+
     margin-top: 17px;
 }
 
 .detail-edit-btn,
 .detail-delete-btn {
+    min-height: 41px;
+
     padding: 12px;
+
     border-radius: 10px;
-    font-size: 11px;
+
+    font-size: 10px;
     font-weight: 800;
 }
 
@@ -2396,10 +3505,15 @@ td {
 ===================================================== */
 
 .empty-state {
-    padding: 28px 10px;
+    padding: 32px 10px;
+
     color: var(--soft);
+
     text-align: center;
-    font-size: 11px;
+
+    font-size: 10px;
+
+    line-height: 1.5;
 }
 
 
@@ -2420,26 +3534,43 @@ td {
     .bottom-nav {
         left: 50%;
         right: auto;
-        width: min(760px, calc(100% - 40px));
+
+        width:
+            min(
+                760px,
+                calc(100% - 40px)
+            );
+
         transform: translateX(-50%);
+
         height: 78px;
+
         padding:
             5px 9px;
+
         border:
             1px solid var(--line);
+
         border-bottom: 0;
+
         border-radius: 20px 20px 0 0;
+
+        box-shadow:
+            0 -8px 25px rgba(32, 34, 45, 0.055);
     }
 
     .nav-item {
         max-width: none;
-        font-size: 9px;
+
+        font-size: 8.5px;
+
         border-radius: 14px;
     }
 
     .nav-icon {
         width: 35px;
         height: 30px;
+
         font-size: 17px;
     }
 
@@ -2448,7 +3579,10 @@ td {
     }
 
     .modal-content {
-        border-radius: 20px;
+        border-radius: 21px;
+
+        box-shadow:
+            0 20px 60px rgba(23, 32, 51, 0.16);
     }
 }
 
@@ -2466,7 +3600,9 @@ td {
     .loan-overview-main {
         padding-right: 0;
         padding-bottom: 15px;
+
         border-right: 0;
+
         border-bottom:
             1px solid rgba(255, 255, 255, 0.1);
     }
@@ -2484,7 +3620,20 @@ td {
     }
 
     .top-header {
+        height: 62px;
+
         padding: 0 17px;
+    }
+
+    .brand {
+        font-size: 20px;
+    }
+
+    .header-user {
+        width: 37px;
+        height: 37px;
+
+        font-size: 14px;
     }
 
     .page-container {
@@ -2499,9 +3648,22 @@ td {
         font-size: 23px;
     }
 
+    .page-header p {
+        font-size: 11px;
+    }
+
+    .page-kicker {
+        font-size: 7.5px;
+    }
+
     .balance-card {
-        padding: 24px 21px;
-        border-radius: 19px;
+        padding: 25px 21px;
+
+        border-radius: 20px;
+    }
+
+    .balance-label {
+        font-size: 9px;
     }
 
     .balance-amount {
@@ -2516,16 +3678,65 @@ td {
         padding: 15px;
     }
 
+    .money-icon {
+        width: 29px;
+        height: 29px;
+    }
+
+    .money-label {
+        font-size: 9px;
+    }
+
     .money-amount {
         font-size: 15px;
     }
 
     .transaction-buttons {
         grid-template-columns: 1fr;
+
+        gap: 9px;
+    }
+
+    .transaction-btn {
+        padding: 14px;
+    }
+
+    .quote-card {
+        margin-bottom: 22px;
+
+        padding:
+            16px 17px 16px 42px;
+    }
+
+    .section-title h2 {
+        font-size: 16px;
+    }
+
+    .menu-card {
+        padding: 13px 14px;
+    }
+
+    .menu-icon {
+        width: 40px;
+        height: 40px;
+
+        margin-right: 12px;
+    }
+
+    .menu-content strong {
+        font-size: 11px;
+    }
+
+    .menu-content span {
+        font-size: 8.5px;
     }
 
     .filter-row {
         grid-template-columns: 1fr;
+    }
+
+    .filter-card {
+        padding: 15px;
     }
 
     .loan-details {
@@ -2538,7 +3749,9 @@ td {
 
     .payment-summary-row {
         align-items: flex-start;
+
         flex-direction: column;
+
         gap: 3px;
     }
 
@@ -2548,7 +3761,9 @@ td {
 
     .payment-calculation > div {
         align-items: flex-start;
+
         flex-direction: column;
+
         gap: 5px;
     }
 
@@ -2558,13 +3773,16 @@ td {
     ================================================= */
 
     .note-card {
-        padding: 15px 14px 14px 16px;
-        border-radius: 16px;
+        padding:
+            15px 14px 14px 16px;
+
+        border-radius: 17px;
     }
 
     .note-card::before {
         width: 3px;
-        border-radius: 16px 0 0 16px;
+
+        border-radius: 17px 0 0 17px;
     }
 
     .note-card-header {
@@ -2578,7 +3796,9 @@ td {
     .note-icon {
         width: 37px;
         height: 37px;
+
         border-radius: 10px;
+
         font-size: 13px;
     }
 
@@ -2592,11 +3812,13 @@ td {
 
     .note-status {
         padding: 6px 7px;
-        font-size: 7px;
+
+        font-size: 6.8px;
     }
 
     .note-card-middle {
         margin-top: 13px;
+
         padding-top: 12px;
     }
 
@@ -2610,26 +3832,30 @@ td {
 
     .note-due {
         margin-top: 10px;
+
         padding: 9px 10px;
     }
 
     .note-due-row span {
-        font-size: 8px;
+        font-size: 7.8px;
     }
 
     .note-due-row strong {
-        font-size: 9px;
+        font-size: 8.8px;
     }
 
     .note-card-actions {
         gap: 6px;
+
         margin-top: 11px;
     }
 
     .note-action {
         min-height: 34px;
+
         padding: 8px 6px;
-        font-size: 8px;
+
+        font-size: 7.7px;
     }
 
     .note-detail-summary {
@@ -2655,26 +3881,35 @@ td {
 
     .bottom-nav {
         height: 72px;
+
         gap: 1px;
+
         padding:
             3px 4px
             env(safe-area-inset-bottom, 0);
+
         box-shadow:
-            0 -6px 20px rgba(32, 34, 45, 0.05);
+            0 -7px 21px rgba(32, 34, 45, 0.05);
     }
 
     .nav-item {
         max-width: none;
+
         padding: 4px 1px;
+
         gap: 2px;
+
         border-radius: 11px;
-        font-size: 7.5px;
+
+        font-size: 7.3px;
     }
 
     .nav-icon {
         width: 29px;
         height: 25px;
+
         border-radius: 8px;
+
         font-size: 15px;
     }
 
@@ -2688,7 +3923,13 @@ td {
     }
 
     .nav-item.active .nav-icon {
-        background: var(--orange-soft);
+        background:
+            linear-gradient(
+                145deg,
+                var(--orange-soft),
+                #fff5f1
+            );
+
         color: var(--orange);
     }
 
@@ -2697,8 +3938,14 @@ td {
     }
 
     .modal-content {
-        padding: 21px;
-        border-radius: 20px 20px 0 0;
+        padding: 22px 21px;
+
+        border-radius:
+            21px 21px 0 0;
+    }
+
+    .modal-header {
+        margin-bottom: 20px;
     }
 
     .recap-table-header {
@@ -2707,10 +3954,6 @@ td {
 
     .recap-count {
         margin-top: 1px;
-    }
-
-    .note-detail-actions {
-        grid-template-columns: 1fr 1fr;
     }
 }
 
@@ -2725,8 +3968,17 @@ td {
         padding-bottom: 85px;
     }
 
+    .top-header {
+        padding: 0 13px;
+    }
+
+    .brand {
+        font-size: 19px;
+    }
+
     .bottom-nav {
         height: 69px;
+
         padding:
             3px 2px
             env(safe-area-inset-bottom, 0);
@@ -2734,19 +3986,30 @@ td {
 
     .nav-item {
         padding: 3px 0;
-        font-size: 7px;
+
+        font-size: 6.8px;
+
         border-radius: 9px;
     }
 
     .nav-icon {
         width: 27px;
         height: 24px;
+
         font-size: 14px;
     }
 
     .page-container {
         padding-left: 12px;
         padding-right: 12px;
+    }
+
+    .page-header h1 {
+        font-size: 22px;
+    }
+
+    .balance-card {
+        padding: 23px 18px;
     }
 
     .balance-amount {
@@ -2758,7 +4021,7 @@ td {
     }
 
     .money-label {
-        font-size: 10px;
+        font-size: 9px;
     }
 
     .money-amount {
@@ -2774,7 +4037,7 @@ td {
     }
 
     .transaction-btn-content span {
-        font-size: 9px;
+        font-size: 8px;
     }
 
 
@@ -2783,7 +4046,8 @@ td {
     ================================================= */
 
     .note-card {
-        padding: 13px 12px 12px 14px;
+        padding:
+            13px 12px 12px 14px;
     }
 
     .note-card-header {
@@ -2797,7 +4061,9 @@ td {
     .note-icon {
         width: 34px;
         height: 34px;
+
         border-radius: 9px;
+
         font-size: 12px;
     }
 
@@ -2806,11 +4072,12 @@ td {
     }
 
     .note-info span {
-        font-size: 7.5px;
+        font-size: 7.3px;
     }
 
     .note-status {
-        font-size: 6.5px;
+        font-size: 6.2px;
+
         padding: 5px 6px;
     }
 
@@ -2819,7 +4086,7 @@ td {
     }
 
     .note-period {
-        font-size: 7.5px;
+        font-size: 7.3px;
     }
 
     .note-card-actions {
@@ -2828,8 +4095,10 @@ td {
 
     .note-action {
         min-height: 32px;
+
         padding: 8px 5px;
-        font-size: 7px;
+
+        font-size: 6.8px;
     }
 
     .note-detail-actions {
@@ -2840,8 +4109,10 @@ td {
     .note-detail-edit,
     .note-detail-delete {
         min-height: 38px;
+
         padding: 10px;
-        font-size: 9px;
+
+        font-size: 8.5px;
     }
 }
 
@@ -2853,12 +4124,13 @@ td {
 @media (max-width: 340px) {
 
     .nav-item {
-        font-size: 6.5px;
+        font-size: 6.3px;
     }
 
     .nav-icon {
         width: 25px;
         height: 23px;
+
         font-size: 13px;
     }
 
@@ -2866,9 +4138,25 @@ td {
         letter-spacing: -0.2px;
     }
 
+    .page-header {
+        gap: 8px;
+    }
+
+    .page-header h1 {
+        font-size: 21px;
+    }
+
+    .add-loan-btn {
+        padding: 9px 10px;
+
+        font-size: 9px;
+    }
+
     .note-card-middle {
         align-items: flex-start;
+
         flex-direction: column;
+
         gap: 5px;
     }
 
@@ -2878,7 +4166,9 @@ td {
 
     .note-due-row {
         align-items: flex-start;
+
         flex-direction: column;
+
         gap: 3px;
     }
 
@@ -2887,7 +4177,8 @@ td {
     }
 
     .note-action {
-        min-width: calc(50% - 3px);
+        min-width:
+            calc(50% - 3px);
     }
 
     .note-action.delete {
