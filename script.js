@@ -372,6 +372,99 @@ function getCategoryIcon(category) {
 
 
 /* =====================================================
+   LOAN DATE STYLE
+   Dipasang langsung dari JS agar tidak perlu edit CSS.
+===================================================== */
+
+function injectLoanDateStyles() {
+    if (
+        document.getElementById(
+            "kepri-loan-date-small-style"
+        )
+    ) {
+        return;
+    }
+
+    const style =
+        document.createElement("style");
+
+    style.id =
+        "kepri-loan-date-small-style";
+
+    style.textContent = `
+        .loan-card .loan-due-date {
+            margin-top: 10px !important;
+            margin-bottom: 8px !important;
+            padding: 8px 10px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 10px !important;
+            border-radius: 8px !important;
+        }
+
+        .loan-card .loan-due-date > div:first-child {
+            min-width: 0 !important;
+        }
+
+        .loan-card .loan-due-date span {
+            display: block !important;
+            font-size: 11px !important;
+            line-height: 1.3 !important;
+            font-weight: 500 !important;
+            margin-bottom: 2px !important;
+            opacity: 0.7 !important;
+        }
+
+        .loan-card .loan-due-date strong {
+            display: block !important;
+            font-size: 13px !important;
+            line-height: 1.4 !important;
+            font-weight: 600 !important;
+        }
+
+        .loan-card .loan-due-alert {
+            font-size: 10px !important;
+            line-height: 1.3 !important;
+            padding: 4px 7px !important;
+            border-radius: 6px !important;
+            white-space: nowrap !important;
+        }
+
+        .loan-card .loan-due-paid {
+            font-size: 10px !important;
+            line-height: 1.3 !important;
+            padding: 4px 7px !important;
+            border-radius: 6px !important;
+            white-space: nowrap !important;
+        }
+
+        @media (max-width: 480px) {
+            .loan-card .loan-due-date {
+                padding: 7px 9px !important;
+            }
+
+            .loan-card .loan-due-date span {
+                font-size: 10px !important;
+            }
+
+            .loan-card .loan-due-date strong {
+                font-size: 12px !important;
+            }
+
+            .loan-card .loan-due-alert,
+            .loan-card .loan-due-paid {
+                font-size: 9px !important;
+                padding: 3px 6px !important;
+            }
+        }
+    `;
+
+    document.head.appendChild(style);
+}
+
+
+/* =====================================================
    LOGIN
 ===================================================== */
 
@@ -514,6 +607,8 @@ if (logoutButton) {
 ===================================================== */
 
 async function initializeApp() {
+    injectLoanDateStyles();
+
     document
         .getElementById("login-page")
         ?.classList
@@ -2370,6 +2465,9 @@ function getDaysDifference(
 
 /* =====================================================
    LOAN FINAL DUE DATE
+   PENTING:
+   Tidak membaca atau membutuhkan loan.due_date.
+   Jatuh tempo dihitung dari loan_date + tenor.
 ===================================================== */
 
 function getLoanFinalDueDate(loan) {
@@ -2377,39 +2475,8 @@ function getLoanFinalDueDate(loan) {
         return null;
     }
 
-    /*
-     * Jika due_date sudah tersimpan di database,
-     * gunakan nilai tersebut.
-     *
-     * Ini membuat data lama tetap bisa ditampilkan.
-     */
-
-    if (loan.due_date) {
-        const date =
-            new Date(
-                String(
-                    loan.due_date
-                ).substring(0, 10)
-            );
-
-        if (!isNaN(date.getTime())) {
-            return normalizeDate(
-                date
-            );
-        }
-    }
-
-    /*
-     * Jika due_date belum tersedia,
-     * hitung otomatis:
-     *
-     * tanggal peminjaman + tenor bulan
-     */
-
     const startDate =
-        getLoanStartDate(
-            loan
-        );
+        getLoanStartDate(loan);
 
     const tenor =
         parseNumber(
@@ -2537,7 +2604,6 @@ function getLoanDueDateHTML(loan) {
     if (remainingTenor <= 0) {
         return `
             <div class="loan-due-date">
-
                 <div>
                     <span>
                         Tanggal Jatuh Tempo
@@ -2553,7 +2619,6 @@ function getLoanDueDateHTML(loan) {
                 <div class="loan-due-paid">
                     Pinjaman Lunas
                 </div>
-
             </div>
         `;
     }
@@ -2609,7 +2674,6 @@ function getLoanDueDateHTML(loan) {
 
     return `
         <div class="loan-due-date">
-
             <div>
                 <span>
                     Tanggal Jatuh Tempo
@@ -2623,7 +2687,6 @@ function getLoanDueDateHTML(loan) {
             </div>
 
             ${warningHTML}
-
         </div>
     `;
 }
@@ -2845,6 +2908,8 @@ if (loanForm) {
 
 /* =====================================================
    SAVE LOAN
+   FIX:
+   TIDAK MENGIRIM due_date KE SUPABASE.
 ===================================================== */
 
 document
@@ -2888,13 +2953,6 @@ document
                 getLoanModalField(
                     "loan-start-date"
                 );
-
-            /*
-             * Tidak ada lagi field tanggal jatuh tempo.
-             * Jatuh tempo dihitung otomatis dari:
-             *
-             * tanggal peminjaman + tenor bulan
-             */
 
             if (
                 !sourceInput ||
@@ -2996,12 +3054,6 @@ document
                 return;
             }
 
-            /*
-             * Gunakan T00:00:00 supaya tanggal dihitung
-             * sebagai tanggal lokal dan tidak bergeser
-             * karena timezone.
-             */
-
             const startDateObject =
                 new Date(
                     `${loanDate}T00:00:00`
@@ -3022,21 +3074,12 @@ document
             }
 
             /*
-             * JATUH TEMPO OTOMATIS
+             * JATUH TEMPO TETAP DIHITUNG,
+             * TAPI TIDAK DISIMPAN KE KOLOM DATABASE.
              *
              * Contoh:
-             *
-             * Tanggal pinjaman : 2026-09-26
-             * Tenor            : 6
-             * Jatuh tempo      : 2027-03-26
-             *
-             * Pembayaran bulanan:
-             * 26 Okt 2026
-             * 26 Nov 2026
-             * 26 Des 2026
-             * 26 Jan 2027
-             * 26 Feb 2027
-             * 26 Mar 2027
+             * 26 Sep 2026 + 6 bulan
+             * = 26 Mar 2027
              */
 
             const dueDateObject =
@@ -3055,6 +3098,14 @@ document
                     monthly * tenor
                 );
 
+            /*
+             * PERHATIKAN:
+             * Tidak ada due_date di object ini.
+             *
+             * Ini yang memperbaiki error:
+             * "Could not find the 'due_date' column..."
+             */
+
             const loanData = {
                 user_id:
                     currentUser.id,
@@ -3064,9 +3115,6 @@ document
 
                 loan_date:
                     loanDate,
-
-                due_date:
-                    dueDate,
 
                 amount:
                     Math.round(amount),
@@ -3301,6 +3349,8 @@ function getLoanRemainingAmount(loan) {
 ===================================================== */
 
 function renderLoans() {
+    injectLoanDateStyles();
+
     const container =
         document.getElementById(
             "loan-list-container"
@@ -3451,6 +3501,12 @@ function renderLoans() {
                             loan
                         );
 
+                    /*
+                     * Jatuh tempo dihitung langsung
+                     * dari tanggal peminjaman + tenor.
+                     * Tidak mengambil loan.due_date.
+                     */
+
                     const dueDate =
                         getLoanFinalDueDate(
                             loan
@@ -3585,6 +3641,7 @@ function renderLoans() {
                             <div class="loan-due-date">
 
                                 <div>
+
                                     <span>
                                         Tanggal Peminjaman
                                     </span>
@@ -3594,6 +3651,7 @@ function renderLoans() {
                                             startDate
                                         )}
                                     </strong>
+
                                 </div>
 
                             </div>
@@ -3617,6 +3675,7 @@ function renderLoans() {
                             <div class="loan-payment-status">
 
                                 <div>
+
                                     <span>
                                         Sudah dibayar
                                     </span>
@@ -3626,9 +3685,11 @@ function renderLoans() {
                                             paidAmount
                                         )}
                                     </strong>
+
                                 </div>
 
                                 <div>
+
                                     <span>
                                         Sisa pembayaran
                                     </span>
@@ -3638,6 +3699,7 @@ function renderLoans() {
                                             remainingAmount
                                         )}
                                     </strong>
+
                                 </div>
 
                             </div>
@@ -4242,5 +4304,7 @@ function updateQuote() {
 /* =====================================================
    START
 ===================================================== */
+
+injectLoanDateStyles();
 
 checkSession();
