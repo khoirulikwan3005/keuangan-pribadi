@@ -2171,12 +2171,6 @@ function getLoanModalField(id) {
             "loan-start-date",
             "loan-date",
             "loan-tanggal"
-        ],
-
-        "loan-due-date": [
-            "loan-due-date",
-            "loan-due",
-            "loan-jatuh-tempo"
         ]
     };
 
@@ -2343,45 +2337,6 @@ function getLoanStartDateForInput(loan) {
 
 
 /* =====================================================
-   LOAN DUE DATE FOR INPUT
-===================================================== */
-
-function getLoanDueDateForInput(loan) {
-    if (loan?.due_date) {
-        return String(
-            loan.due_date
-        ).substring(0, 10);
-    }
-
-    const startDate =
-        getLoanStartDate(
-            loan
-        );
-
-    const tenor =
-        parseNumber(
-            loan?.tenor
-        );
-
-    if (
-        tenor > 0 &&
-        startDate
-    ) {
-        return formatDateForInput(
-            addMonths(
-                startDate,
-                tenor
-            )
-        );
-    }
-
-    return formatDateForInput(
-        getTodayDate()
-    );
-}
-
-
-/* =====================================================
    DAYS DIFFERENCE
 ===================================================== */
 
@@ -2414,13 +2369,20 @@ function getDaysDifference(
 
 
 /* =====================================================
-   LOGIN
+   LOAN FINAL DUE DATE
 ===================================================== */
 
 function getLoanFinalDueDate(loan) {
     if (!loan) {
         return null;
     }
+
+    /*
+     * Jika due_date sudah tersimpan di database,
+     * gunakan nilai tersebut.
+     *
+     * Ini membuat data lama tetap bisa ditampilkan.
+     */
 
     if (loan.due_date) {
         const date =
@@ -2436,6 +2398,13 @@ function getLoanFinalDueDate(loan) {
             );
         }
     }
+
+    /*
+     * Jika due_date belum tersedia,
+     * hitung otomatis:
+     *
+     * tanggal peminjaman + tenor bulan
+     */
 
     const startDate =
         getLoanStartDate(
@@ -2568,6 +2537,7 @@ function getLoanDueDateHTML(loan) {
     if (remainingTenor <= 0) {
         return `
             <div class="loan-due-date">
+
                 <div>
                     <span>
                         Tanggal Jatuh Tempo
@@ -2583,6 +2553,7 @@ function getLoanDueDateHTML(loan) {
                 <div class="loan-due-paid">
                     Pinjaman Lunas
                 </div>
+
             </div>
         `;
     }
@@ -2725,11 +2696,6 @@ function openLoanModal(
             "loan-start-date"
         );
 
-    const dueDateInput =
-        getLoanModalField(
-            "loan-due-date"
-        );
-
     if (loan) {
         if (sourceInput) {
             sourceInput.value =
@@ -2763,13 +2729,6 @@ function openLoanModal(
                     loan
                 );
         }
-
-        if (dueDateInput) {
-            dueDateInput.value =
-                getLoanDueDateForInput(
-                    loan
-                );
-        }
     } else {
         const today =
             formatDateForInput(
@@ -2779,11 +2738,6 @@ function openLoanModal(
         if (startDateInput) {
             startDateInput.value =
                 today;
-        }
-
-        if (dueDateInput) {
-            dueDateInput.value =
-                "";
         }
     }
 
@@ -2935,18 +2889,19 @@ document
                     "loan-start-date"
                 );
 
-            const dueDateInput =
-                getLoanModalField(
-                    "loan-due-date"
-                );
+            /*
+             * Tidak ada lagi field tanggal jatuh tempo.
+             * Jatuh tempo dihitung otomatis dari:
+             *
+             * tanggal peminjaman + tenor bulan
+             */
 
             if (
                 !sourceInput ||
                 !amountInput ||
                 !tenorInput ||
                 !monthlyInput ||
-                !startDateInput ||
-                !dueDateInput
+                !startDateInput
             ) {
                 console.error(
                     "FIELD PINJAMAN TIDAK LENGKAP",
@@ -2955,8 +2910,7 @@ document
                         amountInput,
                         tenorInput,
                         monthlyInput,
-                        startDateInput,
-                        dueDateInput
+                        startDateInput
                     }
                 );
 
@@ -2992,11 +2946,6 @@ document
                     startDateInput.value || ""
                 ).trim();
 
-            const dueDate =
-                String(
-                    dueDateInput.value || ""
-                ).trim();
-
             if (!source) {
                 alert(
                     "Sumber pinjaman wajib diisi."
@@ -3013,16 +2962,6 @@ document
                 );
 
                 startDateInput.focus();
-
-                return;
-            }
-
-            if (!dueDate) {
-                alert(
-                    "Tanggal jatuh tempo wajib diisi."
-                );
-
-                dueDateInput.focus();
 
                 return;
             }
@@ -3057,14 +2996,15 @@ document
                 return;
             }
 
+            /*
+             * Gunakan T00:00:00 supaya tanggal dihitung
+             * sebagai tanggal lokal dan tidak bergeser
+             * karena timezone.
+             */
+
             const startDateObject =
                 new Date(
                     `${loanDate}T00:00:00`
-                );
-
-            const dueDateObject =
-                new Date(
-                    `${dueDate}T00:00:00`
                 );
 
             if (
@@ -3081,47 +3021,39 @@ document
                 return;
             }
 
-            if (
-                isNaN(
-                    dueDateObject.getTime()
-                )
-            ) {
-                alert(
-                    "Tanggal jatuh tempo tidak valid."
+            /*
+             * JATUH TEMPO OTOMATIS
+             *
+             * Contoh:
+             *
+             * Tanggal pinjaman : 2026-09-26
+             * Tenor            : 6
+             * Jatuh tempo      : 2027-03-26
+             *
+             * Pembayaran bulanan:
+             * 26 Okt 2026
+             * 26 Nov 2026
+             * 26 Des 2026
+             * 26 Jan 2027
+             * 26 Feb 2027
+             * 26 Mar 2027
+             */
+
+            const dueDateObject =
+                addMonths(
+                    startDateObject,
+                    tenor
                 );
 
-                dueDateInput.focus();
-
-                return;
-            }
-
-            if (
-                dueDateObject <
-                startDateObject
-            ) {
-                alert(
-                    "Tanggal jatuh tempo tidak boleh sebelum tanggal peminjaman."
+            const dueDate =
+                formatDateForInput(
+                    dueDateObject
                 );
-
-                dueDateInput.focus();
-
-                return;
-            }
 
             const totalPayment =
                 Math.round(
                     monthly * tenor
                 );
-
-            /*
-             * loan_date
-             * = tanggal peminjaman
-             *
-             * due_date
-             * = tanggal jatuh tempo
-             *
-             * Tidak lagi menggunakan loan_time.
-             */
 
             const loanData = {
                 user_id:
