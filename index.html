@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="id">
 
@@ -23,43 +22,71 @@
 
     <!-- LOGIN -->
     <section id="login-page" class="login-page">
+
         <div class="login-container">
 
             <div class="login-logo">
-                <div class="logo-mark">K</div>
-                <h1>Kepri</h1>
-                <p>Keuangan Pribadi</p>
+
+                <div class="logo-mark">
+                    K
+                </div>
+
+                <h1>
+                    Kepri
+                </h1>
+
+                <p>
+                    Keuangan Pribadi
+                </p>
+
             </div>
 
+
             <div class="login-card">
-                <h2>Selamat datang</h2>
+
+                <h2>
+                    Selamat datang
+                </h2>
 
                 <p class="login-subtitle">
                     Kelola pemasukan, pengeluaran, dan pinjaman kamu dengan lebih teratur.
                 </p>
 
+
                 <form id="login-form">
 
                     <div class="form-group">
-                        <label for="login-email">Email</label>
+
+                        <label for="login-email">
+                            Email
+                        </label>
+
                         <input
                             type="email"
                             id="login-email"
                             placeholder="Masukkan email"
                             required
                         >
+
                     </div>
 
+
                     <div class="form-group">
-                        <label for="login-password">Password</label>
+
+                        <label for="login-password">
+                            Password
+                        </label>
+
 
                         <div class="password-wrapper">
+
                             <input
                                 type="password"
                                 id="login-password"
                                 placeholder="Masukkan password"
                                 required
                             >
+
 
                             <button
                                 type="button"
@@ -68,28 +95,42 @@
                             >
                                 👁
                             </button>
+
                         </div>
+
                     </div>
 
-                    <button type="submit" class="primary-btn">
+
+                    <button
+                        type="submit"
+                        class="primary-btn"
+                    >
                         Masuk
                     </button>
 
-                    <div id="login-error" class="error-message"></div>
+
+                    <div
+                        id="login-error"
+                        class="error-message"
+                    ></div>
 
                 </form>
+
             </div>
+
 
             <div class="login-footer">
                 Kepri • Keuangan Pribadi
             </div>
 
         </div>
+
     </section>
 
 
     <!-- APP -->
     <main id="app" class="app hidden">
+
 
         <!-- HEADER -->
         <header class="top-header">
@@ -97,6 +138,7 @@
             <div class="brand">
                 Kepri
             </div>
+
 
             <button
                 class="header-user"
@@ -109,12 +151,18 @@
 
 
         <!-- HOME -->
-        <section id="page-home" class="page active">
+        <section
+            id="page-home"
+            class="page active"
+        >
 
             <div class="page-container">
 
+
                 <div class="page-header">
+
                     <div>
+
                         <span class="page-kicker">
                             DASHBOARD
                         </span>
@@ -126,7 +174,9 @@
                         <p>
                             Pantau kondisi keuangan kamu hari ini.
                         </p>
+
                     </div>
+
                 </div>
 
 
@@ -153,6 +203,7 @@
                 <!-- INCOME EXPENSE -->
                 <div class="income-expense-grid">
 
+
                     <div class="money-card income-card">
 
                         <div class="money-card-top">
@@ -166,6 +217,7 @@
                             </span>
 
                         </div>
+
 
                         <div
                             id="total-income"
@@ -191,6 +243,7 @@
 
                         </div>
 
+
                         <div
                             id="total-expense"
                             class="money-amount"
@@ -206,6 +259,7 @@
                 <!-- TRANSACTION BUTTONS -->
                 <div class="transaction-buttons">
 
+
                     <button
                         class="transaction-btn income"
                         onclick="openTransactionModal('Pemasukan')"
@@ -214,6 +268,7 @@
                         <div class="transaction-btn-icon">
                             +
                         </div>
+
 
                         <div class="transaction-btn-content">
 
@@ -238,6 +293,7 @@
                         <div class="transaction-btn-icon">
                             −
                         </div>
+
 
                         <div class="transaction-btn-content">
 
@@ -272,14 +328,18 @@
 
                 <!-- MENU -->
                 <div class="section-title">
+
                     <h2>
                         Menu Keuangan
                     </h2>
+
                 </div>
 
 
                 <div class="menu-list">
 
+
+                    <!-- RIWAYAT -->
                     <button
                         class="menu-card"
                         onclick="showPage('history')"
@@ -288,6 +348,7 @@
                         <div class="menu-icon history-icon">
                             ≡
                         </div>
+
 
                         <div class="menu-content">
 
@@ -301,6 +362,7 @@
 
                         </div>
 
+
                         <div class="menu-arrow">
                             ›
                         </div>
@@ -308,6 +370,7 @@
                     </button>
 
 
+                    <!-- RINGKASAN -->
                     <button
                         class="menu-card"
                         onclick="showPage('summary')"
@@ -316,6 +379,7 @@
                         <div class="menu-icon summary-icon">
                             ◔
                         </div>
+
 
                         <div class="menu-content">
 
@@ -329,6 +393,7 @@
 
                         </div>
 
+
                         <div class="menu-arrow">
                             ›
                         </div>
@@ -336,6 +401,7 @@
                     </button>
 
 
+                    <!-- REKAP -->
                     <button
                         class="menu-card"
                         onclick="showPage('recap')"
@@ -344,6 +410,7 @@
                         <div class="menu-icon recap-icon">
                             ▤
                         </div>
+
 
                         <div class="menu-content">
 
@@ -357,6 +424,7 @@
 
                         </div>
 
+
                         <div class="menu-arrow">
                             ›
                         </div>
@@ -364,6 +432,7 @@
                     </button>
 
 
+                    <!-- PINJAMAN -->
                     <button
                         class="menu-card"
                         onclick="showPage('loans')"
@@ -372,6 +441,7 @@
                         <div class="menu-icon loan-icon">
                             Rp
                         </div>
+
 
                         <div class="menu-content">
 
@@ -384,6 +454,7 @@
                             </span>
 
                         </div>
+
 
                         <div class="menu-arrow">
                             ›
@@ -402,6 +473,7 @@
                             ✓
                         </div>
 
+
                         <div class="menu-content">
 
                             <strong>
@@ -413,6 +485,7 @@
                             </span>
 
                         </div>
+
 
                         <div class="menu-arrow">
                             ›
@@ -428,9 +501,13 @@
 
 
         <!-- SUMMARY -->
-        <section id="page-summary" class="page">
+        <section
+            id="page-summary"
+            class="page"
+        >
 
             <div class="page-container">
+
 
                 <div class="page-header">
 
@@ -462,9 +539,11 @@
                         ‹
                     </button>
 
+
                     <div id="current-month">
                         -
                     </div>
+
 
                     <button
                         id="next-month"
@@ -477,6 +556,7 @@
 
 
                 <div class="summary-grid">
+
 
                     <div class="summary-card income-summary">
 
@@ -561,11 +641,13 @@
 
                         </div>
 
+
                         <strong id="expense-percentage">
                             0%
                         </strong>
 
                     </div>
+
 
                     <div class="progress-bar">
 
@@ -598,6 +680,7 @@
 
                     </div>
 
+
                     <div class="chart-container">
                         <canvas id="monthly-chart"></canvas>
                     </div>
@@ -624,6 +707,7 @@
 
                     </div>
 
+
                     <div id="category-summary"></div>
 
                 </div>
@@ -634,9 +718,13 @@
 
 
         <!-- HISTORY -->
-        <section id="page-history" class="page">
+        <section
+            id="page-history"
+            class="page"
+        >
 
             <div class="page-container">
+
 
                 <div class="page-header">
 
@@ -669,6 +757,7 @@
                         Semua
                     </button>
 
+
                     <button
                         class="filter-tab"
                         data-type="Pemasukan"
@@ -676,6 +765,7 @@
                     >
                         Pemasukan
                     </button>
+
 
                     <button
                         class="filter-tab"
@@ -691,6 +781,7 @@
                 <div class="filter-card">
 
                     <div class="filter-row">
+
 
                         <div class="form-group">
 
@@ -753,9 +844,13 @@
 
 
         <!-- RECAP -->
-        <section id="page-recap" class="page">
+        <section
+            id="page-recap"
+            class="page"
+        >
 
             <div class="page-container">
+
 
                 <div class="page-header">
 
@@ -780,6 +875,7 @@
 
                 <div class="recap-table-card">
 
+
                     <div class="recap-table-header">
 
                         <div>
@@ -793,6 +889,7 @@
                             </p>
 
                         </div>
+
 
                         <span
                             id="recap-count"
@@ -863,9 +960,13 @@
 
 
         <!-- LOANS -->
-        <section id="page-loans" class="page">
+        <section
+            id="page-loans"
+            class="page"
+        >
 
             <div class="page-container">
+
 
                 <div class="page-header">
 
@@ -899,6 +1000,7 @@
                 <!-- LOAN OVERVIEW -->
                 <div class="loan-overview">
 
+
                     <div class="loan-overview-main">
 
                         <span>
@@ -913,6 +1015,7 @@
 
 
                     <div class="loan-overview-side">
+
 
                         <div>
 
@@ -953,9 +1056,13 @@
 
 
         <!-- NOTES -->
-        <section id="page-notes" class="page">
+        <section
+            id="page-notes"
+            class="page"
+        >
 
             <div class="page-container">
+
 
                 <div class="page-header">
 
@@ -1007,9 +1114,13 @@
 
 
         <!-- ACCOUNT -->
-        <section id="page-account" class="page">
+        <section
+            id="page-account"
+            class="page"
+        >
 
             <div class="page-container">
+
 
                 <div class="page-header">
 
@@ -1038,6 +1149,7 @@
                         👤
                     </div>
 
+
                     <div class="account-info">
 
                         <span>
@@ -1065,6 +1177,7 @@
                         dan kondisi keuangan pribadi.
                     </p>
 
+
                     <div class="app-version">
                         Kepri v1.0
                     </div>
@@ -1087,12 +1200,14 @@
         <!-- BOTTOM NAV -->
         <nav class="bottom-nav">
 
+
             <!-- DASHBOARD -->
             <button
                 class="nav-item active"
                 data-page="home"
                 onclick="showPage('home')"
             >
+
                 <span class="nav-icon">
                     ⌂
                 </span>
@@ -1100,6 +1215,7 @@
                 <span class="nav-label">
                     Dashboard
                 </span>
+
             </button>
 
 
@@ -1109,6 +1225,7 @@
                 data-page="history"
                 onclick="showPage('history')"
             >
+
                 <span class="nav-icon">
                     ≡
                 </span>
@@ -1116,6 +1233,7 @@
                 <span class="nav-label">
                     Riwayat
                 </span>
+
             </button>
 
 
@@ -1125,6 +1243,7 @@
                 data-page="summary"
                 onclick="showPage('summary')"
             >
+
                 <span class="nav-icon">
                     ◔
                 </span>
@@ -1132,6 +1251,7 @@
                 <span class="nav-label">
                     Ringkasan
                 </span>
+
             </button>
 
 
@@ -1141,6 +1261,7 @@
                 data-page="recap"
                 onclick="showPage('recap')"
             >
+
                 <span class="nav-icon">
                     ▤
                 </span>
@@ -1148,6 +1269,7 @@
                 <span class="nav-label">
                     Rekap
                 </span>
+
             </button>
 
 
@@ -1157,6 +1279,7 @@
                 data-page="loans"
                 onclick="showPage('loans')"
             >
+
                 <span class="nav-icon">
                     Rp
                 </span>
@@ -1164,6 +1287,7 @@
                 <span class="nav-label">
                     Pinjaman
                 </span>
+
             </button>
 
 
@@ -1173,6 +1297,7 @@
                 data-page="account"
                 onclick="showPage('account')"
             >
+
                 <span class="nav-icon">
                     ◉
                 </span>
@@ -1180,6 +1305,7 @@
                 <span class="nav-label">
                     Akun
                 </span>
+
             </button>
 
         </nav>
@@ -1231,6 +1357,7 @@
 
 
             <form id="transaction-form">
+
 
                 <div class="form-group">
 
@@ -1424,6 +1551,7 @@
             <!-- FORM PINJAMAN -->
             <form id="loan-form">
 
+
                 <!-- SUMBER PINJAMAN -->
                 <div class="form-group">
 
@@ -1466,6 +1594,7 @@
                         Tenor
                     </label>
 
+
                     <div class="input-with-suffix">
 
                         <input
@@ -1492,6 +1621,7 @@
                         Cicilan per Bulan
                     </label>
 
+
                     <div class="input-with-suffix">
 
                         <input
@@ -1507,6 +1637,7 @@
                         </span>
 
                     </div>
+
 
                     <small class="input-help">
                         Masukkan nominal cicilan sesuai tagihan.
@@ -1685,6 +1816,7 @@
 
         <div class="modal-content">
 
+
             <div class="modal-header">
 
                 <div>
@@ -1716,12 +1848,14 @@
 
             <form id="note-form">
 
+
                 <!-- JENIS CATATAN -->
                 <div class="form-group">
 
                     <label for="note-type">
                         Jenis Catatan
                     </label>
+
 
                     <select
                         id="note-type"
@@ -1823,6 +1957,7 @@
 
         <div class="modal-content">
 
+
             <div class="modal-header">
 
                 <div>
@@ -1869,4 +2004,3 @@
 </body>
 
 </html>
-```

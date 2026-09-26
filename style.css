@@ -15,24 +15,34 @@
     --soft: #a1a8b5;
     --paper: #f7f7f2;
     --white: #ffffff;
+
     --orange: #ff7043;
     --orange-dark: #ed5730;
     --orange-soft: #fff0eb;
+
     --purple: #7657e8;
     --purple-soft: #f0edff;
+
     --green: #18a572;
     --green-soft: #e9f8f1;
+
     --red: #e95757;
     --red-soft: #ffeded;
+
     --yellow: #f2b84b;
     --yellow-soft: #fff7df;
+
     --blue: #4788d9;
     --blue-soft: #eaf3ff;
+
     --line: #e8e6df;
+
     --shadow:
         0 12px 35px rgba(32, 34, 45, 0.07);
+
     --shadow-small:
         0 5px 18px rgba(32, 34, 45, 0.055);
+
     --radius: 18px;
     --radius-small: 12px;
 }
@@ -702,8 +712,6 @@ input[type="number"] {
     background: var(--orange-soft);
     color: var(--orange);
 }
-
-/* CATATAN */
 
 .notes-icon {
     background: var(--yellow-soft);
@@ -1636,26 +1644,55 @@ td {
 .notes-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 11px;
 }
+
+
+/* ================================
+   NOTE CARD
+================================ */
 
 .note-card {
     position: relative;
-    padding: 17px;
-    background: white;
+    padding: 18px;
+    overflow: hidden;
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff 0%,
+            #fcfcfa 100%
+        );
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    box-shadow: var(--shadow-small);
+    box-shadow:
+        0 5px 18px rgba(32, 34, 45, 0.055);
     cursor: pointer;
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease,
-        border-color 0.2s ease;
+        border-color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.note-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--orange);
+    border-radius: 18px 0 0 18px;
+}
+
+.note-card.piutang::before {
+    background: var(--purple);
 }
 
 .note-card:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+    box-shadow:
+        0 10px 26px rgba(32, 34, 45, 0.08);
 }
 
 .note-card:active {
@@ -1663,12 +1700,21 @@ td {
 }
 
 .note-card.is-paid {
-    opacity: 0.78;
+    opacity: 0.82;
+}
+
+.note-card.is-paid::before {
+    background: var(--green);
 }
 
 .note-card.is-paid:hover {
-    opacity: 0.9;
+    opacity: 0.92;
 }
+
+
+/* ================================
+   NOTE HEADER
+================================ */
 
 .note-card-header {
     display: flex;
@@ -1680,31 +1726,36 @@ td {
 .note-main {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
+    gap: 11px;
     min-width: 0;
 }
 
 .note-icon {
-    width: 39px;
-    height: 39px;
+    width: 41px;
+    height: 41px;
     flex-shrink: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 11px;
-    background: var(--yellow-soft);
-    color: var(--yellow);
+    border-radius: 12px;
+    background: var(--orange-soft);
+    color: var(--orange);
     font-size: 14px;
     font-weight: 800;
+    box-shadow:
+        0 3px 10px rgba(255, 112, 67, 0.07);
 }
 
 .note-card.piutang .note-icon {
     background: var(--purple-soft);
     color: var(--purple);
+    box-shadow:
+        0 3px 10px rgba(118, 87, 232, 0.07);
 }
 
 .note-info {
     min-width: 0;
+    padding-top: 1px;
 }
 
 .note-info strong {
@@ -1712,49 +1763,72 @@ td {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    color: var(--ink);
+    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 13px;
+    font-weight: 800;
+    line-height: 1.35;
 }
 
 .note-info span {
     display: block;
-    margin-top: 3px;
+    margin-top: 4px;
     color: var(--muted);
     font-size: 9px;
+    line-height: 1.4;
 }
+
+
+/* ================================
+   NOTE STATUS
+================================ */
 
 .note-status {
     flex-shrink: 0;
-    padding: 5px 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 9px;
     border-radius: 100px;
     font-size: 8px;
     font-weight: 800;
+    line-height: 1;
     white-space: nowrap;
+    letter-spacing: 0.15px;
 }
 
 .note-status.unpaid {
     background: var(--red-soft);
     color: var(--red);
+    border: 1px solid rgba(233, 87, 87, 0.08);
 }
 
 .note-status.paid {
     background: var(--green-soft);
     color: var(--green);
+    border: 1px solid rgba(24, 165, 114, 0.08);
 }
+
+
+/* ================================
+   NOTE MIDDLE
+================================ */
 
 .note-card-middle {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    margin-top: 15px;
-    padding-top: 13px;
+    margin-top: 16px;
+    padding-top: 14px;
     border-top: 1px solid var(--line);
 }
 
 .note-amount {
     font-family: "Plus Jakarta Sans", sans-serif;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 800;
+    letter-spacing: -0.35px;
 }
 
 .note-card.piutang .note-amount {
@@ -1765,17 +1839,28 @@ td {
     color: var(--orange);
 }
 
+.note-card.is-paid .note-amount {
+    color: var(--green);
+}
+
 .note-period {
     color: var(--muted);
     text-align: right;
     font-size: 9px;
+    line-height: 1.4;
 }
+
+
+/* ================================
+   NOTE DUE DATE
+================================ */
 
 .note-due {
     margin-top: 11px;
-    padding: 9px 10px;
+    padding: 10px 11px;
     background: var(--paper);
-    border-radius: 9px;
+    border: 1px solid rgba(232, 230, 223, 0.65);
+    border-radius: 10px;
 }
 
 .note-due-row {
@@ -1793,10 +1878,12 @@ td {
 .note-due-row strong {
     color: var(--ink);
     font-size: 10px;
+    font-weight: 800;
 }
 
 .note-due.overdue {
     background: var(--red-soft);
+    border-color: rgba(233, 87, 87, 0.08);
 }
 
 .note-due.overdue .note-due-row span,
@@ -1804,58 +1891,136 @@ td {
     color: var(--red);
 }
 
+
+/* ================================
+   NOTE ACTIONS
+================================ */
+
 .note-card-actions {
     display: flex;
     gap: 7px;
-    margin-top: 12px;
+    margin-top: 13px;
 }
 
 .note-action {
     flex: 1;
+    min-height: 35px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 9px 10px;
     border-radius: 9px;
     font-size: 9px;
     font-weight: 800;
+    line-height: 1.2;
     transition:
         background 0.2s ease,
-        transform 0.2s ease;
+        color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .note-action:hover {
     transform: translateY(-1px);
 }
 
-.note-action.toggle {
+
+/* BELUM SELESAI = MERAH */
+
+.note-card:not(.is-paid) .note-action.toggle {
+    background: var(--red-soft);
+    color: var(--red);
+    box-shadow:
+        0 3px 9px rgba(233, 87, 87, 0.06);
+}
+
+.note-card:not(.is-paid) .note-action.toggle:hover {
+    background: #ffe2e2;
+}
+
+
+/* SELESAI = HIJAU */
+
+.note-card.is-paid .note-action.toggle {
     background: var(--green-soft);
     color: var(--green);
+    box-shadow:
+        0 3px 9px rgba(24, 165, 114, 0.06);
 }
+
+.note-card.is-paid .note-action.toggle:hover {
+    background: #dcf5e9;
+}
+
+
+/* EDIT */
 
 .note-action.edit {
     background: var(--purple-soft);
     color: var(--purple);
 }
 
+.note-action.edit:hover {
+    background: #e8e3ff;
+}
+
+
+/* DELETE */
+
 .note-action.delete {
     background: var(--red-soft);
     color: var(--red);
 }
 
+.note-action.delete:hover {
+    background: #ffe2e2;
+}
+
+
+/* ================================
+   NOTE DETAIL
+================================ */
+
 .note-detail-summary {
-    padding: 17px;
+    position: relative;
+    overflow: hidden;
+    padding: 19px;
     margin-bottom: 16px;
-    background: var(--paper);
-    border-radius: 13px;
+    background:
+        linear-gradient(
+            145deg,
+            #fafaf7 0%,
+            #f5f4ee 100%
+        );
+    border: 1px solid var(--line);
+    border-radius: 14px;
+}
+
+.note-detail-summary::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--orange);
+}
+
+.note-detail-summary:has(.note-detail-type.piutang)::before {
+    background: var(--purple);
 }
 
 .note-detail-type {
-    display: inline-block;
-    padding: 5px 8px;
-    margin-bottom: 9px;
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 9px;
+    margin-bottom: 10px;
     background: var(--orange-soft);
     color: var(--orange);
     border-radius: 100px;
     font-size: 8px;
     font-weight: 800;
+    letter-spacing: 0.2px;
 }
 
 .note-detail-type.piutang {
@@ -1864,15 +2029,19 @@ td {
 }
 
 .note-detail-title {
-    font-size: 17px;
+    color: var(--ink);
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 18px;
+    font-weight: 800;
     line-height: 1.35;
 }
 
 .note-detail-amount {
-    margin-top: 8px;
+    margin-top: 9px;
     font-family: "Plus Jakarta Sans", sans-serif;
-    font-size: 22px;
+    font-size: 23px;
     font-weight: 800;
+    letter-spacing: -0.5px;
     color: var(--orange);
 }
 
@@ -1880,14 +2049,20 @@ td {
     color: var(--purple);
 }
 
+
+/* ================================
+   DETAIL STATUS
+================================ */
+
 .note-detail-status {
     display: inline-flex;
     align-items: center;
-    margin-top: 11px;
-    padding: 6px 9px;
+    margin-top: 12px;
+    padding: 7px 10px;
     border-radius: 100px;
     font-size: 9px;
     font-weight: 800;
+    line-height: 1;
 }
 
 .note-detail-status.paid {
@@ -1900,6 +2075,11 @@ td {
     color: var(--red);
 }
 
+
+/* ================================
+   DETAIL ACTIONS
+================================ */
+
 .note-detail-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1910,15 +2090,36 @@ td {
 .note-detail-toggle,
 .note-detail-edit,
 .note-detail-delete {
+    min-height: 41px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 12px;
     border-radius: 10px;
     font-size: 10px;
     font-weight: 800;
+    line-height: 1.2;
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
 }
+
+.note-detail-toggle:hover,
+.note-detail-edit:hover,
+.note-detail-delete:hover {
+    transform: translateY(-1px);
+}
+
+
+/* Detail status button */
 
 .note-detail-toggle {
     background: var(--green-soft);
     color: var(--green);
+}
+
+.note-detail-toggle:hover {
+    background: #dcf5e9;
 }
 
 .note-detail-edit {
@@ -1926,10 +2127,18 @@ td {
     color: var(--purple);
 }
 
+.note-detail-edit:hover {
+    background: #e8e3ff;
+}
+
 .note-detail-delete {
     background: var(--red-soft);
     color: var(--red);
     grid-column: 1 / -1;
+}
+
+.note-detail-delete:hover {
+    background: #ffe2e2;
 }
 
 
@@ -2349,7 +2558,13 @@ td {
     ================================================= */
 
     .note-card {
-        padding: 15px;
+        padding: 15px 14px 14px 16px;
+        border-radius: 16px;
+    }
+
+    .note-card::before {
+        width: 3px;
+        border-radius: 16px 0 0 16px;
     }
 
     .note-card-header {
@@ -2361,8 +2576,8 @@ td {
     }
 
     .note-icon {
-        width: 36px;
-        height: 36px;
+        width: 37px;
+        height: 37px;
         border-radius: 10px;
         font-size: 13px;
     }
@@ -2376,7 +2591,7 @@ td {
     }
 
     .note-status {
-        padding: 5px 7px;
+        padding: 6px 7px;
         font-size: 7px;
     }
 
@@ -2395,15 +2610,30 @@ td {
 
     .note-due {
         margin-top: 10px;
+        padding: 9px 10px;
+    }
+
+    .note-due-row span {
+        font-size: 8px;
+    }
+
+    .note-due-row strong {
+        font-size: 9px;
+    }
+
+    .note-card-actions {
+        gap: 6px;
+        margin-top: 11px;
     }
 
     .note-action {
-        padding: 9px 7px;
+        min-height: 34px;
+        padding: 8px 6px;
         font-size: 8px;
     }
 
     .note-detail-summary {
-        padding: 15px;
+        padding: 16px;
     }
 
     .note-detail-title {
@@ -2411,7 +2641,11 @@ td {
     }
 
     .note-detail-amount {
-        font-size: 20px;
+        font-size: 21px;
+    }
+
+    .note-detail-actions {
+        grid-template-columns: 1fr 1fr;
     }
 
 
@@ -2549,29 +2783,43 @@ td {
     ================================================= */
 
     .note-card {
-        padding: 13px;
+        padding: 13px 12px 12px 14px;
     }
 
     .note-card-header {
         gap: 6px;
     }
 
+    .note-main {
+        gap: 7px;
+    }
+
     .note-icon {
         width: 34px;
         height: 34px;
+        border-radius: 9px;
+        font-size: 12px;
     }
 
     .note-info strong {
         font-size: 11px;
     }
 
+    .note-info span {
+        font-size: 7.5px;
+    }
+
     .note-status {
         font-size: 6.5px;
-        padding: 4px 6px;
+        padding: 5px 6px;
     }
 
     .note-amount {
         font-size: 13px;
+    }
+
+    .note-period {
+        font-size: 7.5px;
     }
 
     .note-card-actions {
@@ -2579,6 +2827,7 @@ td {
     }
 
     .note-action {
+        min-height: 32px;
         padding: 8px 5px;
         font-size: 7px;
     }
@@ -2590,6 +2839,7 @@ td {
     .note-detail-toggle,
     .note-detail-edit,
     .note-detail-delete {
+        min-height: 38px;
         padding: 10px;
         font-size: 9px;
     }
